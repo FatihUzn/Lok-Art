@@ -1,0 +1,106 @@
+:root {
+    --emerald-dark: #0A1F15;
+    --emerald-light: #153826;
+    --gold: #C6A87C;
+    --gold-hover: #D8BD96;
+    --cream: #FDFBF7;
+    --text-dark: #333;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--cream);
+    color: var(--text-dark);
+}
+
+h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+
+/* Üst Bant */
+.top-bar {
+    background-color: var(--gold);
+    color: var(--emerald-dark);
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Navigasyon */
+nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 5%; background: transparent;
+    position: fixed; width: 100%; top: 38px; z-index: 1000;
+    transition: all 0.3s;
+}
+
+nav.scrolled {
+    background: var(--emerald-dark); top: 0; padding: 15px 5%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.logo { color: #fff; font-size: 1.8rem; }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { color: #fff; text-decoration: none; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+.nav-links a:hover { color: var(--gold); }
+
+.cart-btn {
+    background: var(--gold); color: var(--emerald-dark);
+    padding: 8px 20px; font-weight: bold; cursor: pointer; border-radius: 2px;
+}
+
+/* Hero */
+.hero-section {
+    height: 100vh; position: relative;
+    background: url('https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=1920&auto=format&fit=crop') center/cover;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.hero-overlay {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: rgba(10, 31, 21, 0.7); /* Koyu zümrüt filtresi */
+}
+.hero-content { position: relative; z-index: 1; color: #fff; max-width: 700px; padding: 0 20px;}
+.hero-content h1 { font-size: 4rem; color: var(--gold); margin-bottom: 20px;}
+.hero-content p { font-size: 1.2rem; margin-bottom: 30px; font-weight: 300;}
+
+.btn-primary {
+    background: var(--gold); color: var(--emerald-dark);
+    padding: 15px 35px; text-decoration: none; font-weight: bold; font-size: 1.1rem;
+    transition: 0.3s; display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-hover); }
+
+/* Dinamik Ürünler Grid'i */
+.products-section { padding: 80px 5%; background: var(--cream); }
+.section-title { text-align: center; font-size: 2.5rem; color: var(--emerald-dark); margin-bottom: 50px;}
+
+.product-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
+}
+
+.product-card {
+    background: #fff; border: 1px solid #eaeaea; transition: transform 0.3s;
+}
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+.product-img { height: 300px; background-position: center; background-size: cover; }
+.product-info { padding: 30px; text-align: center;}
+
+.category-tag { font-size: 0.75rem; color: var(--gold); letter-spacing: 2px; display: block; margin-bottom: 10px;}
+.product-info h3 { color: var(--emerald-dark); font-size: 1.4rem; margin-bottom: 10px;}
+.product-info p { color: #777; font-size: 0.9rem; margin-bottom: 15px;}
+.price { display: block; font-size: 1.3rem; color: var(--emerald-dark); font-weight: bold; margin-bottom: 20px;}
+
+.btn-secondary {
+    background: transparent; color: var(--emerald-dark); border: 1px solid var(--emerald-dark);
+    padding: 10px 0; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+}
+.btn-secondary:hover { background: var(--emerald-dark); color: #fff; }
+
+/* Hakkımızda */
+.about-section { background: var(--emerald-dark); color: var(--gold); padding: 80px 5%; text-align: center;}
+.about-section p { color: #fff; max-width: 600px; margin: 20px auto 0; font-size: 1.1rem; font-weight: 300; line-height: 1.8;}
+
+footer { text-align: center; padding: 30px; background: #07150E; color: #555; }
