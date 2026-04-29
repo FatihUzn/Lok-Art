@@ -1,121 +1,124 @@
 :root {
-    --emerald-dark: #0A1F15;
-    --gold: #C6A87C;
-    --cream: #FDFBF7;
-    --text-dark: #222;
+    --bg-dark: #0a0a0a;         /* Gece Siyahı Arka Plan */
+    --bg-card: #141414;         /* Kart Arka Planı */
+    --gold: #d4af37;            /* Premium Altın Sarısı */
+    --gold-dim: #a68421;        /* Soluk Altın */
+    --text-light: #e0e0e0;      /* Kirli Beyaz Metin */
+    --text-muted: #888888;      /* Gri Metin */
 }
 
-/* Özel Kaydırma Çubuğu (Scrollbar) */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--emerald-dark); }
+/* Karanlık Tema Kaydırma Çubuğu */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Lato', sans-serif;
-    background-color: var(--cream);
-    color: var(--text-dark);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     overflow-x: hidden;
 }
 
 h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
 
-/* Üst Bant ve Navigasyon */
+/* Üst Bant */
 .top-bar {
-    background-color: var(--emerald-dark); color: var(--gold);
-    text-align: center; padding: 8px; font-size: 0.75rem;
-    letter-spacing: 3px; font-weight: 300;
+    background-color: #000; color: var(--text-muted);
+    text-align: center; padding: 10px; font-size: 0.75rem;
+    letter-spacing: 4px; font-weight: 300; border-bottom: 1px solid rgba(212, 175, 55, 0.2);
 }
+
 nav {
     display: flex; justify-content: space-between; align-items: center;
     padding: 25px 5%; background: transparent; position: fixed; 
-    width: 100%; top: 34px; z-index: 1000; transition: all 0.4s ease;
+    width: 100%; top: 35px; z-index: 1000; transition: all 0.4s ease;
 }
 nav.scrolled {
-    background: rgba(253, 251, 247, 0.95); backdrop-filter: blur(10px);
-    top: 0; padding: 15px 5%; box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+    background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px);
+    top: 0; padding: 15px 5%; border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.logo { color: var(--cream); font-size: 1.8rem; transition: color 0.4s; }
-nav.scrolled .logo { color: var(--emerald-dark); }
+
+.logo { color: var(--gold); font-size: 1.8rem; letter-spacing: 2px;}
 
 .nav-links { display: flex; gap: 40px; list-style: none; }
-.nav-links a { color: var(--cream); text-decoration: none; font-size: 0.85rem; letter-spacing: 2px; transition: 0.3s; }
-nav.scrolled .nav-links a { color: var(--emerald-dark); }
-.nav-links a:hover { color: var(--gold) !important; }
+.nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.85rem; letter-spacing: 2px; transition: 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.highlight-link { color: var(--gold) !important; border-bottom: 1px solid var(--gold); padding-bottom: 2px;}
 
 .cart-btn {
     border: 1px solid var(--gold); color: var(--gold); padding: 8px 25px;
     cursor: pointer; transition: 0.4s; letter-spacing: 1px; font-size: 0.85rem;
 }
-nav.scrolled .cart-btn { color: var(--emerald-dark); border-color: var(--emerald-dark); }
-.cart-btn:hover { background: var(--gold); color: var(--emerald-dark); }
+.cart-btn:hover { background: var(--gold); color: var(--bg-dark); }
 
-/* Hero */
+/* Karanlık ASMR Hero */
 .hero-section {
     height: 100vh; position: relative;
-    background: url('https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=1920&auto=format&fit=crop') center/cover fixed;
+    /* Lüks bir kahve/lokum dokusu görseli */
+    background: url('https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=1920&auto=format&fit=crop') center/cover fixed;
     display: flex; align-items: center; justify-content: center; text-align: center;
 }
-.hero-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(10, 31, 21, 0.6); }
-.hero-content { position: relative; z-index: 1; color: #fff; max-width: 800px; padding: 0 20px;}
-.hero-content h1 { font-size: 4.5rem; color: var(--gold); margin-bottom: 25px; font-weight: 400; letter-spacing: 1px;}
-.hero-content p { font-size: 1.1rem; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px; line-height: 1.8;}
+.hero-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(10,10,10,1)); }
+.hero-content { position: relative; z-index: 1; max-width: 900px; padding: 0 20px;}
+.hero-content h1 { font-size: 4.5rem; color: var(--gold); margin-bottom: 25px; font-weight: 500; text-shadow: 0 5px 20px rgba(0,0,0,0.5);}
+.hero-content p { font-size: 1.2rem; color: #ccc; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px; line-height: 1.8;}
 
+.hero-buttons { display: flex; gap: 20px; justify-content: center; }
 .btn-primary {
-    background: transparent; color: var(--gold); border: 1px solid var(--gold);
+    background: var(--gold); color: var(--bg-dark); border: 1px solid var(--gold);
     padding: 15px 40px; text-decoration: none; font-size: 0.9rem; letter-spacing: 2px;
-    transition: all 0.4s ease; display: inline-block;
+    transition: all 0.4s ease;
 }
-.btn-primary:hover { background: var(--gold); color: var(--emerald-dark); }
+.btn-outline { background: transparent; color: var(--gold); }
+.btn-primary:hover { background: var(--text-light); color: var(--bg-dark); border-color: var(--text-light);}
+.btn-outline:hover { background: var(--gold); color: var(--bg-dark); }
 
 /* Filtreleme ve Ürünler */
-.products-section { padding: 100px 5%; }
-.section-title { text-align: center; font-size: 2.8rem; color: var(--emerald-dark); margin-bottom: 20px; font-weight: 400;}
+.products-section { padding: 100px 5%; background-color: var(--bg-dark); }
 
-.filter-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 60px; flex-wrap: wrap; }
+.filter-container { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; flex-wrap: wrap; }
 .filter-btn {
-    background: transparent; border: none; color: #888; font-family: 'Lato', sans-serif;
-    font-size: 0.9rem; letter-spacing: 1.5px; cursor: pointer; padding-bottom: 5px;
+    background: transparent; border: none; color: var(--text-muted); font-family: 'Lato', sans-serif;
+    font-size: 0.85rem; letter-spacing: 2px; cursor: pointer; padding-bottom: 5px;
     position: relative; transition: color 0.3s; text-transform: uppercase;
 }
 .filter-btn::after {
     content: ''; position: absolute; width: 0; height: 1px;
     bottom: 0; left: 0; background-color: var(--gold); transition: width 0.3s ease;
 }
-.filter-btn:hover, .filter-btn.active { color: var(--emerald-dark); }
+.filter-btn:hover, .filter-btn.active { color: var(--gold); }
 .filter-btn:hover::after, .filter-btn.active::after { width: 100%; }
 
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
 
-/* Elit Kart Tasarımı */
+/* Elit Kart Tasarımı (Dark Mode) */
 .product-card {
-    background: transparent; transition: all 0.5s ease; border: none; padding-bottom: 20px;
+    background: var(--bg-card); transition: all 0.5s ease; border: 1px solid rgba(255,255,255,0.03); 
+    padding-bottom: 25px; border-radius: 4px;
 }
-.product-card:hover { transform: translateY(-10px); }
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-color: rgba(212, 175, 55, 0.2); }
 
-.img-container { overflow: hidden; height: 350px; margin-bottom: 25px; }
+.img-container { overflow: hidden; height: 350px; margin-bottom: 25px; border-radius: 4px 4px 0 0;}
 .product-img {
     height: 100%; width: 100%; background-position: center; background-size: cover;
-    transition: transform 0.8s ease;
+    transition: transform 1s ease; filter: brightness(0.85); /* Resimleri hafif koyult, lüks dursun */
 }
-.product-card:hover .product-img { transform: scale(1.08); } /* Lüks yakınlaşma efekti */
+.product-card:hover .product-img { transform: scale(1.08); filter: brightness(1); } 
 
-.product-info { text-align: center; padding: 0 10px; }
-.category-tag { font-size: 0.7rem; color: var(--gold); letter-spacing: 2px; display: block; margin-bottom: 12px; text-transform: uppercase;}
-.product-info h3 { color: var(--emerald-dark); font-size: 1.3rem; margin-bottom: 8px; font-weight: 400;}
-.price { display: block; font-size: 1.1rem; color: #555; font-weight: 300; margin-bottom: 20px;}
+.product-info { text-align: center; padding: 0 20px; }
+.category-tag { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 3px; display: block; margin-bottom: 12px; text-transform: uppercase;}
+.product-info h3 { color: var(--text-light); font-size: 1.2rem; margin-bottom: 10px; font-weight: 400; letter-spacing: 1px;}
+.price { display: block; font-size: 1.1rem; color: var(--gold); font-weight: 300; margin-bottom: 20px;}
 
 .btn-secondary {
-    background: transparent; color: var(--emerald-dark); border: 1px solid rgba(10, 31, 21, 0.2);
+    background: transparent; color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 12px 0; width: 100%; font-size: 0.8rem; cursor: pointer; transition: all 0.4s; text-transform: uppercase; letter-spacing: 2px;
 }
-.btn-secondary:hover { border-color: var(--emerald-dark); background: var(--emerald-dark); color: var(--cream); }
+.btn-secondary:hover { border-color: var(--gold); background: var(--gold); color: var(--bg-dark); }
 
-/* Kaydırma Animasyonu Sınıfları (Scroll Reveal) */
-.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+/* Kaydırma Animasyonu (Scroll Reveal) */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
 .reveal.active { opacity: 1; transform: translateY(0); }
-
-/* Footer */
-footer { text-align: center; padding: 40px; background: var(--emerald-dark); color: #888; font-weight: 300; letter-spacing: 1px;}
