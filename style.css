@@ -86,11 +86,16 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 
 /* Sağ İçerik: Küçültülmüş Zarif Video Penceresi */
 .hero-video-right { flex: 1; display: flex; justify-content: center; }
+/* style.css içinde .video-window içindeki güncellenen değerler */
 .video-window {
-    width: 320px; height: 480px; 
-    border: 1px solid rgba(198, 168, 124, 0.4);
-    padding: 10px; border-radius: 160px 160px 0 0;
-    overflow: hidden; background: #000; 
+    width: 320px;
+    height: 480px;
+    border: 1px solid var(--gold); /* İnce altın çizgi jilet gibi */
+    padding: 0; /* Padding'i kaldırdık ki görsel tam otursun */
+    border-radius: 160px 160px 0 0;
+    position: relative;
+    overflow: hidden;
+    background-color: #000; /* Video arkası siyah kalsın */
     box-shadow: 0 30px 60px rgba(0,0,0,0.3), 0 0 20px rgba(198, 168, 124, 0.1);
 }
 .showcase-video { width: 100%; height: 100%; object-fit: cover; border-radius: 150px 150px 0 0; }
