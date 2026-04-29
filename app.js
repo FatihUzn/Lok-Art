@@ -89,3 +89,88 @@ function addToCart() {
     cartTotal++;
     document.getElementById('cart-count').innerText = cartTotal;
 }
+// --- KENDİ KUTUNU YARAT MODÜLÜ (SANAL KUTU) ---
+let boxItems = []; // Kutudaki lokumları tutan dizi
+const MAX_BOX_SIZE = 6; // Kutu kapasitesi
+const BOX_BASE_PRICE = 150.00; // Metal kutunun kendi boş fiyatı
+
+// Ana fetch işleminden (sayfa yüklendiğinde) sonra çağrılır
+function setupBoxBuilder(products) {
+    const optionsContainer = document.getElementById('box-options');
+    
+    // Kutuya girmeye uygun ürünleri filtrele (Örn: Sarmalar ve Çifte Kavrulmuşlar)
+    const boxEligibleProducts = products.filter(p => p.category.includes('Sarma') || p.category.includes('Parmak') || p.category.includes('Çifte Kavrulmuş'));
+
+    // Sunum için temsili 20 lokumu sağ panele diz
+    boxEligibleProducts.slice(0, 20).forEach(product => {
+        // Demo amaçlı: Kg fiyatından tekil dilim fiyatı simülasyonu
+        const rawPrice = parseFloat(product.price.replace(/\./g, '').replace(',', '.'));
+        const piecePrice = (rawPrice / 35).toFixed(2); // Kaba bir birim fiyat hesabı
+
+        const optionHTML = `
+            <div class="option-card" onclick="addToBox('${product.name}', '${product.image}', ${piecePrice})">
+                <div class="option-img" style="background-image: url('${product.image}')"></div>
+                <div class="option-info">
+                    <h4>${product.name}</h4>
+                    <p>${piecePrice.replace('.', ',')} TL</p>
+                </div>
+            </div>
+        `;
+        optionsContainer.innerHTML += optionHTML;
+    });
+    
+    updateBoxUI(); // İlk fiyatı (boş kutu) yazdır
+}
+
+// Ürün Kartına tıklandığında kutuya ekler
+function addToBox(name, image, price) {
+    if (boxItems.length >= MAX_BOX_SIZE) {
+        alert("Sanat eseriniz tamamlandı! Kutunuzda boş yer kalmadı.");
+        return;
+    }
+    boxItems.push({ name, image, price });
+    updateBoxUI();
+}
+
+// Kutudaki çarpıya (X) basıldığında çıkarır
+window.removeFromBox = function(index) {
+    boxItems.splice(index, 1);
+    updateBoxUI();
+}
+
+// Ekranı ve Fiyatları Günceller
+function updateBoxUI() {
+    const grid = document.getElementById('box-grid');
+    const slots = grid.querySelectorAll('.box-slot');
+    
+    let currentTotal = BOX_BASE_PRICE; // Metal kutu ücreti ile başlar
+
+    // 1. Önce tüm slotları sıfırla
+    slots.forEach(slot => {
+        slot.className = 'box-slot empty';
+        slot.innerHTML = '';
+    });
+
+    // 2. Dolu olanları yerleştir ve fiyatı topla
+    boxItems.forEach((item, index) => {
+        currentTotal += parseFloat(item.price);
+        const slot = slots[index];
+        slot.className = 'box-slot filled';
+        slot.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="remove-item" onclick="removeFromBox(${index})">✕</div>
+        `;
+    });
+
+    // 3. Arayüz Rakamlarını Güncelle
+    document.getElementById('box-count').innerText = boxItems.length;
+    document.getElementById('box-price').innerText = currentTotal.toFixed(2).replace('.', ',') + ' TL';
+
+    // 4. Sepete Ekle Butonunu Yönet (Sadece doluysa aktif olur)
+    const btn = document.getElementById('add-box-to-cart');
+    if (boxItems.length > 0) {
+        btn.removeAttribute('disabled');
+    } else {
+        btn.setAttribute('disabled', 'true');
+    }
+}
