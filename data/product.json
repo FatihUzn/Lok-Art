@@ -2,33 +2,97 @@
     {
         "id": 1,
         "name": "LokArt İmza Kutusu",
-        "description": "1.700 gr Özel Seçim, Metal Kutu",
+        "description": "1.700gr - Premium Hediyelik Seçki",
         "price": "3.569,15 TL",
-        "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop",
-        "category": "hediyelik"
+        "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop",
+        "category": "Hediye Kutuları"
     },
     {
         "id": 2,
-        "name": "Fıstıklı Üzümlü Dubai Sarması",
-        "description": "Bol Fıstıklı, Glikozsuz 1.00 Kg",
-        "price": "1.270,75 TL",
-        "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop",
-        "category": "sarma"
+        "name": "LokArt Gurme Karışık Lokum",
+        "description": "1.600gr - Özel Gurme Lezzetler",
+        "price": "2.974,15 TL",
+        "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop",
+        "category": "Hediye Kutuları"
     },
     {
         "id": 3,
-        "name": "LokArt Gurme Karışık",
-        "description": "1.600 gr Renkli Aromatik Seçki",
-        "price": "2.974,15 TL",
-        "image": "https://images.unsplash.com/photo-1543362906-acfc16c67564?q=80&w=800&auto=format&fit=crop",
-        "category": "hediyelik"
+        "name": "Fıstıklı Üzümlü Dubai Sarması",
+        "description": "1.00 Kg - Bol Fıstıklı, Glikozsuz",
+        "price": "1.270,75 TL",
+        "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop",
+        "category": "Sarma Lokum"
     },
     {
         "id": 4,
+        "name": "File Fıstıklı Nutellalı Sarma",
+        "description": "Çikolata ve Antep Fıstığının Uyumu",
+        "price": "255,00 TL",
+        "image": "https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=800&auto=format&fit=crop",
+        "category": "Sarma Lokum"
+    },
+    {
+        "id": 5,
+        "name": "Brownie'li Sarma Lokum",
+        "description": "Modern ve Gelenekselin Birleşimi",
+        "price": "212,50 TL",
+        "image": "https://images.unsplash.com/photo-1600868839088-ce4ea088e53a?q=80&w=800&auto=format&fit=crop",
+        "category": "Sarma Lokum"
+    },
+    {
+        "id": 6,
+        "name": "Narlı Fıstıklı Parmak Lokum",
+        "description": "Doğal Nar Aromalı",
+        "price": "340,00 TL",
+        "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=800&auto=format&fit=crop",
+        "category": "Parmak Lokum"
+    },
+    {
+        "id": 7,
+        "name": "Karışık Çifte Kavrulmuş Lokum",
+        "description": "1 Kg - Kendin Seç, Bol Çerezli",
+        "price": "782,00 TL",
+        "image": "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop",
+        "category": "Çifte Kavrulmuş"
+    },
+    {
+        "id": 8,
+        "name": "Kalın Cevizli Sucuk",
+        "description": "Doğal ve Katkısız Geleneksel Lezzet",
+        "price": "140,25 TL",
+        "image": "https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=800&auto=format&fit=crop",
+        "category": "Helva & Pişmaniye"
+    },
+    {
+        "id": 9,
+        "name": "Jumbo Kudüs Hurma",
+        "description": "En İri Boy, Taze Mahsul",
+        "price": "297,50 TL",
+        "image": "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=800&auto=format&fit=crop",
+        "category": "Kuruyemiş"
+    },
+    {
+        "id": 10,
         "name": "Taze Çekilmiş Türk Kahvesi",
-        "description": "Geleneksel Kurukahve",
+        "description": "Taze Kavrulmuş Geleneksel Aroma",
         "price": "195,50 TL",
         "image": "https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=800&auto=format&fit=crop",
-        "category": "kahve"
+        "category": "Çay & Kahve"
+    },
+    {
+        "id": 11,
+        "name": "Renkli Mantar Çikolata",
+        "description": "200 gr - Eğlenceli Drajeler",
+        "price": "407,15 TL",
+        "image": "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=800&auto=format&fit=crop",
+        "category": "Drajeler"
+    },
+    {
+        "id": 12,
+        "name": "Ramazan Paketi Lüks 2 Kg",
+        "description": "Ceviz, Hurma, Kayısı ve İncir Karışık",
+        "price": "3.357,50 TL",
+        "image": "https://images.unsplash.com/photo-1615486171434-6db38ebfce05?q=80&w=800&auto=format&fit=crop",
+        "category": "Kuruyemiş"
     }
 ]
