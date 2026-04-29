@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lok-Art | Doğanın Kalbinden, Sanatın Masasına</title>
+    <title>Lok-Art | Premium Turkish Delight</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="top-bar">
-        GLİKOZ ŞURUBU İÇERMEZ &nbsp;|&nbsp; %100 DOĞAL BAL VE KAYNAK SUYU &nbsp;|&nbsp; FDA ONAYLI
+        <span>GLİKOZSUZ &nbsp; | &nbsp; %100 DOĞAL &nbsp; | &nbsp; <a href="#b2b" style="color:var(--gold); text-decoration:underline;">KURUMSAL SİPARİŞLER İÇİN TIKLAYIN</a></span>
     </div>
 
     <nav id="navbar">
@@ -18,6 +18,8 @@
         <ul class="nav-links">
             <li><a href="#hero">Ana Sayfa</a></li>
             <li><a href="#products">Koleksiyon</a></li>
+            <li><a href="#custom-box" class="highlight-link">Kendi Kutunu Yarat</a></li>
+            <li><a href="#gift-video">QR Hediye Deneyimi</a></li>
         </ul>
         <div class="cart-btn">Sepetim (<span id="cart-count">0</span>)</div>
     </nav>
@@ -25,31 +27,26 @@
     <header id="hero" class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Sanata Dönüşen Lezzetler</h1>
-            <p>Şerifali'deki üretim tesisimizden, glikozsuz ve %100 doğal kaynak suyuyla hazırlanan el işçiliği premium lokumlar.</p>
-            <a href="#products" class="btn-primary">Koleksiyonu Keşfet</a>
+            <h1>Lokum Sanatı Yeniden Tanımlandı.</h1>
+            <p>Gerçek bal ve doğal kaynak suyunun, ustalarımızın ellerinde bir sanat eserine dönüşme serüveni.</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn-primary">Koleksiyonu Keşfet</a>
+                <a href="#custom-box" class="btn-primary btn-outline">Kendi Kutunu Yarat</a>
+            </div>
         </div>
     </header>
 
     <section id="products" class="products-section">
-        <h2 class="section-title">Özel Seçkiler</h2>
-        
         <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">Tümü</button>
-            <button class="filter-btn" data-filter="Hediye Kutuları">Hediye</button>
-            <button class="filter-btn" data-filter="Sarma Lokum">Sarma</button>
-            <button class="filter-btn" data-filter="Parmak Lokum">Parmak</button>
-            <button class="filter-btn" data-filter="Çay & Kahve">Kahve</button>
+            <button class="filter-btn active" data-filter="all">Tüm Koleksiyon</button>
+            <button class="filter-btn" data-filter="Hediye Kutuları">İmza Kutular</button>
+            <button class="filter-btn" data-filter="Sarma Lokum">Sarmalar</button>
+            <button class="filter-btn" data-filter="Çay & Kahve">Kahve Seçkisi</button>
         </div>
 
         <div class="product-grid" id="products-container">
-            <p style="text-align:center; width:100%; color:#888;">Özenle yükleniyor...</p>
-        </div>
+            </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 Lok-Art. Özel Sunum Prototiptir.</p>
-    </footer>
 
     <script src="app.js"></script>
 </body>
