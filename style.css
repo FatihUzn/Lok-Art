@@ -54,13 +54,25 @@ nav.scrolled .nav-links a { color: var(--text-dark); }
 }
 nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald-dark); }
 
-/* --- BOUTIQUE FRAME HERO --- */
+/* --- BOUTIQUE FRAME HERO SECTION (GÜNCELLENDİ) --- */
 .hero-section {
     min-height: 100vh;
-    background-color: #05100b; /* Derin Koyu Yeşil */
+    /* 1. ADIM: FOTOĞRAFI ARKA PLANA KOY VE KARARTMA FİLTRESİ EKLE */
+    background-image: 
+        /* Sol taraftaki metinlerin okunması için eklenen koyu degrade */
+        linear-gradient(to right, rgba(10, 31, 21, 0.95) 0%, rgba(10, 31, 21, 0.7) 50%, rgba(10, 31, 21, 0.4) 100%),
+        /* Gönderdiğiniz muhteşem fotoğraf */
+        url('assets/hero_background_foto.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Lüks bir scroll efekti (paralaks) için */
+
     display: flex;
     align-items: center;
     padding: 0 8%;
+    position: relative;
+    /* Koyu yeşil arka plan rengini sildik, yerine fotoğraf geldi */
 }
 
 .hero-container {
@@ -71,54 +83,30 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     max-width: 1400px;
     margin: 0 auto;
     gap: 100px;
+    z-index: 2; /* İçeriği filtrenin üstüne al */
 }
 
-.hero-content-left { flex: 1.2; }
-
-.hero-tagline {
-    color: var(--gold);
-    letter-spacing: 5px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    margin-bottom: 25px;
-    display: block;
-}
-
+/* Sol Taraf metinlerinde küçük renk ayarlamaları (Fotoğrafa uyum için) */
 .hero-content-left h1 {
     font-size: 5rem;
     color: #fff;
     line-height: 1.1;
     margin-bottom: 30px;
 }
-
-.gold-text { color: var(--gold); font-style: italic; }
-
 .hero-content-left p {
-    color: #aaa;
+    color: #eaeaea; /* Biraz daha parlak gri, okunabilirliği artırır */
     font-size: 1.2rem;
     line-height: 1.8;
     margin-bottom: 40px;
     max-width: 500px;
 }
 
-.hero-stats {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 50px;
-    border-left: 2px solid var(--gold);
-    padding-left: 25px;
-}
-
-.stat-item { display: flex; flex-direction: column; }
-.stat-item strong { color: #fff; font-size: 1.4rem; font-family: 'Playfair Display'; }
-.stat-item span { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; }
-
+/* Sağ Taraf Video Vitrinini aynen koruduk, fotoğrafın üzerinde parlayacak */
 .hero-video-right {
     flex: 1;
     display: flex;
     justify-content: center;
 }
-
 .video-window {
     width: 380px;
     height: 550px;
@@ -126,7 +114,8 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     padding: 15px;
     border-radius: 200px 200px 0 0;
     position: relative;
-    overflow: hidden; /* Kenar bulanıklıklarını kesen sihirli satır */
+    overflow: hidden;
+    background-color: #000; /* Video arkası siyah kalsın */
 }
 
 .showcase-video {
