@@ -25,55 +25,38 @@
     </nav>
 
     <header id="hero" class="hero-section">
-        
-        <div class="video-container">
-            <video autoplay loop muted playsinline class="hero-video">
-                <source src="assets/hero_background.mp4" type="video/mp4">
-                Tarayıcınız video etiketini desteklemiyor.
-            </video>
-            <div class="video-overlay"></div>
-        </div>
-
-        <div class="hero-container">
+    <div class="hero-content-side">
+        <div class="hero-text-wrap">
+            <span class="hero-subtitle">1998'DEN BERİ GELENEKSEL SANAT</span>
+            <h1>Sanata Dönüşen <br> <span class="gold-text">Lezzetler</span></h1>
+            <p>Şerifali'deki atölyemizde, sadece doğal kaynak suyu ve hakiki bal ile şekillenen premium lokum koleksiyonu.</p>
             
-            <div class="hero-content reveal active">
-                <span class="hero-subtitle">1998'DEN BERİ GELENEKSEL SANAT</span>
-                <h1>Sanata Dönüşen <br> <span style="font-style: italic; color: var(--gold);">Lezzetler</span></h1>
-                <p>Şerifali'deki atölyemizde, fabrikasyon üretimden uzak; sadece doğal kaynak suyu ve hakiki bal ile şekillenen premium lokum koleksiyonu.</p>
-                
-                <div class="hero-features">
-                    <div class="feature">
-                        <span class="feature-dot"></span> Glikoz Şurubu İçermez
-                    </div>
-                    <div class="feature">
-                        <span class="feature-dot"></span> %100 Hakiki Bal
-                    </div>
-                    <div class="feature">
-                        <span class="feature-dot"></span> FDA Kayıtlı Tesis
-                    </div>
-                </div>
-
-                <div class="hero-buttons">
-                    <a href="#products" class="btn-primary">Koleksiyonu Keşfet</a>
-                    <a href="#custom-box" class="btn-outline">Kendi Kutunu Yarat</a>
-                </div>
+            <div class="hero-features-minimal">
+                <span>Glikozsuz</span>
+                <span class="dot"></span>
+                <span>%100 Doğal Bal</span>
+                <span class="dot"></span>
+                <span>FDA Kayıtlı</span>
             </div>
 
-            <div class="hero-visuals reveal active" style="justify-content: center; align-items: center;">
-                 <div class="floating-badge" style="position: relative; top: 0; left: 0;">
-                    <div class="stars">★★★★★</div>
-                    <p>"Nostaljik lezzet, modern sunum. Türk kahvesinin yanına en çok yakışan lokum."</p>
-                    <span class="customer-name">- Elif S.</span>
-                </div>
+            <div class="hero-action-btns">
+                <a href="#products" class="btn-primary">Koleksiyon</a>
+                <a href="#custom-box" class="btn-outline">Kendi Kutunu Yarat</a>
             </div>
-
         </div>
+    </div>
 
-        <div class="scroll-indicator">
-            <div class="mouse"></div>
-            <span>Koleksiyonu İncele</span>
+    <div class="hero-video-side">
+        <video autoplay loop muted playsinline class="hero-portrait-video">
+            <source src="assets/hero_background.mp4" type="video/mp4">
+        </video>
+        <div class="floating-testimonial">
+            <div class="stars">★★★★★</div>
+            <p>"Nostaljik lezzet, modern sunum."</p>
+            <span class="name">- Elif S.</span>
         </div>
-    </header>
+    </div>
+</header>
 
     <section id="products" class="products-section">
         <div class="filter-container">
