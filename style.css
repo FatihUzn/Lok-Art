@@ -28,10 +28,11 @@ h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
 nav {
     display: flex; justify-content: space-between; align-items: center;
     padding: 25px 5%; background: transparent; position: fixed; 
-    width: 100%; top: 35px; z-index: 1000; transition: 0.4s ease;
+    width: 100%; top: 35px; z-index: 1000; 
+    transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
 }
 nav.scrolled {
-    background: rgba(250, 249, 246, 0.95); backdrop-filter: blur(15px);
+    background: rgba(250, 249, 246, 0.98); backdrop-filter: blur(10px);
     top: 0; padding: 15px 5%; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
 }
 .logo { color: var(--gold); font-size: 1.8rem; letter-spacing: 2px; }
@@ -48,9 +49,9 @@ nav.scrolled .nav-links a { color: var(--text-dark); }
 }
 nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald-dark); }
 
-/* --- HERO SECTION (DUAL BACKGROUND) --- */
+/* --- HERO SECTION (CLEAN & SOFT TRANSITION) --- */
 .hero-section {
-    min-height: 100vh;
+    min-height: 110vh; /* Yumuşak geçiş için biraz uzatıldı */
     display: flex;
     align-items: center;
     padding: 0 8%;
@@ -60,9 +61,10 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     background-attachment: fixed;
     overflow: hidden;
 
-    /* VARSAYILAN (PC): YATAY FOTOĞRAF */
+    /* Alta doğru krem rengine yumuşak geçiş yapan yeni arka plan */
     background-image: 
-        linear-gradient(to right, rgba(10, 31, 21, 0.9) 0%, rgba(10, 31, 21, 0.6) 50%, rgba(0,0,0,0.2) 100%),
+        linear-gradient(to top, #FAF9F6 0%, transparent 20%),
+        linear-gradient(to right, rgba(10, 31, 21, 0.98) 0%, rgba(10, 31, 21, 0.6) 40%, transparent 100%),
         url('assets/hero_background_yatay.jpg');
 }
 
@@ -71,49 +73,53 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     width: 100%; max-width: 1400px; margin: 0 auto; gap: 50px; z-index: 2;
 }
 
+/* Sol İçerik: Hiyerarşi Düzenlemesi */
 .hero-content-left { flex: 1.2; }
-.hero-tagline { color: var(--gold); letter-spacing: 5px; font-size: 0.75rem; font-weight: 600; margin-bottom: 25px; display: block; }
-.hero-content-left h1 { font-size: 4.8rem; color: #fff; line-height: 1.1; margin-bottom: 25px; }
+
+/* Yeni Rozet (Badge) Tasarımı */
+.hero-badges { display: flex; gap: 12px; margin-bottom: 25px; }
+.badge { font-size: 0.7rem; color: var(--gold); border: 1px solid rgba(198, 168, 124, 0.3); padding: 6px 15px; border-radius: 30px; letter-spacing: 1px; text-transform: uppercase; background: rgba(10, 31, 21, 0.5); }
+
+.hero-content-left h1 { font-size: 4.2rem; letter-spacing: -1px; color: #fff; line-height: 1.1; margin-bottom: 25px; }
 .gold-text { color: var(--gold); font-style: italic; }
-.hero-content-left p { color: #eaeaea; font-size: 1.2rem; margin-bottom: 40px; max-width: 550px; }
+.hero-content-left p { color: #eaeaea; font-size: 1.1rem; margin-bottom: 40px; max-width: 500px; }
 
-.hero-stats { display: flex; gap: 40px; margin-bottom: 45px; border-left: 2px solid var(--gold); padding-left: 25px; }
-.stat-item strong { color: #fff; font-size: 1.5rem; display: block; font-family: 'Playfair Display'; }
-.stat-item span { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
-
+/* Sağ İçerik: Küçültülmüş Zarif Video Penceresi */
 .hero-video-right { flex: 1; display: flex; justify-content: center; }
 .video-window {
-    width: 380px; height: 550px; border: 1px solid var(--gold);
-    padding: 15px; border-radius: 200px 200px 0 0;
-    overflow: hidden; background: #000; box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    width: 320px; height: 480px; 
+    border: 1px solid rgba(198, 168, 124, 0.4);
+    padding: 10px; border-radius: 160px 160px 0 0;
+    overflow: hidden; background: #000; 
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3), 0 0 20px rgba(198, 168, 124, 0.1);
 }
-.showcase-video { width: 100%; height: 100%; object-fit: cover; border-radius: 185px 185px 0 0; }
+.showcase-video { width: 100%; height: 100%; object-fit: cover; border-radius: 150px 150px 0 0; }
 
-.btn-primary { background: var(--gold); color: #0a1f15; padding: 18px 35px; text-decoration: none; font-weight: 700; font-size: 0.85rem; border: none; cursor: pointer; display: inline-block; transition: 0.3s; }
-.btn-outline { border: 1px solid #fff; color: #fff; padding: 18px 35px; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: inline-block; margin-left: 20px; transition: 0.3s; }
+.btn-primary { background: var(--gold); color: #0a1f15; padding: 18px 35px; text-decoration: none; font-weight: 700; font-size: 0.85rem; border: none; cursor: pointer; display: inline-block; transition: 0.3s; border-radius: 4px; }
+.btn-outline { border: 1px solid #fff; color: #fff; padding: 18px 35px; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: inline-block; margin-left: 20px; transition: 0.3s; border-radius: 4px; }
 .btn-primary:hover { background: #fff; color: var(--emerald-dark); }
 .btn-outline:hover { background: var(--gold); border-color: var(--gold); color: var(--emerald-dark); }
 
 /* --- PRODUCT SECTION --- */
-.products-section { padding: 100px 5%; background: var(--bg-main); }
+.products-section { padding: 80px 5% 100px; background: var(--bg-main); }
 .filter-container { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; flex-wrap: wrap; }
 .filter-btn { background: none; border: none; color: var(--text-muted); font-size: 0.85rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; padding-bottom: 8px; position: relative; transition: 0.3s; }
 .filter-btn::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background: var(--gold); transition: 0.3s; }
 .filter-btn.active, .filter-btn:hover { color: var(--emerald-dark); }
 .filter-btn.active::after, .filter-btn:hover::after { width: 100%; }
 
-.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
 .product-card { background: var(--white); border-radius: 12px; overflow: hidden; transition: 0.5s; border: 1px solid #f0f0f0; padding-bottom: 25px; }
 .product-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-.img-container { height: 320px; overflow: hidden; }
+.img-container { height: 280px; overflow: hidden; }
 .product-img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: 1s ease; }
 .product-card:hover .product-img { transform: scale(1.1); }
 
 .product-info { padding: 25px 20px 0; text-align: center; }
 .category-tag { color: var(--gold); font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 12px; }
-.product-info h3 { font-size: 1.25rem; color: var(--emerald-dark); margin-bottom: 10px; }
+.product-info h3 { font-size: 1.15rem; color: var(--emerald-dark); margin-bottom: 10px; }
 .price { color: var(--text-dark); font-size: 1.1rem; display: block; margin-bottom: 20px; }
-.btn-secondary { background: transparent; border: 1px solid #ddd; padding: 12px 25px; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; width: 80%; }
+.btn-secondary { background: transparent; border: 1px solid #ddd; padding: 12px 25px; cursor: pointer; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; width: 80%; border-radius: 4px; }
 .btn-secondary:hover { background: var(--emerald-dark); color: #fff; border-color: var(--emerald-dark); }
 
 /* --- CUSTOM BOX BUILDER --- */
@@ -149,21 +155,25 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
 @media (max-width: 768px) {
     nav { top: 0; padding: 15px 5%; background: rgba(10, 31, 21, 0.95); }
     .top-bar { display: none; }
-    .nav-links { display: none; } /* Mobil menü yapılabilir ama şimdilik gizledik */
+    .nav-links { display: none; } 
     
     .hero-section {
         background-image: 
-            linear-gradient(to bottom, rgba(10, 31, 21, 0.8) 0%, rgba(10, 31, 21, 0.4) 100%),
-            url('assets/hero_background_foto.jpg'); /* DİKEY FOTOĞRAF */
+            linear-gradient(to bottom, #FAF9F6 0%, transparent 5%), /* Mobilde yumuşak geçişi kıstık */
+            linear-gradient(to bottom, rgba(10, 31, 21, 0.9) 0%, rgba(10, 31, 21, 0.5) 100%),
+            url('assets/hero_background_foto.jpg');
         background-attachment: scroll;
         padding: 140px 5% 60px;
+        min-height: auto;
     }
-    .hero-container { flex-direction: column; text-align: center; gap: 60px; }
-    .hero-content-left h1 { font-size: 3.2rem; }
-    .hero-stats { justify-content: center; border-left: none; padding-left: 0; }
+    .hero-container { flex-direction: column; text-align: center; gap: 40px; }
+    .hero-badges { justify-content: center; }
+    .hero-content-left h1 { font-size: 3rem; }
     .hero-cta-group { display: flex; flex-direction: column; gap: 15px; }
     .btn-outline { margin-left: 0; }
-    .video-window { width: 300px; height: 420px; }
+    
+    .video-window { width: 280px; height: 400px; border-radius: 140px 140px 0 0; }
+    .showcase-video { border-radius: 130px 130px 0 0; }
     
     .section-title { font-size: 2.2rem; }
     .box-preview { width: 100%; position: static; }
