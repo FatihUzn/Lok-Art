@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('data/products.json')
         .then(response => response.json())
         .then(products => {
-            allProducts = products; // Global değişkene kaydet
-            renderProducts(allProducts); // İlk açılışta tümünü göster
+            allProducts = products; 
+            renderProducts(allProducts); 
+            setupBoxBuilder(allProducts); // <-- BU SATIRI EKLE
         })
         .catch(error => {
             console.error('Veri Hatası:', error);
