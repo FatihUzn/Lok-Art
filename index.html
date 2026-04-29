@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lok-Art | Doğanın Kalbinden, Sanatın Masasına</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="top-bar">
-        <span>[ GLİKOZ ŞURUBU İÇERMEZ ] — [ %100 DOĞAL BAL VE KAYNAK SUYU ]</span>
+        GLİKOZ ŞURUBU İÇERMEZ &nbsp;|&nbsp; %100 DOĞAL BAL VE KAYNAK SUYU &nbsp;|&nbsp; FDA ONAYLI
     </div>
 
     <nav id="navbar">
@@ -18,7 +18,6 @@
         <ul class="nav-links">
             <li><a href="#hero">Ana Sayfa</a></li>
             <li><a href="#products">Koleksiyon</a></li>
-            <li><a href="#about">Atölyemiz</a></li>
         </ul>
         <div class="cart-btn">Sepetim (<span id="cart-count">0</span>)</div>
     </nav>
@@ -27,28 +26,29 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Sanata Dönüşen Lezzetler</h1>
-            <p>Şerifali'deki üretim tesisimizden, glikozsuz ve %100 doğal kaynak suyuyla hazırlanan premium lokumlar.</p>
-            <a href="#products" class="btn-primary">Lezzetleri İncele</a>
+            <p>Şerifali'deki üretim tesisimizden, glikozsuz ve %100 doğal kaynak suyuyla hazırlanan el işçiliği premium lokumlar.</p>
+            <a href="#products" class="btn-primary">Koleksiyonu Keşfet</a>
         </div>
     </header>
 
     <section id="products" class="products-section">
-        <h2 class="section-title">Öne Çıkan Seçkiler</h2>
+        <h2 class="section-title">Özel Seçkiler</h2>
         
-        <div class="product-grid" id="products-container">
-            <p class="loading-text">Yükleniyor...</p>
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">Tümü</button>
+            <button class="filter-btn" data-filter="Hediye Kutuları">Hediye</button>
+            <button class="filter-btn" data-filter="Sarma Lokum">Sarma</button>
+            <button class="filter-btn" data-filter="Parmak Lokum">Parmak</button>
+            <button class="filter-btn" data-filter="Çay & Kahve">Kahve</button>
         </div>
-    </section>
 
-    <section id="about" class="about-section">
-        <div class="about-text">
-            <h2>FDA Kayıtlı Tesis, El Emeği Üretim</h2>
-            <p>Lok-Art olarak fabrikamızda değil, "atölyemizde" üretim yapıyoruz. Her bir lokum, ustalarımızın elinden bal ve doğallıkla şekilleniyor.</p>
+        <div class="product-grid" id="products-container">
+            <p style="text-align:center; width:100%; color:#888;">Özenle yükleniyor...</p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Lok-Art. Bu bir prototiptir.</p>
+        <p>&copy; 2026 Lok-Art. Özel Sunum Prototiptir.</p>
     </footer>
 
     <script src="app.js"></script>
