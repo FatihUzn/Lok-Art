@@ -1,98 +1,51 @@
 [
-    {
-        "id": 1,
-        "name": "LokArt İmza Kutusu",
-        "description": "1.700gr - Premium Hediyelik Seçki",
-        "price": "3.569,15 TL",
-        "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop",
-        "category": "Hediye Kutuları"
-    },
-    {
-        "id": 2,
-        "name": "LokArt Gurme Karışık Lokum",
-        "description": "1.600gr - Özel Gurme Lezzetler",
-        "price": "2.974,15 TL",
-        "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop",
-        "category": "Hediye Kutuları"
-    },
-    {
-        "id": 3,
-        "name": "Fıstıklı Üzümlü Dubai Sarması",
-        "description": "1.00 Kg - Bol Fıstıklı, Glikozsuz",
-        "price": "1.270,75 TL",
-        "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop",
-        "category": "Sarma Lokum"
-    },
-    {
-        "id": 4,
-        "name": "File Fıstıklı Nutellalı Sarma",
-        "description": "Çikolata ve Antep Fıstığının Uyumu",
-        "price": "255,00 TL",
-        "image": "https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=800&auto=format&fit=crop",
-        "category": "Sarma Lokum"
-    },
-    {
-        "id": 5,
-        "name": "Brownie'li Sarma Lokum",
-        "description": "Modern ve Gelenekselin Birleşimi",
-        "price": "212,50 TL",
-        "image": "https://images.unsplash.com/photo-1600868839088-ce4ea088e53a?q=80&w=800&auto=format&fit=crop",
-        "category": "Sarma Lokum"
-    },
-    {
-        "id": 6,
-        "name": "Narlı Fıstıklı Parmak Lokum",
-        "description": "Doğal Nar Aromalı",
-        "price": "340,00 TL",
-        "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=800&auto=format&fit=crop",
-        "category": "Parmak Lokum"
-    },
-    {
-        "id": 7,
-        "name": "Karışık Çifte Kavrulmuş Lokum",
-        "description": "1 Kg - Kendin Seç, Bol Çerezli",
-        "price": "782,00 TL",
-        "image": "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop",
-        "category": "Çifte Kavrulmuş"
-    },
-    {
-        "id": 8,
-        "name": "Kalın Cevizli Sucuk",
-        "description": "Doğal ve Katkısız Geleneksel Lezzet",
-        "price": "140,25 TL",
-        "image": "https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=800&auto=format&fit=crop",
-        "category": "Helva & Pişmaniye"
-    },
-    {
-        "id": 9,
-        "name": "Jumbo Kudüs Hurma",
-        "description": "En İri Boy, Taze Mahsul",
-        "price": "297,50 TL",
-        "image": "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=800&auto=format&fit=crop",
-        "category": "Kuruyemiş"
-    },
-    {
-        "id": 10,
-        "name": "Taze Çekilmiş Türk Kahvesi",
-        "description": "Taze Kavrulmuş Geleneksel Aroma",
-        "price": "195,50 TL",
-        "image": "https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=800&auto=format&fit=crop",
-        "category": "Çay & Kahve"
-    },
-    {
-        "id": 11,
-        "name": "Renkli Mantar Çikolata",
-        "description": "200 gr - Eğlenceli Drajeler",
-        "price": "407,15 TL",
-        "image": "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=800&auto=format&fit=crop",
-        "category": "Drajeler"
-    },
-    {
-        "id": 12,
-        "name": "Ramazan Paketi Lüks 2 Kg",
-        "description": "Ceviz, Hurma, Kayısı ve İncir Karışık",
-        "price": "3.357,50 TL",
-        "image": "https://images.unsplash.com/photo-1615486171434-6db38ebfce05?q=80&w=800&auto=format&fit=crop",
-        "category": "Kuruyemiş"
-    }
+    { "id": 1, "name": "LokArt İmza Kutusu (1.700gr)", "description": "Premium Hediyelik Seçki", "price": "3.569,15 TL", "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop", "category": "Hediye Kutuları" },
+    { "id": 2, "name": "LokArt Gurme Karışık Lokum (1.600gr)", "description": "Özel Gurme Lezzetler", "price": "2.974,15 TL", "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop", "category": "Hediye Kutuları" },
+    { "id": 3, "name": "LokArt Lezzet Şöleni (1.950gr)", "description": "Büyük Boy Karışık Kutu", "price": "2.719,15 TL", "image": "https://images.unsplash.com/photo-1543362906-acfc16c67564?q=80&w=800&auto=format&fit=crop", "category": "Hediye Kutuları" },
+    { "id": 4, "name": "Badem & Parmak Lokum Lüks Hediyelik", "description": "Metal Kutu - Net: 800gr", "price": "1.343,00 TL", "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop", "category": "Hediye Kutuları" },
+
+    { "id": 5, "name": "Fındıklı ve Karadutlu Sarma", "description": "Pirinç Patlaklı Çıtır Lezzet", "price": "233,75 TL", "image": "https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=800&auto=format&fit=crop", "category": "Sarma Lokum" },
+    { "id": 6, "name": "Bademli ve Çikolatalı Çıtır Sarma", "description": "Doğal Çikolata Kaplı", "price": "233,75 TL", "image": "https://images.unsplash.com/photo-1600868839088-ce4ea088e53a?q=80&w=800&auto=format&fit=crop", "category": "Sarma Lokum" },
+    { "id": 7, "name": "Brownie'li Sarma Lokum", "description": "Modern Yorum, Geleneksel Tat", "price": "212,50 TL", "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=800&auto=format&fit=crop", "category": "Sarma Lokum" },
+    { "id": 8, "name": "File Fıstıklı Nutellalı Sarma", "description": "Bol Fıstıklı Çikolatalı", "price": "255,00 TL", "image": "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop", "category": "Sarma Lokum" },
+    { "id": 9, "name": "İncirli Cevizli Sarma Lokum", "description": "Doğal İncir Aromalı", "price": "233,75 TL", "image": "https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=800&auto=format&fit=crop", "category": "Sarma Lokum" },
+
+    { "id": 10, "name": "Karışık Parmak Lokum - 1 Kg", "description": "Kendin Seç Avantajı", "price": "1.360,00 TL", "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop", "category": "Parmak Lokum" },
+    { "id": 11, "name": "Orman Meyveli Fıstıklı Parmak", "description": "Ekşi Tatlı Denge", "price": "340,00 TL", "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop", "category": "Parmak Lokum" },
+    { "id": 12, "name": "Mangolu Fıstıklı Parmak Lokum", "description": "Tropikal Aroma", "price": "340,00 TL", "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop", "category": "Parmak Lokum" },
+    { "id": 13, "name": "Damla Sakızlı Ballı Parmak", "description": "Gerçek Damla Sakızı", "price": "340,00 TL", "image": "https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=800&auto=format&fit=crop", "category": "Parmak Lokum" },
+    { "id": 14, "name": "Gül Yapraklı Fıstıklı Parmak", "description": "Doğal Isparta Gülü", "price": "340,00 TL", "image": "https://images.unsplash.com/photo-1600868839088-ce4ea088e53a?q=80&w=800&auto=format&fit=crop", "category": "Parmak Lokum" },
+
+    { "id": 15, "name": "Karışık Çifte Kavrulmuş - 1 Kg", "description": "Klasikleşmiş Lezzetler", "price": "782,00 TL", "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=800&auto=format&fit=crop", "category": "Çifte Kavrulmuş" },
+    { "id": 16, "name": "Portakallı Fındıklı Duble", "description": "Taze Portakal Parçacıklı", "price": "340,00 TL", "image": "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop", "category": "Çifte Kavrulmuş" },
+    { "id": 17, "name": "Hindistan Cevizli Sütlü Fıstıklı", "description": "Hafif ve Sütlü", "price": "195,50 TL", "image": "https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=800&auto=format&fit=crop", "category": "Çifte Kavrulmuş" },
+    { "id": 18, "name": "Duble Fıstıklı Narlı", "description": "Ekstra Kuruyemişli", "price": "467,50 TL", "image": "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=800&auto=format&fit=crop", "category": "Çifte Kavrulmuş" },
+
+    { "id": 19, "name": "Narlı File Fıstıklı Fitil Lokum", "description": "İnce Kesim Özel Fitil", "price": "382,50 TL", "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop", "category": "Fitil Lokum" },
+    { "id": 20, "name": "Zereçli Fıstıklı Fitil Lokum", "description": "Ekşi Zereç Meyveli", "price": "306,00 TL", "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop", "category": "Fitil Lokum" },
+    { "id": 21, "name": "Gül Yapraklı Fıstıklı Fitil", "description": "Hafif Aromalı Fitil", "price": "306,00 TL", "image": "https://images.unsplash.com/photo-1543362906-acfc16c67564?q=80&w=800&auto=format&fit=crop", "category": "Fitil Lokum" },
+
+    { "id": 22, "name": "Kuş Lokumu", "description": "Klasik Mini Lokumlar", "price": "76,50 TL", "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop", "category": "Sade Lokum" },
+    { "id": 23, "name": "Portakallı Sade Lokum", "description": "Çerezsiz Yumuşak Kıvam", "price": "76,50 TL", "image": "https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=800&auto=format&fit=crop", "category": "Sade Lokum" },
+    { "id": 24, "name": "Damla Sakızlı Sade Lokum", "description": "Geleneksel Sade Lezzet", "price": "76,50 TL", "image": "https://images.unsplash.com/photo-1600868839088-ce4ea088e53a?q=80&w=800&auto=format&fit=crop", "category": "Sade Lokum" },
+
+    { "id": 25, "name": "Kalın Cevizli Sucuk", "description": "%100 Doğal Üzüm Şırası", "price": "140,25 TL", "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=800&auto=format&fit=crop", "category": "Helva & Pestil" },
+    { "id": 26, "name": "Rulo Pestil", "description": "Taze Katkısız Pestil", "price": "182,75 TL", "image": "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop", "category": "Helva & Pestil" },
+    { "id": 27, "name": "Pestil - Cevizli", "description": "Bol Ceviz İçi", "price": "153,00 TL", "image": "https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=800&auto=format&fit=crop", "category": "Helva & Pestil" },
+    { "id": 28, "name": "Antep Fıstıklı Çekme Helva", "description": "280 gr Dağılan Kıvam", "price": "170,00 TL", "image": "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=800&auto=format&fit=crop", "category": "Helva & Pestil" },
+
+    { "id": 29, "name": "Boz İç Antep Fıstığı", "description": "1. Kalite Taze Fıstık", "price": "807,50 TL", "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800&auto=format&fit=crop", "category": "Kuruyemiş" },
+    { "id": 30, "name": "Jumbo Kudüs Hurma", "description": "En İri Boy, Etli", "price": "297,50 TL", "image": "https://images.unsplash.com/photo-1579619572688-66236b216fb9?q=80&w=800&auto=format&fit=crop", "category": "Kuruyemiş" },
+    { "id": 31, "name": "Ceviz Kabuklu - Jumbo", "description": "Yerli İnce Kabuk", "price": "85,00 TL", "image": "https://images.unsplash.com/photo-1543362906-acfc16c67564?q=80&w=800&auto=format&fit=crop", "category": "Kuruyemiş" },
+    { "id": 32, "name": "Safran", "description": "Hakiki Saf Safran", "price": "765,00 TL", "image": "https://images.unsplash.com/photo-1621852004158-f3bc188ace2d?q=80&w=800&auto=format&fit=crop", "category": "Kuruyemiş" },
+
+    { "id": 33, "name": "Türk Kahvesi - Taze Çekilmiş", "description": "Taş Değirmen", "price": "195,50 TL", "image": "https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=800&auto=format&fit=crop", "category": "Çay & Kahve" },
+    { "id": 34, "name": "Fıstıklı Menengiç Kahvesi", "description": "Kafeinsiz Yöresel", "price": "297,50 TL", "image": "https://images.unsplash.com/photo-1605330376249-14aeb0a88062?q=80&w=800&auto=format&fit=crop", "category": "Çay & Kahve" },
+    { "id": 35, "name": "Dibek Osmanlı Kahvesi", "description": "Yumuşak İçim Karışım", "price": "297,50 TL", "image": "https://images.unsplash.com/photo-1600868839088-ce4ea088e53a?q=80&w=800&auto=format&fit=crop", "category": "Çay & Kahve" },
+    { "id": 36, "name": "Nar Çayı", "description": "Doğal Meyve Parçacıklı", "price": "297,50 TL", "image": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?q=80&w=800&auto=format&fit=crop", "category": "Çay & Kahve" },
+
+    { "id": 37, "name": "Renkli Mantar Çikolata", "description": "200 gr Eğlenceli", "price": "407,15 TL", "image": "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop", "category": "Drajeler" },
+    { "id": 38, "name": "Akide Şekeri - Tarçınlı", "description": "Geleneksel Cam Şeker", "price": "114,75 TL", "image": "https://images.unsplash.com/photo-1628469342792-628d097c23bc?q=80&w=800&auto=format&fit=crop", "category": "Drajeler" },
+    { "id": 39, "name": "Patlayan Şekerli Draje", "description": "Çikolata Kaplı", "price": "361,25 TL", "image": "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=800&auto=format&fit=crop", "category": "Drajeler" },
+    { "id": 40, "name": "Kahve Çekirdekli Draje", "description": "Bitter Çikolatalı", "price": "361,25 TL", "image": "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=800&auto=format&fit=crop", "category": "Drajeler" }
 ]
