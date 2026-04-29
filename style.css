@@ -61,15 +61,48 @@ nav.scrolled .nav-links a { color: var(--text-dark); }
 nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald-dark); }
 .cart-btn:hover { background: var(--emerald-dark); color: #fff; border-color: var(--emerald-dark); }
 
-/* --- YENİ EDİTORYAL HERO ALANI --- */
+/* --- VİDEOLU YENİ EDİTORYAL HERO ALANI --- */
 .hero-section {
     min-height: 100vh;
-    background-color: var(--bg-main); /* Arka plan artık karanlık değil, krem rengi */
     display: flex;
     align-items: center;
     position: relative;
     padding: 120px 5% 60px;
+    overflow: hidden; /* Dışarı taşan videoyu kes */
+}
+
+/* Video Konteyneri Ayarları */
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Videoyu içeriğin arkasına at */
     overflow: hidden;
+}
+
+.hero-video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Videonun ekranı kaplamasını (veya kesilmesini) sağlar */
+}
+
+/* Video Üzeri Filtre (Yazıların Okunması İçin Önemli) */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Videonun tarzına uygun, çok hafif bir sıcak/koyu filtre */
+    background: linear-gradient(to right, rgba(10,31,21,0.85) 0%, rgba(10,31,21,0.5) 100%); 
 }
 
 .hero-container {
@@ -80,13 +113,13 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     margin: 0 auto;
     width: 100%;
     gap: 50px;
+    z-index: 1; /* İçeriği filtrenin üstüne al */
 }
 
 /* Sol Taraf: İçerik */
 .hero-content {
     flex: 1;
-    max-width: 600px;
-    z-index: 2;
+    max-width: 650px;
 }
 
 .hero-subtitle {
@@ -101,21 +134,22 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 
 .hero-content h1 {
     font-size: 4.5rem;
-    color: var(--emerald-dark);
+    color: #fff; /* Videonun üstünde beyaz daha iyi durur */
     margin-bottom: 30px;
     font-weight: 600;
     line-height: 1.1;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .hero-content p {
     font-size: 1.15rem;
-    color: var(--text-muted);
+    color: #eaeaea; /* Açık gri p metni */
     margin-bottom: 40px;
     font-weight: 400;
     line-height: 1.7;
 }
 
-/* Güven Veren Özellikler (Boşluğu Doldurur) */
+/* Güven Veren Özellikler */
 .hero-features {
     display: flex;
     flex-wrap: wrap;
@@ -127,13 +161,13 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-    color: var(--emerald-dark);
-    font-weight: 600;
-    background: #fff;
+    color: #fff;
+    font-weight: 400;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
     padding: 10px 20px;
     border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    border: 1px solid rgba(198, 168, 124, 0.2);
+    border: 1px solid rgba(198, 168, 124, 0.4);
 }
 
 .feature-dot {
@@ -144,15 +178,11 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     margin-right: 10px;
 }
 
-.hero-buttons {
-    display: flex;
-    gap: 20px;
-}
-
+/* Butonları da Videoya Uyumlu Hale Getirelim */
 .btn-primary {
-    background: var(--emerald-dark);
-    color: #fff;
-    border: 1px solid var(--emerald-dark);
+    background: var(--gold);
+    color: var(--emerald-dark);
+    border: 1px solid var(--gold);
     padding: 16px 35px;
     text-decoration: none;
     font-size: 0.9rem;
@@ -164,8 +194,8 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 
 .btn-outline {
     background: transparent;
-    color: var(--emerald-dark);
-    border: 1px solid var(--emerald-dark);
+    color: #fff;
+    border: 1px solid #fff;
     padding: 16px 35px;
     text-decoration: none;
     font-size: 0.9rem;
@@ -176,49 +206,95 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 }
 
 .btn-primary:hover {
-    background: var(--gold);
-    border-color: var(--gold);
+    background: #fff;
+    border-color: #fff;
 }
 
 .btn-outline:hover {
-    background: var(--emerald-dark);
-    color: #fff;
+    background: var(--gold);
+    color: var(--emerald-dark);
+    border-color: var(--gold);
 }
 
-/* Sağ Taraf: Asimetrik Görseller */
+/* Sağ Taraf: Süzülen Müşteri Kartı */
 .hero-visuals {
     flex: 1;
-    position: relative;
-    height: 600px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end; /* Kartı sağa yaslar */
 }
 
-.img-main {
-    width: 75%;
-    height: 90%;
-    background-size: cover;
-    background-position: center;
+.floating-badge {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 1;
+    width: 280px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid rgba(198, 168, 124, 0.3);
+    animation: float 6s ease-in-out infinite;
 }
 
-.img-sub {
-    width: 45%;
-    height: 55%;
-    background-size: cover;
-    background-position: center;
-    border-radius: 12px;
+.stars { color: var(--gold); font-size: 1.2rem; margin-bottom: 10px; }
+.floating-badge p { font-size: 0.85rem; color: var(--text-dark); font-style: italic; margin-bottom: 10px; line-height: 1.6;}
+.customer-name { font-size: 0.75rem; color: var(--text-muted); font-weight: 600;}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Aşağı Kaydır Animasyonu */
+.scroll-indicator {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+    animation: bounce 2s infinite;
     z-index: 2;
-    border: 8px solid var(--bg-main); /* Resmin krem arkaplanla kaynaşmasını sağlar */
-    box-shadow: -20px 20px 50px rgba(0,0,0,0.1);
 }
 
+.scroll-indicator span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; font-weight: 600;}
+
+.mouse {
+    width: 24px;
+    height: 36px;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    position: relative;
+}
+
+.mouse::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 2px;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+    40% { transform: translateY(-10px) translateX(-50%); }
+    60% { transform: translateY(-5px) translateX(-50%); }
+}
+
+/* Mobilde Düzenleme */
+@media (max-width: 968px) {
+    .hero-container { flex-direction: column; text-align: center; }
+    .hero-features { justify-content: center; }
+    .hero-buttons { justify-content: center; }
+    .video-overlay { background: rgba(10,31,21,0.7); /* Mobilde yazıları okutmak için filtreyi düzeltir */ }
+    .hero-visuals { display: none; }
+}
 /* Süzülen Müşteri Kartı */
 .floating-badge {
     position: absolute;
