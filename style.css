@@ -479,3 +479,120 @@ footer { text-align: center; padding: 40px; background: var(--emerald-dark); col
     .hero-features-minimal { justify-content: center; }
     .hero-video-side { height: 60vh; }
 }
+/* --- BOUTIQUE FRAME HERO --- */
+.hero-section {
+    min-height: 100vh;
+    background-color: #05100b; /* Çok daha derin, lüks bir koyu yeşil */
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 100px;
+}
+
+/* Sol Panel */
+.hero-content-left { flex: 1.2; }
+
+.hero-tagline {
+    color: var(--gold);
+    letter-spacing: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    display: block;
+}
+
+.hero-content-left h1 {
+    font-size: 5rem; /* Yazıları büyüttük, boşluk doldu */
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 30px;
+}
+
+.gold-text { color: var(--gold); font-style: italic; }
+
+.hero-content-left p {
+    color: #aaa;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 50px;
+    border-left: 2px solid var(--gold);
+    padding-left: 25px;
+}
+
+.stat-item { display: flex; flex-direction: column; }
+.stat-item strong { color: #fff; font-size: 1.4rem; font-family: 'Playfair Display'; }
+.stat-item span { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+
+/* Sağ Panel: Video Vitrini */
+.hero-video-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.video-window {
+    width: 380px; /* Dikey video için ideal genişlik */
+    height: 550px;
+    border: 1px solid var(--gold);
+    padding: 15px; /* Çerçeve efekti */
+    border-radius: 200px 200px 0 0; /* Modern, butik bir kavis */
+    position: relative;
+    overflow: hidden; /* KENARDAKİ BULANIKLIĞI BU SATIR GİZLER */
+}
+
+.showcase-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 185px 185px 0 0;
+}
+
+/* Butonlar */
+.hero-cta-group { display: flex; gap: 20px; }
+.btn-primary {
+    background: var(--gold);
+    color: #05100b;
+    padding: 18px 35px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: 0.4s;
+}
+.btn-outline {
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 18px 35px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: 0.4s;
+}
+.btn-primary:hover { background: #fff; }
+.btn-outline:hover { background: var(--gold); color: #05100b; border-color: var(--gold); }
+
+/* Mobilde Düzenleme */
+@media (max-width: 1024px) {
+    .hero-container { flex-direction: column; text-align: center; gap: 60px; }
+    .hero-section { padding: 120px 5% 60px; }
+    .hero-stats { justify-content: center; border-left: none; padding-left: 0; }
+    .hero-content-left h1 { font-size: 3.5rem; }
+    .video-window { width: 300px; height: 450px; }
+}
