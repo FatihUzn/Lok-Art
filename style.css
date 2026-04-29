@@ -53,10 +53,10 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 .hero-section {
     min-height: 100vh;
     background-image: 
-        linear-gradient(to right, rgba(10, 31, 21, 0.9) 0%, rgba(10, 31, 21, 0.6) 50%, rgba(0,0,0,0.2) 100%),
+        linear-gradient(to right, rgba(10, 31, 21, 0.9) 0%, rgba(10, 31, 21, 0.6) 50%, rgba(0,0,0,0.1) 100%),
         url('assets/hero_background_foto.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center 20%;
     background-attachment: fixed;
     display: flex;
     align-items: center;
