@@ -68,7 +68,7 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     align-items: center;
     position: relative;
     padding: 120px 5% 60px;
-    overflow: hidden; /* Dışarı taşan videoyu kes */
+    overflow: hidden; 
 }
 
 /* Video Konteyneri Ayarları */
@@ -78,7 +78,7 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Videoyu içeriğin arkasına at */
+    z-index: -1; 
     overflow: hidden;
 }
 
@@ -91,18 +91,17 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    object-fit: cover; /* Videonun ekranı kaplamasını (veya kesilmesini) sağlar */
+    object-fit: cover; 
 }
 
-/* Video Üzeri Filtre (Yazıların Okunması İçin Önemli) */
+/* Video Üzeri Filtre (KARARTMA TAMAMEN KALDIRILDI) */
 .video-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Filtre çok hafifletildi, videonun kendi ışığı öne çıkacak */
-    background: linear-gradient(to right, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.1) 100%); 
+    background: transparent; 
 }
 
 .hero-container {
@@ -113,7 +112,7 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     margin: 0 auto;
     width: 100%;
     gap: 50px;
-    z-index: 1; /* İçeriği filtrenin üstüne al */
+    z-index: 1; 
 }
 
 /* Sol Taraf: İçerik */
@@ -130,23 +129,25 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     display: block;
     margin-bottom: 20px;
     font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Filtre olmadığı için yazılara gölge eklendi */
 }
 
 .hero-content h1 {
     font-size: 4.5rem;
-    color: #fff; /* Videonun üstünde beyaz daha iyi durur */
+    color: #fff; 
     margin-bottom: 30px;
     font-weight: 600;
     line-height: 1.1;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6); /* Gölge güçlendirildi */
 }
 
 .hero-content p {
     font-size: 1.15rem;
-    color: #eaeaea; /* Açık gri p metni */
+    color: #fff; 
     margin-bottom: 40px;
     font-weight: 400;
     line-height: 1.7;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6); /* Gölge güçlendirildi */
 }
 
 /* Güven Veren Özellikler */
@@ -162,12 +163,12 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     align-items: center;
     font-size: 0.9rem;
     color: #fff;
-    font-weight: 400;
-    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.2); /* Video aydınlık olduğu için butonlar hafif karartıldı */
     backdrop-filter: blur(5px);
     padding: 10px 20px;
     border-radius: 30px;
-    border: 1px solid rgba(198, 168, 124, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .feature-dot {
@@ -193,7 +194,7 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 }
 
 .btn-outline {
-    background: transparent;
+    background: rgba(0,0,0,0.3);
     color: #fff;
     border: 1px solid #fff;
     padding: 16px 35px;
@@ -220,16 +221,18 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
 .hero-visuals {
     flex: 1;
     display: flex;
-    justify-content: flex-end; /* Kartı sağa yaslar */
+    justify-content: flex-end; 
 }
 
 .floating-badge {
-    background: rgba(255, 255, 255, 0.9);
+    position: relative; /* Sabit durması için relative'e çekildi */
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 25px;
     border-radius: 12px;
-    width: 280px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    width: 260px;
+    z-index: 3;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     border: 1px solid rgba(198, 168, 124, 0.3);
     animation: float 6s ease-in-out infinite;
 }
@@ -259,7 +262,7 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     z-index: 2;
 }
 
-.scroll-indicator span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; font-weight: 600;}
+.scroll-indicator span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5);}
 
 .mouse {
     width: 24px;
@@ -267,6 +270,7 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     border: 2px solid #fff;
     border-radius: 15px;
     position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .mouse::before {
@@ -292,84 +296,52 @@ nav.scrolled .cart-btn { border-color: var(--emerald-dark); color: var(--emerald
     .hero-container { flex-direction: column; text-align: center; }
     .hero-features { justify-content: center; }
     .hero-buttons { justify-content: center; }
-    .video-overlay { background: rgba(10,31,21,0.7); /* Mobilde yazıları okutmak için filtreyi düzeltir */ }
     .hero-visuals { display: none; }
 }
-/* Süzülen Müşteri Kartı */
-.floating-badge {
-    position: absolute;
-    top: 40px;
-    left: -40px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    border-radius: 12px;
-    width: 260px;
-    z-index: 3;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-    border: 1px solid rgba(198, 168, 124, 0.3);
-    animation: float 6s ease-in-out infinite;
+
+/* Filtreleme ve Ürünler */
+.products-section { padding: 100px 5%; background-color: var(--bg-main); }
+.section-title { text-align: center; font-size: 2.8rem; color: var(--emerald-dark); margin-bottom: 20px; font-weight: 500;}
+
+.filter-container { display: flex; justify-content: center; gap: 30px; margin-bottom: 60px; flex-wrap: wrap; }
+.filter-btn {
+    background: transparent; border: none; color: var(--text-muted); font-family: 'Lato', sans-serif;
+    font-size: 0.85rem; letter-spacing: 2px; cursor: pointer; padding-bottom: 5px;
+    position: relative; transition: color 0.3s; text-transform: uppercase; font-weight: 600;
 }
-
-.stars { color: var(--gold); font-size: 1.2rem; margin-bottom: 10px; }
-.floating-badge p { font-size: 0.85rem; color: var(--text-dark); font-style: italic; margin-bottom: 10px; line-height: 1.6;}
-.customer-name { font-size: 0.75rem; color: var(--text-muted); font-weight: 600;}
-
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+.filter-btn::after {
+    content: ''; position: absolute; width: 0; height: 1px;
+    bottom: 0; left: 0; background-color: var(--emerald-dark); transition: width 0.3s ease;
 }
+.filter-btn:hover, .filter-btn.active { color: var(--emerald-dark); }
+.filter-btn:hover::after, .filter-btn.active::after { width: 100%; }
 
-/* Aşağı Kaydır Animasyonu */
-.scroll-indicator {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    opacity: 0.7;
-    animation: bounce 2s infinite;
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+/* Elit Kart Tasarımı (Aydınlık Ferah Tema) */
+.product-card {
+    background: var(--bg-card); transition: all 0.5s ease; border: 1px solid rgba(0,0,0,0.03); 
+    padding-bottom: 25px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
 }
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: rgba(198, 168, 124, 0.3); }
 
-.scroll-indicator span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--emerald-dark); font-weight: 600;}
-
-.mouse {
-    width: 24px;
-    height: 36px;
-    border: 2px solid var(--emerald-dark);
-    border-radius: 15px;
-    position: relative;
+.img-container { overflow: hidden; height: 350px; margin-bottom: 25px; border-radius: 8px 8px 0 0;}
+.product-img {
+    height: 100%; width: 100%; background-position: center; background-size: cover;
+    transition: transform 1s ease; 
 }
+.product-card:hover .product-img { transform: scale(1.08); } 
 
-.mouse::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 6px;
-    background: var(--gold);
-    border-radius: 2px;
-}
+.product-info { text-align: center; padding: 0 20px; }
+.category-tag { font-size: 0.65rem; color: var(--gold); letter-spacing: 3px; display: block; margin-bottom: 12px; text-transform: uppercase;}
+.product-info h3 { color: var(--emerald-dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 600; letter-spacing: 1px;}
+.price { display: block; font-size: 1.1rem; color: var(--text-dark); font-weight: 400; margin-bottom: 20px;}
 
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-    40% { transform: translateY(-10px) translateX(-50%); }
-    60% { transform: translateY(-5px) translateX(-50%); }
+.btn-secondary {
+    background: transparent; color: var(--emerald-dark); border: 1px solid rgba(10, 31, 21, 0.2);
+    padding: 12px 0; width: 100%; font-size: 0.8rem; cursor: pointer; transition: all 0.4s; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
 }
-
-/* Mobilde Düzenleme */
-@media (max-width: 968px) {
-    .hero-container { flex-direction: column; text-align: center; }
-    .hero-features { justify-content: center; }
-    .hero-buttons { justify-content: center; }
-    .hero-visuals { display: none; /* Mobilde çok karışık durmaması için görselleri gizleyebiliriz veya küçültebiliriz */ }
-}
+.btn-secondary:hover { border-color: var(--emerald-dark); background: var(--emerald-dark); color: #fff; }
 
 /* KENDİ KUTUNU YARAT MODÜLÜ (Aydınlık Tema) */
 .custom-box-section { padding: 100px 5%; background-color: #fff; border-top: 1px solid rgba(0,0,0,0.05); }
