@@ -560,3 +560,59 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
 .marquee-wrapper:hover .marquee-content {
     animation-play-state: paused;
 }
+/* --- 2. ÖZEL İMLEÇ (CUSTOM CURSOR) --- */
+/* Masaüstünde varsayılan imleci gizle */
+@media (pointer: fine) {
+    body, a, button, select, input, textarea {
+        cursor: none !important;
+    }
+}
+
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none; /* Fare tıklamalarının altındaki elemente geçmesi için kritik */
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+}
+
+.cursor-ring {
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(198, 168, 124, 0.6); /* Altın rengi şeffaf çember */
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+}
+
+/* Linklerin veya butonların üzerine gelince çemberin alacağı form */
+.cursor-ring.hovered {
+    width: 55px;
+    height: 55px;
+    background-color: rgba(198, 168, 124, 0.1);
+    border-color: transparent;
+}
+
+/* Mobilde imleci gizle */
+@media (max-width: 768px) {
+    .cursor-dot, .cursor-ring { display: none !important; }
+}
+
+/* --- 4. MANYETİK BUTONLAR (MAGNETIC HOVER) --- */
+.magnetic-btn {
+    /* JS'den gelen transform değerinin yaylanarak yerine dönmesi için */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.magnetic-btn:hover {
+    /* Mouse üzerindeyken gecikme olmasın, anında takip etsin */
+    transition: transform 0.1s linear, background 0.3s, color 0.3s, border-color 0.3s;
+}

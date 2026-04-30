@@ -229,3 +229,75 @@ function updateBoxUI() {
         btn.classList.remove('glow-effect');
     }
 }
+// ==========================================
+// MİKRO-ETKİLEŞİMLER (CURSOR & MAGNETIC)
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. ÖZEL İMLEÇ MATEMATİĞİ
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+    
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    // Fare hareketini dinle
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Merkezdeki altın nokta fareyi "anında" takip eder
+        if(cursorDot) {
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        }
+    });
+
+    // Çemberin "yaylanarak" gelmesi için animasyon döngüsü (Linear Interpolation)
+    function animateRing() {
+        ringX += (mouseX - ringX) * 0.15; // 0.15 takip hızıdır.
+        ringY += (mouseY - ringY) * 0.15;
+        
+        if(cursorRing) {
+            cursorRing.style.left = `${ringX}px`;
+            cursorRing.style.top = `${ringY}px`;
+        }
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Tıklanabilir elementlerde imleci büyütme
+    const interactables = document.querySelectorAll('a, button, .filter-btn, select, .option-card, .box-slot');
+    interactables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorRing?.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => cursorRing?.classList.remove('hovered'));
+    });
+
+    // 2. MANYETİK BUTON FİZİĞİ
+    const magneticElements = document.querySelectorAll('.magnetic-btn');
+    
+    magneticElements.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            // Farenin buton içindeki X ve Y koordinatları
+            const x = e.clientX - rect.left; 
+            const y = e.clientY - rect.top;  
+            
+            // Butonun merkez noktasını bul
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Merkeze olan uzaklığa göre çekim gücünü hesapla (0.3 çarpanı gücü belirler)
+            const deltaX = (x - centerX) * 0.3; 
+            const deltaY = (y - centerY) * 0.3;
+            
+            // Butonu fareye doğru kaydır
+            btn.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        });
+        
+        // Fare butondan çıkınca yaylanarak (CSS'teki cubic-bezier sayesinde) merkeze dönsün
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = `translate(0px, 0px)`;
+        });
+    });
+});
