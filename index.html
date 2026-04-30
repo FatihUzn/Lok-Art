@@ -94,28 +94,44 @@
     </div>
 
     <!-- 1. ÜRÜNLER KISMINI ŞU ŞEKİLDE GÜNCELLE -->
+    <!-- ==========================================
+         LOK-ART: THE MASTER MIX MİMARİSİ (ŞASE)
+         ========================================== -->
     <section id="products" class="products-section">
-        <!-- Yeni Filtre ve Sıralama Kontrol Paneli -->
-        <div class="shop-controls">
-            <div class="filter-container">
-                <button class="filter-btn active" data-filter="all">Tüm Koleksiyon</button>
-                <button class="filter-btn" data-filter="Hediye Kutuları">İmza Kutular</button>
-                <button class="filter-btn" data-filter="Sarma Lokum">Sarmalar</button>
-                <button class="filter-btn" data-filter="Çay & Kahve">Kahve Seçkisi</button>
-            </div>
-            
-            <!-- Yeni Sıralama Dropdown'u -->
-            <div class="sort-container">
-                <select id="sortSelect" class="sort-dropdown">
-                    <option value="default">Önerilen</option>
-                    <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
-                    <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
-                </select>
+        
+        <!-- 1. PRESTİJ: COVERFLOW (Sadece En Elit Ürünler) -->
+        <div class="premium-showcase">
+            <h2 class="section-title">İmza Koleksiyon</h2>
+            <div id="coverflow-container">
+                <!-- app.js burayı Coverflow mantığıyla dolduracak -->
             </div>
         </div>
 
-        <div class="product-grid" id="products-container">
-            <!-- JS burayı dolduracak -->
+        <!-- 2. KEŞİF: NETFLIX RAFLARI (Kategorik Yatay Akış) -->
+        <div class="category-shelves">
+            <div class="shelf">
+                <h3 class="shelf-title">Sarmalar <span class="swipe-hint">kaydır &rarr;</span></h3>
+                <div id="shelf-sarmalar" class="shelf-container"></div>
+            </div>
+            <div class="shelf">
+                <h3 class="shelf-title">Parmak Lokumlar <span class="swipe-hint">kaydır &rarr;</span></h3>
+                <div id="shelf-parmak" class="shelf-container"></div>
+            </div>
+        </div>
+
+        <!-- 3. ENVANTER: SATIR VE İKON (Hızlı Tarama Listesi) -->
+        <div class="full-inventory">
+            <h2 class="section-title">Tüm Koleksiyon</h2>
+            <div class="shop-controls">
+                <div class="filter-container">
+                    <button class="filter-btn active" data-filter="all">Tümü</button>
+                    <button class="filter-btn" data-filter="Sarma">Sarma</button>
+                    <button class="filter-btn" data-filter="Parmak">Parmak</button>
+                </div>
+            </div>
+            <div id="list-container" class="minimal-list">
+                <!-- 100+ ürün buraya jilet gibi dizilecek -->
+            </div>
         </div>
     </section>
 
@@ -352,6 +368,11 @@
             </div>
         </div>
         <button class="btn-primary magnetic-btn" style="padding: 8px 20px; font-size: 0.8rem;" onclick="alert('Ödeme sistemine bağlanıyor...')">Siparişi Tamamla</button>
+    </div>
+    <!-- ETKİLEŞİM KATMANI: APPLE SHEET (ALT ÇEKMECE) -->
+    <div id="apple-sheet-modal" class="bottom-sheet hidden">
+        <div class="sheet-grabber"></div> 
+        <div id="sheet-content"></div>
     </div>
     <script src="app.js"></script>
     

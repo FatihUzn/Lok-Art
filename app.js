@@ -92,55 +92,273 @@ function applySortingAndRender() {
     renderProducts(productsToRender);
 }
 
-// Ürünleri Ekrana Çizme (PRO REVİZYONU - Hatalar Giderildi)
+// ==========================================
+// THE MASTER ROUTER (AKILLI DAĞITICI)
+// ==========================================
+
+// Eski renderProducts fonksiyonunun yerine bu geliyor!
 function renderProducts(productsToRender) {
-    const container = document.getElementById('products-container');
-    if (!container) return; // Güvenlik kontrolü
+    // 1. İSTASYONLARI (HTML KONTEYNERLERİNİ) SEÇ VE TEMİZLE
+    const containerFullList = document.getElementById('list-container');
+    const containerCoverflow = document.getElementById('coverflow-container');
+    const containerShelfSarma = document.getElementById('shelf-sarmalar');
+    const containerShelfParmak = document.getElementById('shelf-parmak');
     
-    container.innerHTML = ''; 
+    if (containerFullList) containerFullList.innerHTML = '';
+    if (containerCoverflow) containerCoverflow.innerHTML = '';
+    if (containerShelfSarma) containerShelfSarma.innerHTML = '';
+    if (containerShelfParmak) containerShelfParmak.innerHTML = '';
 
-    // Performans için ilk etapta 40 ürün gösterelim (100+ ürün için ideal)
-    const displayProducts = productsToRender.slice(0, 40); 
-
+    // ==========================================
+    // MODÜL 5: SATIR VE İKON (TÜM LİSTE)
+    // ==========================================
+    // Burası değişmedi, 100 ürünü olduğu gibi minimalist listeye basıyor
+    const displayProducts = productsToRender.slice(0, 100); 
+    
     displayProducts.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card reveal';
-        
-        // Pro-Minimalist Satır Yapısı
-        productCard.innerHTML = `
-            <div class="img-container">
-                <div class="product-img" style="background-image: url('${product.image}'); opacity: 1;"></div>
+        const item = document.createElement('div');
+        item.className = 'list-item reveal';
+        item.innerHTML = `
+            <div class="list-img-wrapper">
+                <img src="${product.image}" class="list-img" alt="${product.name}">
             </div>
-            <div class="product-info">
-                <span class="category-tag">${product.category}</span>
+            <div class="list-info">
+                <span class="list-category">${product.category}</span>
+                <h3 class="list-title">${product.name}</h3>
+            </div>
+            <div class="list-action-group">
+                <span class="list-price">${product.price}</span>
+                <button class="list-add-btn">+</button>
+            </div>
+        `;
+        
+        // Tıklanınca yeni Apple Sheet (Alt Çekmece) açılsın
+        item.addEventListener('click', () => openAppleSheet(product));
+        if (containerFullList) containerFullList.appendChild(item);
+    });
+
+    // ==========================================
+    // MODÜL 4: NETFLIX RAFLARI (YATAY AKIŞ)
+    // ==========================================
+    // Sarmaları bul ve rafa diz
+    const sarmalar = allProducts.filter(p => p.category.toLowerCase().includes('sarma'));
+    sarmalar.slice(0, 10).forEach(product => {
+        const card = createNetflixCard(product);
+        if (containerShelfSarma) containerShelfSarma.appendChild(card);
+    });
+
+    // Parmak lokumları bul ve rafa diz
+    const parmaklar = allProducts.filter(p => p.category.toLowerCase().includes('parmak'));
+    parmaklar.slice(0, 10).forEach(product => {
+        const card = createNetflixCard(product);
+        if (containerShelfParmak) containerShelfParmak.appendChild(card);
+    });
+
+    // ==========================================
+    // MODÜL 2: COVERFLOW (PRESTİJ VİTRİNİ)
+    // ==========================================
+    // Fiyatı en yüksek 5 ürünü bul
+    const premiumProducts = [...allProducts].sort((a, b) => parsePrice(b.price) - parsePrice(a.price)).slice(0, 5);
+    
+    premiumProducts.forEach((product, index) => {
+        const cCard = document.createElement('div');
+        // İlk kart "active", ikincisi "next", sonuncusu "prev" olsun
+        let cClass = 'hidden-card';
+        if(index === 0) cClass = 'active';
+        else if(index === 1) cClass = 'next';
+        else if(index === premiumProducts.length - 1) cClass = 'prev';
+        
+        cCard.className = `coverflow-card ${cClass}`;
+        cCard.innerHTML = `
+            <div class="coverflow-img" style="background-image: url('${product.image}')"></div>
+            <div class="coverflow-info">
                 <h3>${product.name}</h3>
                 <span class="price">${product.price}</span>
             </div>
         `;
-
-        // Mobilde dokunulduğunda Modal açma ve Haptic geri bildirim
-        productCard.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                openModal(product.name, product.price, product.image, product.category);
-                if (typeof triggerHaptic === 'function') triggerHaptic(30);
-            }
-        });
-
-        container.appendChild(productCard);
+        cCard.addEventListener('click', () => openAppleSheet(product));
+        if(containerCoverflow) containerCoverflow.appendChild(cCard);
     });
 
-    // Animasyon Gözlemcisini (Reveal) tekrar başlat
+    // Sayfa yüklenince Coverflow animasyon motorunu çalıştır
+    initCoverflowLogic();
+
+    // ==========================================
+    // REVEAL ANİMASYONUNU TETİKLE
+    // ==========================================
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if(entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
+            if(entry.isIntersecting) entry.target.classList.add('active');
         });
     }, { threshold: 0.1 }); 
-
     revealElements.forEach(el => observer.observe(el));
 }
+
+// ------------------------------------------
+// YARDIMCI FABRİKA FONKSİYONU: NETFLIX KARTI ÜRETİCİSİ
+function createNetflixCard(product) {
+    const card = document.createElement('div');
+    card.className = 'netflix-card';
+    card.innerHTML = `
+        <div class="netflix-img-container">
+            <img src="${product.image}" class="netflix-img" alt="${product.name}">
+        </div>
+        <div class="netflix-info">
+            <div>
+                <div class="netflix-category">${product.category}</div>
+                <h3 class="netflix-title">${product.name}</h3>
+            </div>
+            <div class="netflix-price">${product.price}</div>
+        </div>
+    `;
+    card.addEventListener('click', () => openAppleSheet(product));
+    return card;
+}
+
+// ------------------------------------------
+// MODÜL 1: APPLE SHEET (ALT ÇEKMECE) KONTROLCÜSÜ
+function openAppleSheet(product) {
+    const sheet = document.getElementById('apple-sheet-modal');
+    const sheetContent = document.getElementById('sheet-content');
+    
+    if(!sheet || !sheetContent) return;
+
+    // Eğer arkada karanlık overlay yoksa oluştur (Sadece 1 kere)
+    let overlay = document.getElementById('sheet-overlay-bg');
+    if(!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'sheet-overlay-bg';
+        overlay.className = 'sheet-overlay';
+        document.body.appendChild(overlay);
+        // Boşluğa tıklayınca çekmeceyi kapat
+        overlay.addEventListener('click', closeAppleSheet);
+    }
+
+    // Çekmece içeriğini ürüne göre dinamik doldur
+    sheetContent.innerHTML = `
+        <div class="sheet-img" style="background-image: url('${product.image}')"></div>
+        <div class="sheet-info">
+            <span class="list-category" style="margin-bottom:0;">${product.category}</span>
+            <h3>${product.name}</h3>
+            <p>1. Sınıf %100 doğal içerik, glikozsuz üretim.</p>
+            <div class="sheet-action">
+                <span class="sheet-price">${product.price}</span>
+                <button class="sheet-add-btn" onclick="addToCart('${product.name}'); closeAppleSheet();">Sepete Ekle</button>
+            </div>
+        </div>
+    `;
+
+    // Çekmeceyi ve perdeyi yukarı çek
+    sheet.classList.add('active');
+    overlay.classList.add('active');
+    
+    if (typeof triggerHaptic === 'function') triggerHaptic(30);
+}
+
+function closeAppleSheet() {
+    const sheet = document.getElementById('apple-sheet-modal');
+    const overlay = document.getElementById('sheet-overlay-bg');
+    if(sheet) sheet.classList.remove('active');
+    if(overlay) overlay.classList.remove('active');
+}
+
+// Çekmeceyi üst çizgisinden (Grabber) tutup aşağı çekerek kapatma fizikleri
+document.addEventListener('DOMContentLoaded', () => {
+    const sheet = document.getElementById('apple-sheet-modal');
+    const grabber = document.querySelector('.sheet-grabber');
+    
+    if(sheet && grabber) {
+        let isDragging = false;
+        let startY = 0;
+
+        grabber.addEventListener('mousedown', (e) => { isDragging = true; startY = e.clientY; });
+        grabber.addEventListener('touchstart', (e) => { isDragging = true; startY = e.touches[0].clientY; });
+        
+        window.addEventListener('mouseup', () => { isDragging = false; sheet.style.transform = ''; });
+        window.addEventListener('touchend', () => { isDragging = false; sheet.style.transform = ''; });
+
+        window.addEventListener('mousemove', (e) => handleDrag(e.clientY));
+        window.addEventListener('touchmove', (e) => handleDrag(e.touches[0].clientY));
+
+        function handleDrag(clientY) {
+            if(!isDragging) return;
+            const deltaY = clientY - startY;
+            if(deltaY > 0) { // Sadece aşağı çekmeye izin ver
+                sheet.style.transform = `translateY(${deltaY}px)`;
+                if(deltaY > 100) { // Yeterince aşağı çekildiyse kapat
+                    isDragging = false;
+                    sheet.style.transform = '';
+                    closeAppleSheet();
+                }
+            }
+        }
+    }
+});
+
+// ------------------------------------------
+// MODÜL 2: COVERFLOW 3D HAREKET MOTORU
+function initCoverflowLogic() {
+    const cards = document.querySelectorAll('.coverflow-card');
+    if(cards.length === 0) return;
+
+    cards.forEach((card, index) => {
+        card.addEventListener('click', function(e) {
+            // Apple Sheet'in açılmasını (satır 104) engelleme, önce 3D dönüşü yap
+            // Eğer kart zaten ortadaysa (active) hiçbir şey yapma, bırak Apple Sheet açılsın
+            if (this.classList.contains('active')) return;
+            
+            // Eğer kart yanlardaysa, ortaya al (Apple Sheet açılmasını geçici olarak engelle)
+            e.stopPropagation(); 
+
+            cards.forEach(c => c.className = 'coverflow-card hidden-card'); // Hepsini gizle
+
+            this.className = 'coverflow-card active'; // Tıklananı merkeze al
+            
+            // Sol ve sağdaki kartları ayarla
+            const prevIndex = (index - 1 + cards.length) % cards.length;
+            const nextIndex = (index + 1) % cards.length;
+
+            cards[prevIndex].className = 'coverflow-card prev';
+            cards[nextIndex].className = 'coverflow-card next';
+            
+            if (typeof triggerHaptic === 'function') triggerHaptic(20);
+        });
+    });
+}
+// ==========================================
+    // MODÜL 3: HAUTE COUTURE (SANATSAL BLOK)
+    // ==========================================
+    const containerHauteCouture = document.getElementById('haute-couture-container');
+    if (containerHauteCouture) {
+        containerHauteCouture.innerHTML = '';
+        
+        // İsmi çok uzun olmayan, rastgele veya özel bir kategorideki 3 ürünü seçelim
+        // Örnek: "Gül" geçenleri veya Hediye Kutularını alalım
+        const coutureProducts = allProducts.filter(p => p.name.includes('Gül') || p.category.includes('Hediye')).slice(0, 3);
+        
+        coutureProducts.forEach(product => {
+            const coutureItem = document.createElement('div');
+            coutureItem.className = 'couture-item reveal';
+            coutureItem.innerHTML = `
+                <div class="couture-img-wrapper">
+                    <img src="${product.image}" class="couture-img" alt="${product.name}">
+                </div>
+                <div class="couture-info">
+                    <div class="couture-tag">${product.category}</div>
+                    <h3 class="couture-title">${product.name}</h3>
+                    <div class="couture-subtitle">Özel Seri</div>
+                    <div class="couture-price-row">
+                        <div class="couture-line"></div>
+                        <span class="couture-price">${product.price}</span>
+                    </div>
+                </div>
+            `;
+            // Tıklayınca yine Apple Sheet açılsın
+            coutureItem.addEventListener('click', () => openAppleSheet(product));
+            containerHauteCouture.appendChild(coutureItem);
+        });
+    }
 
 // --- SEPET VE BİLDİRİM (TOAST) SİSTEMİ ---
 let cartTotal = 0;
