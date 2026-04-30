@@ -616,3 +616,70 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
     /* Mouse üzerindeyken gecikme olmasın, anında takip etsin */
     transition: transform 0.1s linear, background 0.3s, color 0.3s, border-color 0.3s;
 }
+/* ==========================================
+   YENİ PREMIUM EKLENTİLER (TILT, KARA KALEM, MODAL)
+   ========================================== */
+
+/* --- 1. 3D TILT EFEKTİ ZEMİNİ --- */
+.product-card, .b2b-glass-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.product-info, .b2b-form {
+    transform: translateZ(40px); /* İçerik karttan öne doğru fırlar, derinlik katar */
+}
+
+/* --- 2. KARA KALEM (CHARCOAL SKETCH) DOKUSU --- */
+.products-section { position: relative; z-index: 1; }
+.products-section::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    /* Harici .png dosyası yerine doğrudan koda gömülü zarif kağıt/karakalem dokusu */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: 0.5; /* Dokunun belirginliğini buradan kısabilir veya açabilirsin */
+    pointer-events: none; z-index: -1;
+}
+
+/* Modaldaki arka planı da aynı dokuyla güncelliyoruz */
+.modal-glass-content {
+    background-color: var(--bg-main);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    /* ... (Diğer modal-glass-content özellikleri aynı kalacak) ... */
+}
+
+/* --- 4. HIZLI BAKIŞ MODALI (QUICK VIEW) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 31, 21, 0.85); backdrop-filter: blur(15px);
+    z-index: 99999; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: 0.4s ease;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+
+.modal-glass-content {
+    background: var(--bg-main); width: 90%; max-width: 900px;
+    border-radius: 20px; display: flex; overflow: hidden;
+    position: relative; transform: scale(0.95) translateY(20px); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    /* Modala da ince bir kara kalem dokusu ekliyoruz */
+    background-image: url('assets/charcoal_sketch.png');
+    background-size: 300px; background-blend-mode: multiply;
+}
+.modal-overlay.active .modal-glass-content { transform: scale(1) translateY(0); }
+
+.close-modal {
+    position: absolute; top: 20px; right: 20px; background: #fff;
+    border: 1px solid rgba(198, 168, 124, 0.3); width: 45px; height: 45px; border-radius: 50%;
+    font-size: 1.2rem; cursor: pointer; transition: 0.3s; z-index: 10; color: var(--text-dark);
+}
+.close-modal:hover { background: var(--gold); color: #fff; transform: rotate(90deg); }
+
+.modal-split { display: flex; width: 100%; }
+.modal-img-side { flex: 1.2; min-height: 450px; background-size: cover; background-position: center; }
+.modal-info-side { flex: 1; padding: 60px 50px; display: flex; flex-direction: column; justify-content: center; background: rgba(250, 249, 246, 0.95); }
+.modal-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; }
+
+@media (max-width: 768px) {
+    .modal-split { flex-direction: column; }
+    .modal-img-side { min-height: 250px; }
+    .modal-info-side { padding: 30px; }
+}

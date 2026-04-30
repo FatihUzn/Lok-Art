@@ -279,5 +279,23 @@
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
 
+
+    <!-- 4. HIZLI BAKIŞ (QUICK VIEW) LÜKS MODALI -->
+    <div id="quick-modal" class="modal-overlay">
+        <div class="modal-glass-content">
+            <button class="close-modal" onclick="closeModal()">✕</button>
+            <div class="modal-split">
+                <div class="modal-img-side" id="modal-img"></div>
+                <div class="modal-info-side">
+                    <span class="category-tag" id="modal-category"></span>
+                    <h2 id="modal-title" style="color: var(--emerald-dark); margin-bottom:15px; font-size: 2.2rem;"></h2>
+                    <p class="modal-desc">Geleneksel yöntemlerle, odun ateşinde pişirilmiş el yapımı premium lezzet. İçeriğinde sıfır glikoz ve %100 doğal kaynak suyu kullanılmıştır. Usta ellerden çıkan bu sanat eseri, damaklarınızda unutulmaz bir iz bırakacak.</p>
+                    <h3 id="modal-price" style="color: var(--gold); margin: 25px 0; font-size: 1.8rem;"></h3>
+                    <button class="btn-primary magnetic-btn" id="modal-add-btn" style="width:100%;">Sepete Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

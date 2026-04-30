@@ -102,7 +102,10 @@ function renderProducts(productsToRender) {
                     <span class="category-tag">${product.category}</span>
                     <h3>${product.name}</h3>
                     <span class="price">${product.price}</span>
-                    <button class="btn-secondary" onclick="addToCart('${product.name}')">Sepete Ekle</button>
+                    <div style="display:flex; gap:10px; justify-content:center; width: 80%; margin: 0 auto;">
+        <button class="btn-secondary magnetic-btn" style="flex:1; padding:10px;" onclick="openModal('${product.name}', '${product.price}', '${product.image}', '${product.category}')">İncele</button>
+        <button class="btn-primary magnetic-btn" style="flex:1; padding:10px; font-size: 0.8rem;" onclick="addToCart('${product.name}')">Sepete</button>
+    </div>
                 </div>
             </div>
         `;
@@ -300,4 +303,87 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.transform = `translate(0px, 0px)`;
         });
     });
+});
+
+// ==========================================
+// YENİ PREMIUM EKLENTİLER (TILT, ASMR, MODAL)
+// ==========================================
+
+// 3. ASMR SES TASARIMI (Web Audio)
+// assets klasörüne zarif, tok bir tık sesi (drop.mp3) eklediğini varsayıyoruz.
+const dropSound = new Audio('assets/drop.mp3'); 
+dropSound.volume = 0.3; // Çok bağırmasın, asil bir tok ses olsun
+
+// Kutuyu Yarat kısmındaki addToBox fonksiyonunu modifiye ediyoruz:
+const originalAddToBox = window.addToBox; // Eski fonksiyonu yedekle
+window.addToBox = function(name, image, price) {
+    if (boxItems.length < MAX_BOX_SIZE) {
+        // Yeni lokum eklenirken ASMR sesini çal
+        dropSound.currentTime = 0; 
+        dropSound.play().catch(e => console.log("Tarayıcı ses kısıtlaması"));
+    }
+    // Asıl ekleme işlemini yap
+    originalAddToBox(name, image, price);
+}
+
+// 4. HIZLI BAKIŞ MODALI FONKSİYONLARI
+window.openModal = function(name, price, image, category) {
+    document.getElementById('modal-title').innerText = name;
+    document.getElementById('modal-price').innerText = price;
+    document.getElementById('modal-category').innerText = category;
+    document.getElementById('modal-img').style.backgroundImage = `url('${image}')`;
+    
+    // Modal içindeki Sepete Ekle butonunu dinamik olarak bu ürüne bağla
+    const addBtn = document.getElementById('modal-add-btn');
+    addBtn.onclick = function() {
+        addToCart(name);
+        closeModal();
+    };
+
+    document.getElementById('quick-modal').classList.add('active');
+}
+
+window.closeModal = function() {
+    document.getElementById('quick-modal').classList.remove('active');
+}
+
+// 1. 3D TILT EFEKTİ (Fiziksel Derinlik Matematiği)
+function initTiltEffect() {
+    const cards = document.querySelectorAll('.product-card, .b2b-glass-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            // Farenin kart içindeki konumu
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Merkeze göre uzaklık hesaplama
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // X ve Y eksenindeki eğim derecesi (maksimum 12 derece)
+            const rotateX = ((y - centerY) / centerY) * -12; 
+            const rotateY = ((x - centerX) / centerX) * 12;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        // Fare çıkınca eski haline yaylanarak dön
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.transition = `transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
+        });
+        
+        // Fare tekrar girince transition'ı kaldır ki anında takip etsin
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = `none`;
+        });
+    });
+}
+
+// Ürünler ekrana çizildikten sonra tilt efektini başlatmak için 
+// setTimeout ile küçük bir gecikme veriyoruz.
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initTiltEffect, 1000); 
 });
