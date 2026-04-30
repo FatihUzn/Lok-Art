@@ -78,8 +78,12 @@ function parsePrice(priceStr) {
 }
 
 // Sıralamayı Uygulayıp Ekrana Basan Ana Fonksiyon
+// Sıralamayı Uygulayıp Ekrana Basan Ana Fonksiyon
 function applySortingAndRender() {
-    const sortVal = document.getElementById('sortSelect').value;
+    // GÜVENLİK KALKANI: Eğer sortSelect HTML'de yoksa sistemi çökertme, varsayılan (default) kabul et.
+    const sortSelectElement = document.getElementById('sortSelect');
+    const sortVal = sortSelectElement ? sortSelectElement.value : 'default'; 
+    
     let productsToRender = [...currentFilteredProducts];
 
     if (sortVal === 'price-asc') {
