@@ -923,51 +923,63 @@ body.theme-amber .navbar { background-color: rgba(26, 15, 20, 0.95); }
     z-index: -1;
 }
 
-/* --- MOBİL 2'Lİ (GRID) VİTRİN SİSTEMİ --- */
+/* ==========================================
+   MOBİL: APPLE COVERFLOW (YATAY CAROUSEL)
+   ========================================== */
 @media (max-width: 768px) {
-    /* Izgarayı yan yana 2 sütun yap */
+    /* 1. Dikey ızgarayı iptal edip tamamen yatay kaydırmaya çeviriyoruz */
     .product-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: x mandatory !important; /* Akıcı ve mıknatıslı kaydırma */
+        scroll-behavior: smooth !important;
+        /* İlk ve son ürünün tam ortaya gelebilmesi için kenar boşlukları (12.5vw) */
+        padding: 40px 12.5vw 80px !important; 
         gap: 15px !important;
+        position: relative;
     }
-    
-    /* Kartın iç boşluklarını ve yüksekliğini mobilde daralt */
+
+    /* 2. Scrollbar'ı tamamen gizle (Çirkin gri çubuk olmasın) */
+    .product-grid::-webkit-scrollbar { 
+        display: none !important; 
+    }
+
+    /* 3. Coverflow Kart Matematiği */
     .product-card {
-        padding-bottom: 15px !important;
-        border-radius: 8px !important;
+        flex: 0 0 75% !important; /* Ekranda her kart %75 yer kaplar */
+        scroll-snap-align: center !important; /* Parmağı çekince kart merkeze yapışır */
+        transform: scale(0.85) !important; /* Merkezde olmayanlar küçük kalır */
+        opacity: 0.4 !important; /* Yanlardaki ürünler flu bekler */
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease !important;
+        margin-bottom: 0 !important;
+        pointer-events: none; /* Sadece ortadaki karta tıklanabilsin ki yanlış ürün sepete gitmesin */
     }
-    .img-container {
-        height: 140px !important; /* Devasa resmi kibar bir boyuta çek */
+
+    /* 4. JS ile tetiklenecek "Aktif/Odaklanmış" Merkez Kart */
+    .product-card.cover-active {
+        transform: scale(1.05) !important; /* Ortaya gelen kart büyür ve öne çıkar */
+        opacity: 1 !important;
+        pointer-events: auto !important; /* Tıklanabilirlik açılır */
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15) !important;
+        border-color: var(--gold) !important; /* Odaktaki karta altın çerçeve */
     }
+
+    /* 5. Mobilde İçerik Oranları */
+    .img-container { height: 240px !important; }
+    .product-info { padding: 20px 15px !important; }
+    .product-info h3 { font-size: 1.1rem !important; margin-bottom: 8px !important; }
     
-    /* Yazıları küçültüp 2'li sisteme uydur */
-    .product-info {
-        padding: 12px 8px 0 !important;
-    }
-    .product-info h3 {
-        font-size: 0.85rem !important; /* Uzun ürün isimleri taşmasın */
-        margin-bottom: 5px !important;
-        line-height: 1.3 !important;
-    }
-    .price {
-        font-size: 0.85rem !important;
-        margin-bottom: 10px !important;
-    }
-    .category-tag {
-        font-size: 0.55rem !important;
-        margin-bottom: 8px !important;
-    }
-    
-    /* Butonları mobilde alt alta al ve incelt */
+    /* Butonları mobilde dikey ve zarif yap */
     .product-info div[style*="display:flex"] {
-        flex-direction: column !important; /* Yan yana yerine alt alta */
+        flex-direction: column !important;
+        gap: 10px !important;
         width: 100% !important;
-        gap: 5px !important;
     }
-    .product-info .btn-secondary, 
-    .product-info .btn-primary {
-        padding: 8px !important;
-        font-size: 0.75rem !important;
-        width: 100% !important;
+    .btn-secondary, .btn-primary { 
+        width: 100% !important; 
+        padding: 12px !important; 
+        font-size: 0.85rem !important; 
     }
 }
