@@ -387,3 +387,75 @@ function initTiltEffect() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(initTiltEffect, 1000); 
 });
+// ==========================================
+// 4 YENİ VİZYON: SENSÖRLER, PARALAKS VE GİZLİ KASA
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. DİNAMİK IŞIKLANDIRMA (TEMA ŞALTERİ)
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            // Buton metnini duruma göre değiştir
+            themeToggle.innerText = isDark ? '☀️ Gündüz Modu' : '🌙 Gece Modu';
+        });
+    }
+
+    // 3. PARALAKS GEZİNİM (Mekanik Kaydırma Derinliği)
+    // Sayfa aşağı kaydıkça arkadaki elementlerin farklı hızlarda hareket etmesini sağlar.
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const heroContent = document.querySelector('.hero-content-left');
+        
+        if (heroContent) {
+            // 0.4 çarpanı vites dişlisi gibidir. Sayfa inince yazılar yavaşça yukarı çıkar.
+            heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+            // Aşağı indikçe yazı zarifçe flulaşır
+            heroContent.style.opacity = 1 - (scrolled * 0.0025); 
+        }
+    });
+
+    // 4. ŞEFİN SIRRI (EASTER EGG KİLİDİ)
+    let secretKeys = [];
+    const secretCode = ['a', 'r', 't']; // A-R-T tuşlarına sırayla basılırsa
+    
+    window.addEventListener('keydown', (e) => {
+        // Kullanıcının bastığı tuşu listeye ekle
+        secretKeys.push(e.key.toLowerCase());
+        
+        // Listeyi her zaman şifrenin uzunluğunda (3 harf) tut
+        secretKeys.splice(-secretCode.length - 1, secretKeys.length - secretCode.length);
+        
+        // Eğer basılan tuşlar "art" kelimesini oluşturursa:
+        if (secretKeys.join('') === secretCode.join('')) {
+            document.getElementById('easter-egg-modal').classList.add('active');
+            secretKeys = []; // Şifreyi kırınca diziyi sıfırla
+            
+            // Eğer bir önceki adımda eklediğimiz tok ASMR sesi varsa onu çal
+            if(typeof dropSound !== 'undefined') dropSound.play();
+        }
+    });
+
+    // 2. LAZY LOAD (Bellek Optimizasyonu)
+    // Zaten .reveal ile bir sistemimiz vardı. Şimdi bu mantığı resimlere (product-img) uyguluyoruz.
+    // Tarayıcının belleğini yormamak için resim sadece ekrana girdiğinde görünür olur.
+    setTimeout(() => {
+        const lazyImages = document.querySelectorAll('.product-img, .option-img');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    observer.unobserve(entry.target); // Yüklendikten sonra takibi bırak (Performans)
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        lazyImages.forEach(img => {
+            img.classList.add('lazy-image');
+            imageObserver.observe(img);
+        });
+    }, 1500); // Ürünler ekrana basıldıktan sonra çalışması için küçük bir bekleme
+});

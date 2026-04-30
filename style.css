@@ -683,3 +683,39 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
     .modal-img-side { min-height: 250px; }
     .modal-info-side { padding: 30px; }
 }
+/* ==========================================
+   4 YENİ VİZYON: GECE MODU VE OPTİMİZASYON
+   ========================================== */
+
+/* --- 1. DİNAMİK IŞIKLANDIRMA (GECE MODU) --- */
+/* body 'dark-theme' sınıfını aldığında tüm renk değişkenleri ezilir (Override) */
+body.dark-theme {
+    --bg-main: #0a0a0a; /* Zifiri lüks siyah */
+    --text-dark: #eaeaea;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+}
+
+body.dark-theme .navbar {
+    background-color: rgba(10, 10, 10, 0.95);
+}
+
+body.dark-theme .product-card, 
+body.dark-theme .b2b-glass-card {
+    background-color: #111;
+    border-color: rgba(198, 168, 124, 0.15);
+}
+
+body.dark-theme .modal-info-side {
+    background-color: rgba(15, 15, 15, 0.98);
+}
+
+body.dark-theme .marquee-wrapper {
+    background-color: #050505;
+}
+
+/* Lazy Load efekti için başlangıç durumu */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+}
