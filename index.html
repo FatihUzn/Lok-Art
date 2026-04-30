@@ -24,6 +24,13 @@
     </div>
 
     <div class="top-bar">
+
+        <!-- Tema Seçici (Koleksiyon Renkleri) -->
+    <select id="theme-selector" style="margin-left: 20px; background: transparent; border: none; color: var(--gold); outline: none; cursor: pointer; font-family: 'Lato', sans-serif;">
+        <option value="default" style="color:#000;">✦ Klasik Zümrüt</option>
+        <option value="rose" style="color:#000;">✦ Gül Bahçesi (Rose Gold)</option>
+        <option value="amber" style="color:#000;">✦ Kehribar (Bordo)</option>
+    </select>
         <span>GLİKOZSUZ &nbsp; | &nbsp; %100 DOĞAL &nbsp; | &nbsp; <a href="#b2b" style="color:var(--gold); text-decoration:underline;">KURUMSAL SİPARİŞLER İÇİN TIKLAYIN</a></span>
     
         <span style="margin-left: 20px; cursor: pointer; color: var(--gold);" id="theme-toggle">🌙 Gece Modu</span>
@@ -61,9 +68,10 @@
 
             <div class="hero-video-right reveal active">
                 <div class="video-window">
-                    <video autoplay loop muted playsinline class="showcase-video">
-                        <source src="assets/hero_background.mp4" type="video/mp4">
-                    </video>
+                    <!-- DÜZELTİLMİŞ VİDEO ETİKETİ -->
+<video autoplay loop muted playsinline preload="metadata" class="showcase-video">
+    <source src="assets/hero_background.mp4" type="video/mp4">
+</video>
                 </div>
             </div>
 
@@ -281,7 +289,6 @@
     <div id="toast-container"></div>
 
     <!-- Script SADECE BURADA, body kapanmadan hemen önce OLMALI -->
-    <script src="app.js"></script>
   
     <!-- ÖZEL İMLEÇ (Custom Cursor) -->
     <div class="cursor-dot" id="cursor-dot"></div>
@@ -298,6 +305,11 @@
                     <span class="category-tag" id="modal-category"></span>
                     <h2 id="modal-title" style="color: var(--emerald-dark); margin-bottom:15px; font-size: 2.2rem;"></h2>
                     <p class="modal-desc">Geleneksel yöntemlerle, odun ateşinde pişirilmiş el yapımı premium lezzet. İçeriğinde sıfır glikoz ve %100 doğal kaynak suyu kullanılmıştır. Usta ellerden çıkan bu sanat eseri, damaklarınızda unutulmaz bir iz bırakacak.</p>
+                    <!-- 2. GURME EŞLEŞTİRME NOTU -->
+    <div class="gourmet-pairing">
+        <span style="font-size: 1.2rem;">☕</span> 
+        <span id="modal-pairing-text">Tadım Önerisi: Sade Türk Kahvesi veya Earl Grey Çay ile mükemmel uyum sağlar.</span>
+    </div>
                     <h3 id="modal-price" style="color: var(--gold); margin: 25px 0; font-size: 1.8rem;"></h3>
                     <button class="btn-primary magnetic-btn" id="modal-add-btn" style="width:100%;">Sepete Ekle</button>
                 </div>
@@ -314,5 +326,34 @@
             <button class="btn-outline magnetic-btn" onclick="document.getElementById('easter-egg-modal').classList.remove('active')">Kasayı Kapat</button>
         </div>
     </div>
+
+    <!-- 3. UYKU MODU (Düşük Güç Tüketimi / Ekran Koruyucu) -->
+    <div id="sleep-mode-overlay">
+        <div class="sleep-content">
+            <!-- Karakalem çizim efekti için SVG İllüstrasyonu -->
+            <svg class="sketch-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Yaprak dış hatları -->
+                <path class="sketch-path" d="M50,15 C50,15 20,40 20,70 C20,85 35,90 50,90 C65,90 80,85 80,70 C80,40 50,15 50,15 Z" fill="none" stroke="rgba(198, 168, 124, 0.6)" stroke-width="1.5"/>
+                <!-- Yaprak iç damarı -->
+                <path class="sketch-path" d="M50,15 C50,15 50,45 50,90" fill="none" stroke="rgba(198, 168, 124, 0.3)" stroke-width="1"/>
+            </svg>
+            <p style="color: var(--gold); margin-top: 25px; font-family: 'Playfair Display', serif; font-size: 1.5rem; letter-spacing: 5px;">LOK-ART</p>
+            <p style="color: rgba(255,255,255,0.3); font-size: 0.75rem; letter-spacing: 3px; margin-top: 10px;">SİSTEM UYKUSUNDA... UYANDIRMAK İÇİN DOKUNUN</p>
+        </div>
+    </div>
+
+    <!-- 1. YÜZEN AKILLI SEPET (Dynamic Island) -->
+    <div id="smart-cart-island" class="dynamic-island">
+        <div class="island-info">
+            <span class="island-icon" style="font-size: 1.2rem;">🛍️</span>
+            <div>
+                <span id="island-count" style="color: #fff; font-size: 0.9rem; margin-right: 10px;">0 Ürün</span>
+                <span id="island-total" style="color: var(--gold); font-weight: bold; font-size: 1.1rem;">0,00 TL</span>
+            </div>
+        </div>
+        <button class="btn-primary magnetic-btn" style="padding: 8px 20px; font-size: 0.8rem;" onclick="alert('Ödeme sistemine bağlanıyor...')">Siparişi Tamamla</button>
+    </div>
+    <script src="app.js"></script>
+    
 </body>
 </html>
