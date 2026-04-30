@@ -53,16 +53,30 @@
         </div>
     </header>
 
+    <!-- 1. ÜRÜNLER KISMINI ŞU ŞEKİLDE GÜNCELLE -->
     <section id="products" class="products-section">
-        <div class="filter-container">
-            <button class="filter-btn active" data-filter="all">Tüm Koleksiyon</button>
-            <button class="filter-btn" data-filter="Hediye Kutuları">İmza Kutular</button>
-            <button class="filter-btn" data-filter="Sarma Lokum">Sarmalar</button>
-            <button class="filter-btn" data-filter="Çay & Kahve">Kahve Seçkisi</button>
+        <!-- Yeni Filtre ve Sıralama Kontrol Paneli -->
+        <div class="shop-controls">
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">Tüm Koleksiyon</button>
+                <button class="filter-btn" data-filter="Hediye Kutuları">İmza Kutular</button>
+                <button class="filter-btn" data-filter="Sarma Lokum">Sarmalar</button>
+                <button class="filter-btn" data-filter="Çay & Kahve">Kahve Seçkisi</button>
+            </div>
+            
+            <!-- Yeni Sıralama Dropdown'u -->
+            <div class="sort-container">
+                <select id="sortSelect" class="sort-dropdown">
+                    <option value="default">Önerilen</option>
+                    <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+                    <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+                </select>
+            </div>
         </div>
 
         <div class="product-grid" id="products-container">
-            </div>
+            <!-- JS burayı dolduracak -->
+        </div>
     </section>
 
     <section id="custom-box" class="custom-box-section">
@@ -94,6 +108,38 @@
         </div>
     </section>
 
+    <script src="app.js"></script>
+ 
+    <!-- Yeni Kurumsal Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col brand-col">
+                <h3 class="logo" style="color: var(--gold);">LOK-ART</h3>
+                <p>Geleneksel Türk lokumunu, modern sanat ve doğal içeriklerle yeniden tanımlıyoruz. %100 doğal kaynak suyu ve hakiki bal ile, glikozsuz üretim.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Koleksiyon</h4>
+                <ul>
+                    <li><a href="#products">İmza Kutular</a></li>
+                    <li><a href="#products">Sarma Lokumlar</a></li>
+                    <li><a href="#custom-box">Kendi Kutunu Yarat</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kurumsal</h4>
+                <ul>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#">B2B Kurumsal Sipariş</a></li>
+                    <li><a href="#">İletişim</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Lok-Art Premium Turkish Delight. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Script SADECE BURADA, body kapanmadan hemen önce OLMALI -->
     <script src="app.js"></script>
 </body>
 </html>

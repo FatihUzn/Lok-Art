@@ -201,3 +201,56 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
 .video-window:hover .showcase-still {
     background-position: right center; /* Diğer lokum detayına kaysın */
 }
+/* --- YENİ EKLENEN ÖZELLİKLER (EN ALTA YAPIŞTIR) --- */
+
+/* Sıralama (Sort) Tasarımı */
+.shop-controls { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 50px; }
+.sort-dropdown { padding: 10px 15px; border: 1px solid rgba(198, 168, 124, 0.5); border-radius: 4px; background: transparent; color: var(--emerald-dark); font-family: 'Lato', sans-serif; cursor: pointer; outline: none; transition: 0.3s; }
+.sort-dropdown:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(198, 168, 124, 0.2); }
+
+/* Toast Bildirimleri (Sepete Eklendi) */
+#toast-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 9999; }
+.toast { background: var(--emerald-dark); color: #fff; padding: 15px 25px; border-radius: 6px; border-left: 4px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; font-size: 0.85rem; letter-spacing: 1px; animation: slideIn 0.5s ease forwards; opacity: 0; transform: translateX(100%); }
+.toast.fade-out { animation: fadeOut 0.5s ease forwards; }
+
+@keyframes slideIn { 
+    to { opacity: 1; transform: translateX(0); } 
+}
+@keyframes fadeOut { 
+    to { opacity: 0; transform: translateX(100%); } 
+}
+
+/* Sanal Kutu Animasyonları */
+.box-slot img { animation: boxItemDrop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+@keyframes boxItemDrop {
+    0% { opacity: 0; transform: scale(0.5) translateY(-20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Kutu Dolunca Yanan Buton (Glow Effect) */
+.btn-primary.glow-effect {
+    animation: goldGlow 2s infinite;
+    background: var(--gold-hover);
+}
+@keyframes goldGlow {
+    0% { box-shadow: 0 0 5px rgba(198, 168, 124, 0.2); }
+    50% { box-shadow: 0 0 25px rgba(198, 168, 124, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(198, 168, 124, 0.2); }
+}
+
+/* --- YENİ FOOTER TASARIMI --- */
+.site-footer { background: var(--emerald-dark); color: #eaeaea; padding: 80px 5% 30px; font-family: 'Lato', sans-serif; }
+.footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid rgba(198, 168, 124, 0.2); padding-bottom: 50px; }
+.brand-col p { font-size: 0.9rem; line-height: 1.8; margin-top: 20px; color: rgba(255,255,255,0.6); }
+.footer-col h4 { color: var(--gold); font-size: 1.1rem; margin-bottom: 25px; letter-spacing: 2px; text-transform: uppercase; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 15px; }
+.footer-col ul li a { color: rgba(255,255,255,0.7); text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
+.footer-col ul li a:hover { color: var(--gold); padding-left: 5px; }
+.footer-bottom { text-align: center; padding-top: 30px; font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+
+@media (max-width: 768px) {
+    .shop-controls { flex-direction: column; }
+    .footer-content { text-align: center; }
+    .footer-col ul li a:hover { padding-left: 0; }
+}
