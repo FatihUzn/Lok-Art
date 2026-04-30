@@ -378,3 +378,107 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
     .qr-description { text-align: center; margin-bottom: 30px; }
     .btn-primary { display: block; text-align: center; }
 }
+/* --- KURUMSAL SİPARİŞ (B2B) & GLASSMORPHISM --- */
+.b2b-section {
+    padding: 120px 5%;
+    /* Arka plana şık bir üretim veya lokum fotoğrafı gelecek */
+    background-image: url('assets/b2b_background.jpg'); 
+    background-color: #111; /* Fotoğraf yüklenene kadar koyu durması için */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Fotoğrafı biraz karartmak ve renkleri bütünleştirmek için degrade katman */
+.b2b-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(10, 31, 21, 0.95) 0%, rgba(10, 31, 21, 0.6) 50%, rgba(10, 31, 21, 1) 100%);
+    z-index: 1;
+}
+
+.b2b-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Buzlu Cam (Glassmorphism) Efekti */
+.b2b-glass-card {
+    background: rgba(10, 31, 21, 0.5); /* Yarı saydam koyu yeşil */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(198, 168, 124, 0.2);
+    border-radius: 24px;
+    padding: 70px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+
+.b2b-header { text-align: center; margin-bottom: 50px; }
+.b2b-header h2 { color: #fff; font-size: 2.8rem; margin: 15px 0; letter-spacing: -1px; }
+.b2b-header p { color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+.b2b-form { display: flex; flex-direction: column; gap: 30px; }
+.form-row { display: flex; gap: 30px; }
+
+.input-group { flex: 1; position: relative; }
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 15px 0 10px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus { border-bottom-color: var(--gold); }
+
+/* Select Menü Stilleri */
+.input-group select { color: rgba(255, 255, 255, 0.5); cursor: pointer; }
+.input-group select:focus, .input-group select:valid { color: #fff; }
+.input-group select option { background: var(--emerald-dark); color: #fff; }
+
+/* Floating Label (Hareketli Yazılar) Sistemi */
+.input-group label {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+/* Kutuya tıklandığında veya içi dolduğunda yazıyı küçültüp üste it */
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label,
+.input-group textarea:focus ~ label,
+.input-group textarea:not(:placeholder-shown) ~ label {
+    top: -12px;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .b2b-section { padding: 80px 5%; }
+    .b2b-glass-card { padding: 40px 25px; border-radius: 16px; }
+    .b2b-header h2 { font-size: 2.2rem; }
+    .form-row { flex-direction: column; gap: 30px; }
+}

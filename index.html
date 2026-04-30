@@ -154,6 +154,67 @@
             </div>
         </div>
     </section>
+
+    <!-- --- KURUMSAL SİPARİŞ (B2B) BÖLÜMÜ --- -->
+    <section id="b2b" class="b2b-section">
+        <div class="b2b-container reveal">
+            <div class="b2b-glass-card">
+                <div class="b2b-header">
+                    <span class="category-tag" style="margin-bottom: 10px;">VIP CONCIERGE</span>
+                    <h2>Kurumsal & Özel Siparişler</h2>
+                    <p>Şirketiniz, etkinlikleriniz veya özel günleriniz için Lok-Art'ın imza lezzetlerini kişiselleştirilmiş dokunuşlarla sunun.</p>
+                </div>
+                
+                <!-- Form gönderildiğinde sayfanın yenilenmesini engelleyip, önceden yazdığımız Toast bildirimini tetikliyoruz -->
+                <form class="b2b-form" onsubmit="event.preventDefault(); showToast('Talebiniz başarıyla alındı. Concierge ekibimiz en kısa sürede sizinle iletişime geçecektir.'); this.reset();">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <input type="text" id="companyName" required placeholder=" ">
+                            <label for="companyName">Firma / Kurum Adı</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="contactName" required placeholder=" ">
+                            <label for="contactName">Yetkili Kişi</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <input type="email" id="email" required placeholder=" ">
+                            <label for="email">E-Posta Adresi</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" id="phone" required placeholder=" ">
+                            <label for="phone">Telefon Numarası</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group select-group">
+                            <select id="requestType" required>
+                                <option value="" disabled selected hidden>Talep Türü Seçiniz</option>
+                                <option value="corporate">Kurumsal Yılbaşı / Bayram Hediyesi</option>
+                                <option value="wedding">Düğün / Nişan / Davet</option>
+                                <option value="hotel">Otel & VIP İkramlık</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="quantity" required placeholder=" ">
+                            <label for="quantity">Tahmini Adet / Bütçe</label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <textarea id="message" rows="2" required placeholder=" "></textarea>
+                        <label for="message">Eklemek İstediğiniz Detaylar (Tarih, konsept vs.)...</label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 15px;">Teklif İste</button>
+                </form>
+            </div>
+        </div>
+    </section>
  
     <!-- Yeni Kurumsal Footer -->
     <footer class="site-footer">
