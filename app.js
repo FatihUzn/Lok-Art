@@ -459,3 +459,111 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 1500); // Ürünler ekrana basıldıktan sonra çalışması için küçük bir bekleme
 });
+// ==========================================
+// ŞAHESER EKLENTİLERİ (FİZİK MOTORU & KESME RUTİNLERİ)
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. SİSTEM KESMESİ (INTERRUPT) - Dinamik Sekme Başlığı
+    const originalTitle = document.title;
+    
+    // Kullanıcı sekmeyi terk ettiğinde (blur)
+    window.addEventListener('blur', () => {
+        document.title = '✦ Bizi Unutmayın...';
+    });
+    // Kullanıcı sekmeye geri döndüğünde (focus)
+    window.addEventListener('focus', () => {
+        document.title = originalTitle;
+    });
+
+    // 3. ÖZEL SENSÖR ÇUBUĞU (Scroll Yüzde Hesaplama)
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        
+        const progressBar = document.getElementById('scroll-progress');
+        if (progressBar) {
+            progressBar.style.width = scrolled + '%';
+        }
+    });
+
+    // 2. PARTİKÜL FİZİĞİ MOTORU (Canvas Altın Yağmuru)
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Canvas boyutlarını ekran boyutuna eşitle
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let particles = [];
+
+    // Partikül ateşleme fonksiyonu (Global yapılabilir, böylece her yerden çağrılır)
+    window.fireGoldRain = function() {
+        // 100 adet altın parçacık oluştur
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height, // Ekranın üstünden başlar
+                size: Math.random() * 6 + 2,
+                speedY: Math.random() * 4 + 2, // Yerçekimi ivmesi
+                speedX: Math.random() * 2 - 1,  // Rüzgar etkisi
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 6 - 3,
+                opacity: 1
+            });
+        }
+        animateParticles();
+    };
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Ekranı temizle
+        let activeParticles = 0;
+
+        particles.forEach(p => {
+            // Fiziksel hareket hesaplamaları
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.rotation += p.rotationSpeed;
+            p.opacity -= 0.004; // Yavaşça yok ol
+
+            // Partikülü çiz
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            ctx.fillStyle = `rgba(198, 168, 124, ${p.opacity})`; // Altın rengi
+            // Kare şeklinde (altın yaprak gibi) çiz
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); 
+            ctx.restore();
+
+            if (p.opacity > 0) activeParticles++;
+        });
+
+        // Ekranda hala parçacık varsa animasyona devam et
+        if (activeParticles > 0) {
+            requestAnimationFrame(animateParticles);
+        } else {
+            particles = []; // Belleği boşalt
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    // Altın Yağmurunu ne zaman tetikleyelim? B2B Formu gönderildiğinde!
+    const b2bForm = document.querySelector('.b2b-form');
+    if(b2bForm) {
+        b2bForm.addEventListener('submit', () => {
+            window.fireGoldRain();
+            
+            // Eğer varsa o lüks "tık" sesini de çalalım
+            if(typeof dropSound !== 'undefined') {
+                dropSound.currentTime = 0;
+                dropSound.play();
+            }
+        });
+    }
+});
