@@ -3,6 +3,20 @@ let currentFilteredProducts = []; // Sıralama yapmak için aktif listeyi tutar
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    
+    // --- PRELOADER (AÇILIŞ EKRANI) KONTROLÜ ---
+    // Sitenin tam yüklenmesini beklemek için window.onload kullanıyoruz
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            if(preloader) {
+                preloader.classList.add('hide');
+                // DOM'dan temizlemek istersen (isteğe bağlı):
+                // setTimeout(() => preloader.remove(), 1000); 
+            }
+        }, 1200); // 1.2 saniye logo ve çizgiyi izletip sonra perdeyi kaldır
+    });
+    
     // 1. Şeffaf Navigasyon Efekti
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
