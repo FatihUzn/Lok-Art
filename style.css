@@ -254,3 +254,127 @@ footer { text-align: center; padding: 60px; background: var(--emerald-dark); col
     .footer-content { text-align: center; }
     .footer-col ul li a:hover { padding-left: 0; }
 }
+/* --- QR HEDİYE DENEYİMİ CSS --- */
+.qr-experience-section {
+    background-color: var(--emerald-dark);
+    padding: 100px 5%;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(198, 168, 124, 0.2);
+}
+
+.qr-container {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 2;
+    position: relative;
+}
+
+.qr-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.mockup-frame {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 20px;
+    padding: 15px;
+    border: 1px solid rgba(198, 168, 124, 0.3);
+    background: rgba(255,255,255,0.02);
+    z-index: 2;
+}
+
+.mockup-img {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+/* Fotoğrafın arkasından gelen elit altın parlama */
+.glow-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background: var(--gold);
+    filter: blur(120px);
+    opacity: 0.15;
+    z-index: 1;
+    border-radius: 50%;
+}
+
+.qr-content {
+    flex: 1;
+}
+
+.qr-description {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+.qr-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.step-number {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(198, 168, 124, 0.1);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    transition: 0.3s;
+}
+
+.step-item:hover .step-number {
+    background: var(--gold);
+    color: var(--emerald-dark);
+}
+
+.step-text h4 {
+    color: var(--gold);
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.step-text p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Mobil Uyum */
+@media (max-width: 968px) {
+    .qr-container { flex-direction: column; gap: 50px; }
+    .qr-content .section-title, .qr-content .category-tag { text-align: center; }
+    .qr-description { text-align: center; margin-bottom: 30px; }
+    .btn-primary { display: block; text-align: center; }
+}
