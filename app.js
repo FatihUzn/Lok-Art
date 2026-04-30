@@ -96,25 +96,24 @@ function applySortingAndRender() {
 // THE MASTER ROUTER (AKILLI DAĞITICI)
 // ==========================================
 
-// Eski renderProducts fonksiyonunun yerine bu geliyor!
 function renderProducts(productsToRender) {
     // 1. İSTASYONLARI (HTML KONTEYNERLERİNİ) SEÇ VE TEMİZLE
     const containerFullList = document.getElementById('list-container');
     const containerCoverflow = document.getElementById('coverflow-container');
     const containerShelfSarma = document.getElementById('shelf-sarmalar');
     const containerShelfParmak = document.getElementById('shelf-parmak');
+    const containerHauteCouture = document.getElementById('haute-couture-container');
     
     if (containerFullList) containerFullList.innerHTML = '';
     if (containerCoverflow) containerCoverflow.innerHTML = '';
     if (containerShelfSarma) containerShelfSarma.innerHTML = '';
     if (containerShelfParmak) containerShelfParmak.innerHTML = '';
+    if (containerHauteCouture) containerHauteCouture.innerHTML = '';
 
     // ==========================================
     // MODÜL 5: SATIR VE İKON (TÜM LİSTE)
     // ==========================================
-    // Burası değişmedi, 100 ürünü olduğu gibi minimalist listeye basıyor
     const displayProducts = productsToRender.slice(0, 100); 
-    
     displayProducts.forEach(product => {
         const item = document.createElement('div');
         item.className = 'list-item reveal';
@@ -131,8 +130,6 @@ function renderProducts(productsToRender) {
                 <button class="list-add-btn">+</button>
             </div>
         `;
-        
-        // Tıklanınca yeni Apple Sheet (Alt Çekmece) açılsın
         item.addEventListener('click', () => openAppleSheet(product));
         if (containerFullList) containerFullList.appendChild(item);
     });
@@ -140,14 +137,12 @@ function renderProducts(productsToRender) {
     // ==========================================
     // MODÜL 4: NETFLIX RAFLARI (YATAY AKIŞ)
     // ==========================================
-    // Sarmaları bul ve rafa diz
     const sarmalar = allProducts.filter(p => p.category.toLowerCase().includes('sarma'));
     sarmalar.slice(0, 10).forEach(product => {
         const card = createNetflixCard(product);
         if (containerShelfSarma) containerShelfSarma.appendChild(card);
     });
 
-    // Parmak lokumları bul ve rafa diz
     const parmaklar = allProducts.filter(p => p.category.toLowerCase().includes('parmak'));
     parmaklar.slice(0, 10).forEach(product => {
         const card = createNetflixCard(product);
@@ -157,12 +152,9 @@ function renderProducts(productsToRender) {
     // ==========================================
     // MODÜL 2: COVERFLOW (PRESTİJ VİTRİNİ)
     // ==========================================
-    // Fiyatı en yüksek 5 ürünü bul
     const premiumProducts = [...allProducts].sort((a, b) => parsePrice(b.price) - parsePrice(a.price)).slice(0, 5);
-    
     premiumProducts.forEach((product, index) => {
         const cCard = document.createElement('div');
-        // İlk kart "active", ikincisi "next", sonuncusu "prev" olsun
         let cClass = 'hidden-card';
         if(index === 0) cClass = 'active';
         else if(index === 1) cClass = 'next';
@@ -179,9 +171,34 @@ function renderProducts(productsToRender) {
         cCard.addEventListener('click', () => openAppleSheet(product));
         if(containerCoverflow) containerCoverflow.appendChild(cCard);
     });
-
-    // Sayfa yüklenince Coverflow animasyon motorunu çalıştır
     initCoverflowLogic();
+
+    // ==========================================
+    // MODÜL 3: HAUTE COUTURE (SANATSAL BLOK)
+    // ==========================================
+    if (containerHauteCouture) {
+        const coutureProducts = allProducts.filter(p => p.name.includes('Gül') || p.category.includes('Hediye')).slice(0, 3);
+        coutureProducts.forEach(product => {
+            const coutureItem = document.createElement('div');
+            coutureItem.className = 'couture-item reveal';
+            coutureItem.innerHTML = `
+                <div class="couture-img-wrapper">
+                    <img src="${product.image}" class="couture-img" alt="${product.name}">
+                </div>
+                <div class="couture-info">
+                    <div class="couture-tag">${product.category}</div>
+                    <h3 class="couture-title">${product.name}</h3>
+                    <div class="couture-subtitle">Özel Seri</div>
+                    <div class="couture-price-row">
+                        <div class="couture-line"></div>
+                        <span class="couture-price">${product.price}</span>
+                    </div>
+                </div>
+            `;
+            coutureItem.addEventListener('click', () => openAppleSheet(product));
+            containerHauteCouture.appendChild(coutureItem);
+        });
+    }
 
     // ==========================================
     // REVEAL ANİMASYONUNU TETİKLE
