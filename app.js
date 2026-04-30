@@ -117,6 +117,37 @@ function renderProducts(productsToRender) {
             </div>
         `;
         container.innerHTML += productCard;
+    // --- APPLE COVERFLOW MOTORU (SADECE MOBİL İÇİN) ---
+    if (window.innerWidth <= 768) {
+        const coverflowCards = container.querySelectorAll('.product-card');
+        
+        const updateCoverflow = () => {
+            // Kaydırma alanının merkez noktasını hesapla
+            const containerCenter = container.scrollLeft + (container.clientWidth / 2);
+            
+            coverflowCards.forEach(card => {
+                // Her bir kartın kendi merkez noktasını hesapla
+                const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+                const distance = Math.abs(containerCenter - cardCenter);
+                
+                // Eğer kart ekranın merkezine en yakın kart ise büyüt, değilse küçült
+                if (distance < card.offsetWidth / 2) {
+                    card.classList.add('cover-active');
+                } else {
+                    card.classList.remove('cover-active');
+                }
+            });
+        };
+
+        // Kullanıcı parmağıyla her kaydırdığında motoru çalıştır
+        container.addEventListener('scroll', updateCoverflow);
+        
+        // Kategori değiştirildiğinde (ürünler yeniden dizildiğinde) ilk ürünü merkeze al
+        setTimeout(() => {
+            container.scrollLeft = 0;
+            updateCoverflow();
+        }, 50);
+    }
     });
 
     // Animasyon Gözlemcisi
