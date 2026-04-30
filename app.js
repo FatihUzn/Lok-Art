@@ -414,17 +414,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. PARALAKS GEZİNİM (Mekanik Kaydırma Derinliği)
-    // Sayfa aşağı kaydıkça arkadaki elementlerin farklı hızlarda hareket etmesini sağlar.
+    // 3. PARALAKS GEZİNİM (Mekanik Kaydırma Derinliği - Sadece Masaüstü)
     window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
         const heroContent = document.querySelector('.hero-content-left');
         
-        if (heroContent) {
-            // 0.4 çarpanı vites dişlisi gibidir. Sayfa inince yazılar yavaşça yukarı çıkar.
-            heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
-            // Aşağı indikçe yazı zarifçe flulaşır
-            heroContent.style.opacity = 1 - (scrolled * 0.0025); 
+        // SADECE EKRAN BÜYÜKSE (Masaüstü) PARALAKS YAP
+        if (window.innerWidth > 768) {
+            const scrolled = window.scrollY;
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+                heroContent.style.opacity = 1 - (scrolled * 0.0025); 
+            }
+        } else {
+            // MOBİLDE İSE DOĞAL AKIŞA BIRAK (Titremeyi engelle)
+            if (heroContent) {
+                heroContent.style.transform = `none`;
+                heroContent.style.opacity = 1; 
+            }
         }
     });
 

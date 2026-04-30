@@ -903,3 +903,71 @@ body.theme-amber .navbar { background-color: rgba(26, 15, 20, 0.95); }
     transform: scale(1.08); /* Yumuşak bir yakınlaştırma */
     filter: brightness(1.1) contrast(1.1); /* Rengi canlandırır */
 }
+/* ==========================================
+   KULLANICI DENEYİMİ (UX) VE MOBİL VİTRİN DÜZELTMESİ
+   ========================================== */
+
+/* --- KAYIP KARAKALEM DOKUSUNU GERİ GETİRME --- */
+.products-section, .custom-box-section { 
+    position: relative; 
+    z-index: 1; 
+}
+.products-section::before, .custom-box-section::before {
+    content: ''; 
+    position: absolute; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* Gömülü karakalem (noise) dokusu */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: 0.8; /* Dokunun görünürlüğü artırıldı */
+    pointer-events: none; 
+    z-index: -1;
+}
+
+/* --- MOBİL 2'Lİ (GRID) VİTRİN SİSTEMİ --- */
+@media (max-width: 768px) {
+    /* Izgarayı yan yana 2 sütun yap */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
+    
+    /* Kartın iç boşluklarını ve yüksekliğini mobilde daralt */
+    .product-card {
+        padding-bottom: 15px !important;
+        border-radius: 8px !important;
+    }
+    .img-container {
+        height: 140px !important; /* Devasa resmi kibar bir boyuta çek */
+    }
+    
+    /* Yazıları küçültüp 2'li sisteme uydur */
+    .product-info {
+        padding: 12px 8px 0 !important;
+    }
+    .product-info h3 {
+        font-size: 0.85rem !important; /* Uzun ürün isimleri taşmasın */
+        margin-bottom: 5px !important;
+        line-height: 1.3 !important;
+    }
+    .price {
+        font-size: 0.85rem !important;
+        margin-bottom: 10px !important;
+    }
+    .category-tag {
+        font-size: 0.55rem !important;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Butonları mobilde alt alta al ve incelt */
+    .product-info div[style*="display:flex"] {
+        flex-direction: column !important; /* Yan yana yerine alt alta */
+        width: 100% !important;
+        gap: 5px !important;
+    }
+    .product-info .btn-secondary, 
+    .product-info .btn-primary {
+        padding: 8px !important;
+        font-size: 0.75rem !important;
+        width: 100% !important;
+    }
+}
