@@ -92,65 +92,44 @@ function applySortingAndRender() {
     renderProducts(productsToRender);
 }
 
-// Ürünleri Ekrana Çizme
+// Ürünleri Ekrana Çizme (PRO REVİZYONU - Hatalar Giderildi)
 function renderProducts(productsToRender) {
     const container = document.getElementById('products-container');
+    if (!container) return; // Güvenlik kontrolü
+    
     container.innerHTML = ''; 
 
-    const displayProducts = productsToRender.slice(0, 24); 
+    // Performans için ilk etapta 40 ürün gösterelim (100+ ürün için ideal)
+    const displayProducts = productsToRender.slice(0, 40); 
 
     displayProducts.forEach(product => {
-        const productCard = `
-            <div class="product-card reveal">
-                <div class="img-container">
-                    <div class="product-img" style="background-image: url('${product.image}');"></div>
-                </div>
-                <div class="product-info">
-                    <span class="category-tag">${product.category}</span>
-                    <h3>${product.name}</h3>
-                    <span class="price">${product.price}</span>
-                    <div style="display:flex; gap:10px; justify-content:center; width: 80%; margin: 0 auto;">
-        <button class="btn-secondary magnetic-btn" style="flex:1; padding:10px;" onclick="openModal('${product.name}', '${product.price}', '${product.image}', '${product.category}')">İncele</button>
-        <button class="btn-primary magnetic-btn" style="flex:1; padding:10px; font-size: 0.8rem;" onclick="addToCart('${product.name}')">Sepete</button>
-    </div>
-                </div>
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card reveal';
+        
+        // Pro-Minimalist Satır Yapısı
+        productCard.innerHTML = `
+            <div class="img-container">
+                <div class="product-img" style="background-image: url('${product.image}'); opacity: 1;"></div>
+            </div>
+            <div class="product-info">
+                <span class="category-tag">${product.category}</span>
+                <h3>${product.name}</h3>
+                <span class="price">${product.price}</span>
             </div>
         `;
-        container.innerHTML += productCard;
-    // --- APPLE COVERFLOW MOTORU (SADECE MOBİL İÇİN) ---
-    if (window.innerWidth <= 768) {
-        const coverflowCards = container.querySelectorAll('.product-card');
-        
-        const updateCoverflow = () => {
-            // Kaydırma alanının merkez noktasını hesapla
-            const containerCenter = container.scrollLeft + (container.clientWidth / 2);
-            
-            coverflowCards.forEach(card => {
-                // Her bir kartın kendi merkez noktasını hesapla
-                const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-                const distance = Math.abs(containerCenter - cardCenter);
-                
-                // Eğer kart ekranın merkezine en yakın kart ise büyüt, değilse küçült
-                if (distance < card.offsetWidth / 2) {
-                    card.classList.add('cover-active');
-                } else {
-                    card.classList.remove('cover-active');
-                }
-            });
-        };
 
-        // Kullanıcı parmağıyla her kaydırdığında motoru çalıştır
-        container.addEventListener('scroll', updateCoverflow);
-        
-        // Kategori değiştirildiğinde (ürünler yeniden dizildiğinde) ilk ürünü merkeze al
-        setTimeout(() => {
-            container.scrollLeft = 0;
-            updateCoverflow();
-        }, 50);
-    }
+        // Mobilde dokunulduğunda Modal açma ve Haptic geri bildirim
+        productCard.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                openModal(product.name, product.price, product.image, product.category);
+                if (typeof triggerHaptic === 'function') triggerHaptic(30);
+            }
+        });
+
+        container.appendChild(productCard);
     });
 
-    // Animasyon Gözlemcisi
+    // Animasyon Gözlemcisini (Reveal) tekrar başlat
     const revealElements = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
