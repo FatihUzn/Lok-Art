@@ -26,17 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 2. Ürünleri Çekme
-    fetch('products.json')
+    fetch('data/products.json')
         .then(response => response.json())
         .then(products => {
             allProducts = products; 
             currentFilteredProducts = [...allProducts]; // Başlangıçta hepsi var
             applySortingAndRender(); // Sıralayıp ekrana bas
-            setupBoxBuilder(allProducts); 
+                    setupBoxBuilder(allProducts); 
         })
         .catch(error => {
             console.error('Veri Hatası:', error);
-            const container = document.getElementById('products-container');
+            const container = document.getElementById('list-container');
             if(container) container.innerHTML = '<p>Ürünler yüklenemedi. Lütfen internet bağlantınızı kontrol edin.</p>';
         });
 
@@ -567,7 +567,23 @@ function setupBoxBuilder(products) {
         optionsContainer.innerHTML += optionHTML;
     });
     
-    updateBoxUI(); 
+    updateBoxUI();
+
+    // add-box-to-cart buton click handler (daha önce eksikti)
+    const addBoxBtn = document.getElementById('add-box-to-cart');
+    if (addBoxBtn) {
+        addBoxBtn.addEventListener('click', () => {
+            if (boxItems.length === 0) return;
+            const totalPrice = BOX_BASE_PRICE + boxItems.reduce((s, i) => s + parseFloat(i.price), 0);
+            const priceStr = totalPrice.toFixed(2).replace('.', ',') + ' TL';
+            const coverImg = boxItems[0]?.image || '';
+            addToCart('✦ İmza Kutu Tasarımı (' + boxItems.length + ' çeşit)', priceStr, coverImg);
+            boxItems = [];
+            updateBoxUI();
+            showToast('✓ Özel kutunuz sepete eklendi!');
+            if (typeof window.fireGoldRain === 'function') window.fireGoldRain();
+        });
+    }
 }
 
 function addToBox(name, image, price) {
