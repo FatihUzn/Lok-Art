@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 2. Ürünleri Çekme
-    fetch('data/products.json')
+    fetch('products.json')
         .then(response => response.json())
         .then(products => {
             allProducts = products; 
@@ -59,7 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Sıralama (Dropdown) Dinleyicisi
+    // 4. Sıralama Buton Dinleyicisi
+    const sortBtns = document.querySelectorAll('.sort-btn');
+    sortBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            sortBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            applySortingAndRender();
+        });
+    });
+
+    // Geriye dönük uyumluluk: eski dropdown varsa onu da dinle
     const sortSelect = document.getElementById('sortSelect');
     if(sortSelect) sortSelect.addEventListener('change', applySortingAndRender);
 }); 
@@ -78,12 +88,14 @@ function parsePrice(priceStr) {
 }
 
 // Sıralamayı Uygulayıp Ekrana Basan Ana Fonksiyon
-// Sıralamayı Uygulayıp Ekrana Basan Ana Fonksiyon
 function applySortingAndRender() {
-    // GÜVENLİK KALKANI: Eğer sortSelect HTML'de yoksa sistemi çökertme, varsayılan (default) kabul et.
+    // Aktif sort butonunu oku; yoksa eski sortSelect'e bak; o da yoksa 'default'
+    const activeSortBtn = document.querySelector('.sort-btn.active');
     const sortSelectElement = document.getElementById('sortSelect');
-    const sortVal = sortSelectElement ? sortSelectElement.value : 'default'; 
-    
+    const sortVal = activeSortBtn
+        ? activeSortBtn.getAttribute('data-sort')
+        : (sortSelectElement ? sortSelectElement.value : 'default');
+
     let productsToRender = [...currentFilteredProducts];
 
     if (sortVal === 'price-asc') {
@@ -265,7 +277,7 @@ function openAppleSheet(product) {
             <p>1. Sınıf %100 doğal içerik, glikozsuz üretim.</p>
             <div class="sheet-action">
                 <span class="sheet-price">${product.price}</span>
-                <button class="sheet-add-btn" onclick="addToCart('${product.name}'); closeAppleSheet();">Sepete Ekle</button>
+                <button class="sheet-add-btn" onclick="addToCart('${product.name}', '${product.price}', '${product.image}'); closeAppleSheet();">Sepete Ekle</button>
             </div>
         </div>
     `;
@@ -347,46 +359,86 @@ function initCoverflowLogic() {
         });
     });
 }
-// ==========================================
-    // MODÜL 3: HAUTE COUTURE (SANATSAL BLOK)
-    // ==========================================
-    const containerHauteCouture = document.getElementById('haute-couture-container');
-    if (containerHauteCouture) {
-        containerHauteCouture.innerHTML = '';
-        
-        // İsmi çok uzun olmayan, rastgele veya özel bir kategorideki 3 ürünü seçelim
-        // Örnek: "Gül" geçenleri veya Hediye Kutularını alalım
-        const coutureProducts = allProducts.filter(p => p.name.includes('Gül') || p.category.includes('Hediye')).slice(0, 3);
-        
-        coutureProducts.forEach(product => {
-            const coutureItem = document.createElement('div');
-            coutureItem.className = 'couture-item reveal';
-            coutureItem.innerHTML = `
-                <div class="couture-img-wrapper">
-                    <img src="${product.image}" class="couture-img" alt="${product.name}">
-                </div>
-                <div class="couture-info">
-                    <div class="couture-tag">${product.category}</div>
-                    <h3 class="couture-title">${product.name}</h3>
-                    <div class="couture-subtitle">Özel Seri</div>
-                    <div class="couture-price-row">
-                        <div class="couture-line"></div>
-                        <span class="couture-price">${product.price}</span>
-                    </div>
-                </div>
-            `;
-            // Tıklayınca yine Apple Sheet açılsın
-            coutureItem.addEventListener('click', () => openAppleSheet(product));
-            containerHauteCouture.appendChild(coutureItem);
-        });
+// --- SEPET VE BİLDİRİM (TOAST) SİSTEMİ ---
+let cartItems = []; // Her eleman: { name, price (sayısal TL), image }
+
+function addToCart(productName, productPrice, productImage) {
+    // Eski çağrılar sadece isim geçiyorsa price/image undefined olabilir — güvenli al
+    const priceNum = productPrice ? parsePrice(productPrice) : 0;
+    const img = productImage || '';
+
+    const existing = cartItems.find(i => i.name === productName);
+    if (existing) {
+        existing.qty = (existing.qty || 1) + 1;
+    } else {
+        cartItems.push({ name: productName, price: priceNum, image: img, qty: 1 });
     }
 
-// --- SEPET VE BİLDİRİM (TOAST) SİSTEMİ ---
-let cartTotal = 0;
-function addToCart(productName) {
-    cartTotal++;
-    document.getElementById('cart-count').innerText = cartTotal;
+    const totalQty = cartItems.reduce((s, i) => s + (i.qty || 1), 0);
+    document.getElementById('cart-count').innerText = totalQty;
     showToast(`✓ ${productName} sepete eklendi.`);
+}
+
+function getCartTotal() {
+    return cartItems.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+}
+
+function openCartModal() {
+    const modal = document.getElementById('cart-modal');
+    if (!modal) return;
+    renderCartModal();
+    modal.classList.add('active');
+}
+
+function closeCartModal() {
+    const modal = document.getElementById('cart-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+function renderCartModal() {
+    const body = document.getElementById('cart-modal-body');
+    const totalEl = document.getElementById('cart-modal-total');
+    if (!body) return;
+
+    if (cartItems.length === 0) {
+        body.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:40px 0;">Sepetiniz boş.</p>';
+        if (totalEl) totalEl.innerText = '0,00 TL';
+        return;
+    }
+
+    body.innerHTML = cartItems.map((item, idx) => `
+        <div class="cart-row">
+            <div class="cart-row-img" style="background-image:url('${item.image}')"></div>
+            <div class="cart-row-info">
+                <span class="cart-row-name">${item.name}</span>
+                <span class="cart-row-price">${(item.price * (item.qty || 1)).toLocaleString('tr-TR', {minimumFractionDigits:2})} TL</span>
+            </div>
+            <div class="cart-row-qty">
+                <button onclick="changeQty(${idx}, -1)">−</button>
+                <span>${item.qty || 1}</span>
+                <button onclick="changeQty(${idx}, 1)">+</button>
+            </div>
+            <button class="cart-row-remove" onclick="removeFromCart(${idx})">✕</button>
+        </div>
+    `).join('');
+
+    if (totalEl) totalEl.innerText = getCartTotal().toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' TL';
+}
+
+window.changeQty = function(idx, delta) {
+    if (!cartItems[idx]) return;
+    cartItems[idx].qty = (cartItems[idx].qty || 1) + delta;
+    if (cartItems[idx].qty <= 0) cartItems.splice(idx, 1);
+    const totalQty = cartItems.reduce((s, i) => s + (i.qty || 1), 0);
+    document.getElementById('cart-count').innerText = totalQty;
+    renderCartModal();
+}
+
+window.removeFromCart = function(idx) {
+    cartItems.splice(idx, 1);
+    const totalQty = cartItems.reduce((s, i) => s + (i.qty || 1), 0);
+    document.getElementById('cart-count').innerText = totalQty;
+    renderCartModal();
 }
 
 function showToast(message) {
@@ -566,9 +618,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 
 // 3. ASMR SES TASARIMI (Web Audio)
-// assets klasörüne zarif, tok bir tık sesi (drop.mp3) eklediğini varsayıyoruz.
-const dropSound = new Audio('assets/drop.mp3'); 
-dropSound.volume = 0.3; // Çok bağırmasın, asil bir tok ses olsun
+// drop.mp3 assets klasörüne eklendiğinde otomatik çalışır, yoksa sessizce geçer
+let dropSound = null;
+try {
+    dropSound = new Audio('assets/drop.mp3');
+    dropSound.volume = 0.3;
+    dropSound.load(); // Önceden yükle ama ses çalma
+} catch(e) { dropSound = null; }
 
 // Kutuyu Yarat kısmındaki addToBox fonksiyonunu modifiye ediyoruz:
 // Kutuyu Yarat kısmındaki addToBox fonksiyonunu modifiye ediyoruz:
@@ -576,7 +632,7 @@ const originalAddToBox = addToBox; // DİKKAT: window.addToBox yerine doğrudan 
 window.addToBox = function(name, image, price) {
     if (boxItems.length < MAX_BOX_SIZE) {
         // Yeni lokum eklenirken ASMR sesini çal
-        if(typeof dropSound !== 'undefined') {
+        if(dropSound !== null) {
             dropSound.currentTime = 0; 
             dropSound.play().catch(e => console.log("Tarayıcı ses kısıtlaması"));
         }
@@ -595,7 +651,7 @@ window.openModal = function(name, price, image, category) {
     // Modal içindeki Sepete Ekle butonunu dinamik olarak bu ürüne bağla
     const addBtn = document.getElementById('modal-add-btn');
     addBtn.onclick = function() {
-        addToCart(name);
+        addToCart(name, price, image);
         closeModal();
     };
 
@@ -920,22 +976,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFakeTotal = 0;
 
     setInterval(() => {
-        // En üst menüdeki sepet sayacını oku
-        const headerCartCountText = document.getElementById('cart-count')?.innerText || "0";
-        const totalItems = parseInt(headerCartCountText);
+        const totalQty = cartItems.reduce((s, i) => s + (i.qty || 1), 0);
 
         if (smartIsland) {
-            if (totalItems > 0) {
-                // Kapsülü ekrana çıkar
+            if (totalQty > 0) {
                 smartIsland.classList.add('active');
-                islandCount.innerText = `${totalItems} Ürün`;
-                
-                // Müşteriye fiyat göstermek satışı hızlandırır. 
-                // Sisteminde fiyat hesaplaması yoksa diye ortalama bir sepet tutarı gösterelim:
-                currentFakeTotal = totalItems * 450; // Örnek: Kutu başı 450 TL
-                islandTotal.innerText = `${currentFakeTotal.toLocaleString('tr-TR')} TL`;
+                islandCount.innerText = `${totalQty} Ürün`;
+                islandTotal.innerText = getCartTotal().toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' TL';
             } else {
-                // Sepet boşsa kapsülü gizle
                 smartIsland.classList.remove('active');
             }
         }

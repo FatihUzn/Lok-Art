@@ -44,7 +44,7 @@
             <li><a href="#custom-box" class="highlight-link">Kendi Kutunu Yarat</a></li>
             <li><a href="#gift-video">QR Hediye Deneyimi</a></li>
         </ul>
-        <div class="cart-btn">Sepetim (<span id="cart-count">0</span>)</div>
+        <div class="cart-btn" onclick="openCartModal()">Sepetim (<span id="cart-count">0</span>)</div>
     </nav>
 
     <header id="hero" class="hero-section">
@@ -107,6 +107,14 @@
             </div>
         </div>
 
+        <!-- 1.5 HAUTE COUTURE: LÜX DERGİ BLOĞU -->
+        <div class="haute-couture-section">
+            <h2 class="section-title">Özel Seri</h2>
+            <div id="haute-couture-container" class="haute-couture-grid">
+                <!-- app.js burayı Haute Couture mantığıyla dolduracak -->
+            </div>
+        </div>
+
         <!-- 2. KEŞİF: NETFLIX RAFLARI (Kategorik Yatay Akış) -->
         <div class="category-shelves">
             <div class="shelf">
@@ -125,8 +133,19 @@
             <div class="shop-controls">
                 <div class="filter-container">
                     <button class="filter-btn active" data-filter="all">Tümü</button>
-                    <button class="filter-btn" data-filter="Sarma">Sarma</button>
-                    <button class="filter-btn" data-filter="Parmak">Parmak</button>
+                    <button class="filter-btn" data-filter="Sarma Lokum">Sarma</button>
+                    <button class="filter-btn" data-filter="Parmak Lokum">Parmak</button>
+                    <button class="filter-btn" data-filter="Hediye Kutuları">Hediye</button>
+                    <button class="filter-btn" data-filter="Çifte Kavrulmuş">Çifte Kavrulmuş</button>
+                    <button class="filter-btn" data-filter="Sade Lokum">Sade</button>
+                    <button class="filter-btn" data-filter="Fitil Lokum">Fitil</button>
+                    <button class="filter-btn" data-filter="Drajeler">Drajeler</button>
+                </div>
+                <div class="sort-controls">
+                    <span class="sort-label">Sırala:</span>
+                    <button class="sort-btn active" data-sort="default">Varsayılan</button>
+                    <button class="sort-btn" data-sort="price-asc">↑ Ucuzdan Pahalıya</button>
+                    <button class="sort-btn" data-sort="price-desc">↓ Pahalıdan Ucuza</button>
                 </div>
             </div>
             <div id="list-container" class="minimal-list">
@@ -367,13 +386,29 @@
                 <span id="island-total" style="color: var(--gold); font-weight: bold; font-size: 1.1rem;">0,00 TL</span>
             </div>
         </div>
-        <button class="btn-primary magnetic-btn" style="padding: 8px 20px; font-size: 0.8rem;" onclick="alert('Ödeme sistemine bağlanıyor...')">Siparişi Tamamla</button>
+        <button class="btn-primary magnetic-btn" style="padding: 8px 20px; font-size: 0.8rem;" onclick="openCartModal()">Siparişi Tamamla</button>
     </div>
     <!-- ETKİLEŞİM KATMANI: APPLE SHEET (ALT ÇEKMECE) -->
     <div id="apple-sheet-modal" class="bottom-sheet hidden">
         <div class="sheet-grabber"></div> 
         <div id="sheet-content"></div>
     </div>
+    <!-- SEPET MODALI -->
+    <div id="cart-modal" class="modal-overlay">
+        <div class="cart-modal-content">
+            <button class="close-modal" onclick="closeCartModal()">✕</button>
+            <h2 class="cart-modal-title">Sepetim</h2>
+            <div id="cart-modal-body" class="cart-modal-body"></div>
+            <div class="cart-modal-footer">
+                <div class="cart-modal-total-row">
+                    <span>Toplam</span>
+                    <span id="cart-modal-total" style="color:var(--gold);font-size:1.4rem;font-weight:700;">0,00 TL</span>
+                </div>
+                <button class="btn-primary" style="width:100%;margin-top:20px;" onclick="alert('Ödeme sayfası yakında aktif olacak. 🛍️')">Ödemeye Geç</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
     
 </body>
