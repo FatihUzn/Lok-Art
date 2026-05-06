@@ -1206,153 +1206,195 @@ body.theme-amber {
     margin-top: 10px;
 }
 /* ==========================================
-   THE MASTER MIX - MODÜL 3: HAUTE COUTURE
+   THE MASTER MIX - MODÜL 3: HAUTE COUTURE (YENİ)
    ========================================== */
-.editorial-break {
-    padding: 100px 5%;
+
+/* Bölüm kapsayıcısı */
+.haute-couture-section {
+    padding: 80px 5%;
     background-color: var(--bg-main);
-    position: relative;
-    overflow: hidden;
 }
 
+/* Kartlar yatay ızgara — masaüstünde 3, tablette 2, mobilde 1 */
 #haute-couture-container {
-    max-width: 900px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
-    position: relative;
+    /* Eski ortadaki çizgi artık yok */
 }
 
-/* Ortadaki İnce Dikey Çizgi (Dergi Mizanpajı Efekti) */
-#haute-couture-container::before {
-    content: '';
-    position: absolute;
-    top: 5%;
-    bottom: 5%;
-    left: 50%;
-    width: 1px;
-    background-color: rgba(198, 168, 124, 0.3);
-    transform: translateX(-50%);
-    z-index: 0;
-}
-
-/* Her Bir Ürün Bloğu */
+/* Her bir ürün kartı */
 .couture-item {
-    display: flex;
-    align-items: center;
-    gap: 60px;
-    position: relative;
-    z-index: 1;
+    border-radius: 20px;
+    overflow: hidden;
     cursor: pointer;
+    position: relative;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.4s ease;
+    /* nth-child asimetri kaldırıldı — hepsi aynı yönde */
+    flex-direction: column !important;
 }
 
-/* Asimetrik Dağılım: Çift numaralı ürünleri sağdan sola çevir */
-.couture-item:nth-child(even) {
-    flex-direction: row-reverse;
+.couture-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(10, 31, 21, 0.15);
 }
 
-/* Görsel Alanı */
+/* Hero görsel alanı — tam kart genişliği, yüksek */
 .couture-img-wrapper {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 340px;
+    overflow: hidden;
+    flex: none;
 }
 
-/* Arka plansız duran ürün fotoğrafı (Mockup hissi) */
+/* Fotoğraf tam alanı kaplıyor */
 .couture-img {
-    width: 220px;
-    height: 220px;
-    object-fit: contain;
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
-    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: none; /* eski drop-shadow kaldırıldı */
 }
 
 .couture-item:hover .couture-img {
-    transform: scale(1.1) translateY(-10px) rotate(-5deg);
+    transform: scale(1.05); /* eski rotate(-5deg) kaldırıldı, sade zoom */
 }
 
-/* Metin Alanı */
+/* Fotoğrafın alt yarısını karatan gradient örtü */
+.couture-img-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(
+        to top,
+        rgba(10, 31, 21, 0.88) 0%,
+        rgba(10, 31, 21, 0.4) 60%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+/* Kategori + başlık + fiyat — fotoğraf üzerinde, gradient alanında */
 .couture-info {
-    flex: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px;
+    z-index: 2;
+    /* Eski text-align left/right asimetrisi kaldırıldı */
+    text-align: left !important;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 6px;
 }
 
-/* Yazıları ortadaki çizgiye doğru yaslama */
-.couture-item:nth-child(odd) .couture-info { text-align: left; }
-.couture-item:nth-child(even) .couture-info { text-align: right; }
-
 .couture-tag {
-    font-size: 0.65rem;
-    letter-spacing: 4px;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
     color: var(--gold);
     text-transform: uppercase;
-    margin-bottom: 15px;
 }
 
 .couture-title {
     font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    color: var(--emerald-dark);
+    font-size: 1.5rem;
+    color: #ffffff;
     margin: 0;
-    line-height: 1.1;
+    line-height: 1.2;
 }
 
+/* Eski "Özel Seri" alt başlık kaldırıldı, gereksiz karmaşıklık */
 .couture-subtitle {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    color: var(--gold);
-    font-style: italic;
-    margin: 5px 0 30px 0;
+    display: none;
 }
 
-/* Çizgi ve Fiyat Satırı */
+/* Fiyat satırı — çizgi kaldırıldı, sadece fiyat */
 .couture-price-row {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 0;
 }
 
-.couture-item:nth-child(even) .couture-price-row {
-    flex-direction: row-reverse;
-}
-
-/* Uzayan yatay çizgi */
 .couture-line {
-    flex: 1; /* Boşluğu otomatik doldurur */
-    height: 1px;
-    background-color: rgba(198, 168, 124, 0.4);
+    display: none; /* Eski çizgi kaldırıldı */
 }
 
 .couture-price {
     font-family: 'Lato', sans-serif;
-    font-size: 1.2rem;
-    color: var(--text-dark);
-    letter-spacing: 2px;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+    font-weight: 700;
 }
 
-/* Mobilde Dergi Görünümünü Listeye Çevir */
+/* Kartın altındaki beyaz bilgi alanı */
+.couture-footer {
+    padding: 18px 22px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.couture-footer-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    flex: 1;
+}
+
+.couture-footer-btn {
+    white-space: nowrap;
+    background: transparent;
+    border: 1px solid rgba(10, 31, 21, 0.25);
+    color: var(--emerald-dark);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.couture-footer-btn:hover {
+    background: var(--emerald-dark);
+    color: var(--gold);
+    border-color: var(--emerald-dark);
+}
+
+/* Mobil: tek sütun */
+@media (max-width: 968px) {
+    #haute-couture-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
+    #haute-couture-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .couture-img-wrapper {
+        height: 280px;
+    }
+    /* Mobilde orta dikey çizgi zaten display:none ama
+       eski kural kalıntısı varsa emin olmak için */
     #haute-couture-container::before {
-        display: none; /* Mobilde orta dikey çizgiyi gizle */
-    }
-    
-    .couture-item, .couture-item:nth-child(even) {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-
-    .couture-item:nth-child(odd) .couture-info,
-    .couture-item:nth-child(even) .couture-info {
-        text-align: center;
-    }
-
-    .couture-price-row, .couture-item:nth-child(even) .couture-price-row {
-        flex-direction: row;
-        width: 100%;
+        display: none;
     }
 }
 /* ==========================================
@@ -1418,76 +1460,141 @@ body.theme-amber {
     scrollbar-width: none;
 }
 
-/* Netflix Raf Kartı */
+/* Netflix Raf Kartı — YENİ: büyük görsel, cover mod */
 .netflix-card {
-    min-width: 260px; /* Her kartın sabit genişliği */
+    min-width: 240px;
+    max-width: 240px;
     background: #fff;
-    border-radius: 12px;
-    border: 1px solid rgba(198, 168, 124, 0.15); /* Hafif çerçeve */
+    border-radius: 16px;
+    border: 1px solid rgba(198, 168, 124, 0.12);
     overflow: hidden;
     cursor: pointer;
-    scroll-snap-align: start; /* Kaydırırken kartın başında durması için mıknatıs etkisi */
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    scroll-snap-align: start;
+    transition: transform 0.4s ease, box-shadow 0.5s ease;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
 }
 
 .netflix-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(10, 31, 21, 0.12);
 }
 
-/* Görsel Alanı */
+/* Görsel alan artık yüksek ve tam kaplıyor */
 .netflix-img-container {
-    height: 220px;
-    background-color: #fdfdfd; /* Çok açık, yumuşak bir zemin */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 300px;
+    background-color: #F7F5F2;
     overflow: hidden;
     position: relative;
 }
 
+/* Üste ince rozet bandı */
+.netflix-img-container::after {
+    content: attr(data-badge);
+    position: absolute;
+    top: 14px;
+    left: 0;
+    background: var(--emerald-dark);
+    color: var(--gold);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    text-transform: uppercase;
+}
+
+/* Görsel artık cover — tüm alanı dolduruyor */
 .netflix-img {
-    width: 140px;
-    height: 140px;
-    object-fit: contain; /* Fotoğrafın tam sığmasını sağlar */
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .netflix-card:hover .netflix-img {
-    transform: scale(1.15) rotate(-3deg);
+    transform: scale(1.06);
 }
 
-/* Bilgi Alanı */
+/* Bilgi alanı */
 .netflix-info {
-    padding: 20px;
+    padding: 18px 20px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
+    gap: 6px;
 }
 
 .netflix-category {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     color: var(--gold);
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 8px;
 }
 
 .netflix-title {
     font-size: 1.05rem;
-    color: var(--text-dark);
-    margin-bottom: 15px;
-    line-height: 1.3;
+    color: var(--emerald-dark);
+    line-height: 1.25;
     font-weight: 500;
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+}
+
+/* YENİ: ağırlık/açıklama satırı */
+.netflix-weight {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+/* Fiyat ve sepet butonu yan yana */
+.netflix-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(198, 168, 124, 0.15);
 }
 
 .netflix-price {
     font-weight: 700;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+}
+
+/* YENİ: kartın içinde küçük sepet butonu */
+.netflix-add-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(10, 31, 21, 0.2);
+    background: transparent;
     color: var(--emerald-dark);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    line-height: 1;
+}
+
+.netflix-add-btn:hover {
+    background: var(--emerald-dark);
+    color: var(--gold);
+    border-color: var(--emerald-dark);
+}
+
+/* Mobilde kart biraz daralır */
+@media (max-width: 768px) {
+    .netflix-card {
+        min-width: 200px;
+        max-width: 200px;
+    }
+    .netflix-img-container {
+        height: 240px;
+    }
 }
 /* ==========================================
    THE MASTER MIX - MODÜL 5: SATIR VE İKON (ENVANTER)
@@ -1520,78 +1627,118 @@ body.theme-amber {
     background-color: rgba(198, 168, 124, 0.04); /* Üzerine gelince hafif bir VIP ışıltı */
 }
 
-/* Sol Taraf: Dairesel İkon */
+/* Thumbnail — kare, cover mod */
 .list-img-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid var(--gold);
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    border: 1px solid rgba(198, 168, 124, 0.25);
     overflow: hidden;
-    margin-right: 25px;
+    margin-right: 20px;
     flex-shrink: 0;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #F7F5F2;
 }
 
+/* Görsel artık kareyi tam dolduruyor */
 .list-img {
-    width: 80%;
-    height: 80%;
-    object-fit: contain;
-    transition: transform 0.4s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .list-item:hover .list-img {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
-/* Orta Taraf: İsim ve Kategori */
+/* Sol kenarda ince altın çizgi — hover'da belirir */
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 12px;
+    border-bottom: 1px solid rgba(198, 168, 124, 0.15);
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.list-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    height: 80%;
+    width: 3px;
+    background: var(--gold);
+    border-radius: 0 2px 2px 0;
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: center;
+}
+
+.list-item:hover::before {
+    transform: scaleY(1);
+}
+
+.list-item:hover {
+    background-color: rgba(198, 168, 124, 0.04);
+    padding-left: 18px; /* hover'da içerik hafif sağa kayar */
+}
+
+/* Metin alanı */
 .list-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 3px;
 }
 
 .list-category {
-    font-size: 0.65rem;
+    font-size: 0.58rem;
     letter-spacing: 3px;
     color: var(--gold);
     text-transform: uppercase;
-    margin-bottom: 5px;
 }
 
 .list-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--emerald-dark);
     font-weight: 500;
     margin: 0;
-    line-height: 1.2;
+    line-height: 1.25;
+    font-family: 'Playfair Display', serif;
 }
 
-/* Sağ Taraf: Fiyat ve Sepet Butonu */
+/* YENİ: kısa açıklama satırı */
+.list-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+}
+
+/* Sağ taraf: fiyat + buton */
 .list-action-group {
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-left: 15px;
+    gap: 14px;
+    margin-left: 12px;
 }
 
 .list-price {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--text-dark);
-    font-weight: bold;
-    white-space: nowrap; /* Fiyatın alt satıra düşmesini engeller */
+    font-weight: 700;
+    white-space: nowrap;
 }
 
-/* Minimalist Ekleme Butonu */
 .list-add-btn {
     background: transparent;
     color: var(--emerald-dark);
     border: 1px solid rgba(10, 31, 21, 0.2);
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1599,6 +1746,15 @@ body.theme-amber {
     font-size: 1.2rem;
     cursor: pointer;
     transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.list-item:hover .list-add-btn,
+.list-add-btn:hover {
+    background: var(--emerald-dark);
+    color: var(--gold);
+    border-color: var(--emerald-dark);
+    transform: rotate(90deg);
 }
 
 /* Hover durumunda buton zümrüt ve altın renklerine bürünsün */

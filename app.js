@@ -129,24 +129,50 @@ function renderProducts(productsToRender) {
     // ==========================================
     // MODÜL 5: SATIR VE İKON (TÜM LİSTE)
     // ==========================================
-    const displayProducts = productsToRender.slice(0, 100); 
+    const displayProducts = productsToRender.slice(0, 100);
     displayProducts.forEach(product => {
         const item = document.createElement('div');
         item.className = 'list-item reveal';
+
+        // Kısa açıklama: products.json'da "description" varsa kullan
+        // yoksa kategoriye göre üret
+        let subtitle = product.description || '';
+        if (!subtitle) {
+            if (product.category.includes('Sarma')) subtitle = 'El sarması · %100 doğal içerik';
+            else if (product.category.includes('Parmak')) subtitle = 'Klasik tarif · glikozsuz';
+            else if (product.category.includes('Hediye')) subtitle = 'Özel ambalaj · kurumsal sipariş';
+            else if (product.category.includes('Çifte')) subtitle = 'Çift kavrulmuş · yoğun lezzet';
+            else if (product.category.includes('Sade')) subtitle = 'Saf lokum · geleneksel tarif';
+            else if (product.category.includes('Draje')) subtitle = 'Çikolata kaplı · premium içerik';
+            else subtitle = 'Odun ateşinde pişirilmiş · doğal bal';
+        }
+
         item.innerHTML = `
             <div class="list-img-wrapper">
-                <img src="${product.image}" class="list-img" alt="${product.name}">
+                <img src="${product.image}" class="list-img" alt="${product.name}" loading="lazy">
             </div>
             <div class="list-info">
                 <span class="list-category">${product.category}</span>
                 <h3 class="list-title">${product.name}</h3>
+                <span class="list-subtitle">${subtitle}</span>
             </div>
             <div class="list-action-group">
                 <span class="list-price">${product.price}</span>
-                <button class="list-add-btn">+</button>
+                <button class="list-add-btn" title="Sepete Ekle">+</button>
             </div>
         `;
+
+        // Satıra tıklayınca Apple Sheet
         item.addEventListener('click', () => openAppleSheet(product));
+
+        // Sepet butonu — tıklamayı satırda durdur
+        const addBtn = item.querySelector('.list-add-btn');
+        addBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            addToCart(product.name, product.price, product.image);
+            if (typeof triggerHaptic === 'function') triggerHaptic(30);
+        });
+
         if (containerFullList) containerFullList.appendChild(item);
     });
 
@@ -190,28 +216,58 @@ function renderProducts(productsToRender) {
     initCoverflowLogic();
 
     // ==========================================
-    // MODÜL 3: HAUTE COUTURE (SANATSAL BLOK)
+    // MODÜL 3: HAUTE COUTURE (YENİ HERO FORMAT)
     // ==========================================
     if (containerHauteCouture) {
-        const coutureProducts = allProducts.filter(p => p.name.includes('Gül') || p.category.includes('Hediye')).slice(0, 3);
+        // Gül içeren veya Hediye kategorisindeki ürünler — ilk 3'ü al
+        const coutureProducts = allProducts
+            .filter(p => p.name.includes('Gül') || p.category.includes('Hediye'))
+            .slice(0, 3);
+
         coutureProducts.forEach(product => {
             const coutureItem = document.createElement('div');
             coutureItem.className = 'couture-item reveal';
+
+            // Kısa açıklama: products.json'da "description" varsa kullan,
+            // yoksa kategori bazlı varsayılan
+            let desc = product.description || '';
+            if (!desc) {
+                if (product.category.includes('Hediye')) {
+                    desc = 'Özenle hazırlanmış, özel tasarım ambalajda sunum.';
+                } else if (product.name.includes('Gül')) {
+                    desc = 'Doğal gül yağı ile aromalandırılmış, el yapımı.';
+                } else {
+                    desc = '%100 doğal içerik, glikozsuz üretim.';
+                }
+            }
+
             coutureItem.innerHTML = `
                 <div class="couture-img-wrapper">
-                    <img src="${product.image}" class="couture-img" alt="${product.name}">
-                </div>
-                <div class="couture-info">
-                    <div class="couture-tag">${product.category}</div>
-                    <h3 class="couture-title">${product.name}</h3>
-                    <div class="couture-subtitle">Özel Seri</div>
-                    <div class="couture-price-row">
-                        <div class="couture-line"></div>
-                        <span class="couture-price">${product.price}</span>
+                    <img src="${product.image}" class="couture-img" alt="${product.name}" loading="lazy">
+                    <div class="couture-info">
+                        <div class="couture-tag">${product.category}</div>
+                        <h3 class="couture-title">${product.name}</h3>
+                        <div class="couture-price-row">
+                            <span class="couture-price">${product.price}</span>
+                        </div>
                     </div>
                 </div>
+                <div class="couture-footer">
+                    <p class="couture-footer-desc">${desc}</p>
+                    <button class="couture-footer-btn">İncele</button>
+                </div>
             `;
+
+            // Karta tıklayınca Apple Sheet aç
             coutureItem.addEventListener('click', () => openAppleSheet(product));
+
+            // "İncele" butonuna ayrı click (kart ile aynı işlev)
+            const btn = coutureItem.querySelector('.couture-footer-btn');
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openAppleSheet(product);
+            });
+
             containerHauteCouture.appendChild(coutureItem);
         });
     }
@@ -230,22 +286,49 @@ function renderProducts(productsToRender) {
 
 // ------------------------------------------
 // YARDIMCI FABRİKA FONKSİYONU: NETFLIX KARTI ÜRETİCİSİ
+// ------------------------------------------
+// YARDIMCI FABRİKA FONKSİYONU: NETFLIX KARTI ÜRETİCİSİ
 function createNetflixCard(product) {
     const card = document.createElement('div');
     card.className = 'netflix-card';
+
+    // Rozet etiketi: kategoriden kısa bir rozet türet
+    let badgeText = '';
+    if (product.category.toLowerCase().includes('sarma')) badgeText = 'El Yapımı';
+    else if (product.category.toLowerCase().includes('parmak')) badgeText = 'Klasik';
+    else if (product.category.toLowerCase().includes('hediye')) badgeText = 'Hediye';
+    else badgeText = 'Premium';
+
+    // Ağırlık bilgisi products.json'da "weight" alanı varsa kullanılır,
+    // yoksa varsayılan gösterilir
+    const weightText = product.weight || '500g';
+
     card.innerHTML = `
-        <div class="netflix-img-container">
-            <img src="${product.image}" class="netflix-img" alt="${product.name}">
+        <div class="netflix-img-container" data-badge="${badgeText}">
+            <img src="${product.image}" class="netflix-img" alt="${product.name}" loading="lazy">
         </div>
         <div class="netflix-info">
-            <div>
-                <div class="netflix-category">${product.category}</div>
-                <h3 class="netflix-title">${product.name}</h3>
+            <div class="netflix-category">${product.category}</div>
+            <h3 class="netflix-title">${product.name}</h3>
+            <div class="netflix-weight">${weightText} · %100 Doğal</div>
+            <div class="netflix-footer">
+                <span class="netflix-price">${product.price}</span>
+                <button class="netflix-add-btn" title="Sepete Ekle">+</button>
             </div>
-            <div class="netflix-price">${product.price}</div>
         </div>
     `;
+
+    // Karta tıklayınca Apple Sheet açılır
     card.addEventListener('click', () => openAppleSheet(product));
+
+    // Sepet butonu — tıklamayı kartta durdurup sadece sepete ekle
+    const addBtn = card.querySelector('.netflix-add-btn');
+    addBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Apple Sheet açılmasın
+        addToCart(product.name, product.price, product.image);
+        if (typeof triggerHaptic === 'function') triggerHaptic(30);
+    });
+
     return card;
 }
 
