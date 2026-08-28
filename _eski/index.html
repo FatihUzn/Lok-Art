@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lok-Art | Premium Turkish Delight</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 3. ÖZEL SENSÖR ÇUBUĞU (Scroll Progress) -->
+    <div id="scroll-progress"></div>
+
+    <!-- 2. PARTİKÜL FİZİĞİ MOTORU ZEMİNİ (Canvas) -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- PRELOADER (Açılış Ekranı) -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <h2 class="logo" style="color: var(--gold);">LOK-ART</h2>
+            <div class="loading-line"></div>
+        </div>
+    </div>
+
+    <div class="top-bar">
+
+        <!-- Tema Seçici (Koleksiyon Renkleri) -->
+    <select id="theme-selector" style="margin-left: 20px; background: transparent; border: none; color: var(--gold); outline: none; cursor: pointer; font-family: 'Lato', sans-serif;">
+        <option value="default" style="color:#000;">✦ Klasik Zümrüt</option>
+        <option value="rose" style="color:#000;">✦ Gül Bahçesi (Rose Gold)</option>
+        <option value="amber" style="color:#000;">✦ Kehribar (Bordo)</option>
+    </select>
+        <span>GLİKOZSUZ &nbsp; | &nbsp; %100 DOĞAL &nbsp; | &nbsp; <a href="#b2b" style="color:var(--gold); text-decoration:underline;">KURUMSAL SİPARİŞLER İÇİN TIKLAYIN</a></span>
+    
+        <span style="margin-left: 20px; cursor: pointer; color: var(--gold);" id="theme-toggle">🌙 Gece Modu</span>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo">LOK-ART</div>
+        <ul class="nav-links">
+            <li><a href="#hero">Ana Sayfa</a></li>
+            <li><a href="#products">Koleksiyon</a></li>
+            <li><a href="#custom-box" class="highlight-link">Kendi Kutunu Yarat</a></li>
+            <li><a href="#gift-video">QR Hediye Deneyimi</a></li>
+        </ul>
+        <div class="cart-btn" onclick="openCartModal()">Sepetim (<span id="cart-count">0</span>)</div>
+    </nav>
+
+    <header id="hero" class="hero-section">
+        <div class="hero-container">
+            
+            <div class="hero-content-left reveal active">
+                <div class="hero-badges">
+                    <span class="badge">%100 Doğal Bal</span>
+                    <span class="badge">Glikozsuz</span>
+                </div>
+                
+                <h1>Sanata Dönüşen <br> <span class="gold-text">Lezzetler</span></h1>
+                <p>Geleneksel tariflerin, modern bir estetikle buluştuğu premium lokum koleksiyonu.</p>
+                
+                <div class="hero-cta-group">
+                    <a href="#products" class="btn-primary">KOLEKSİYONU İNCELE</a>
+                    <a href="#custom-box" class="btn-outline">KUTUNU TASARLA</a>
+                    <button type="button" class="btn-primary magnetic-btn" style="width: 100%; margin-top: 15px;" onclick="document.getElementById('b2b').scrollIntoView({behavior:'smooth'})">Teklif İste</button>
+                </div>
+            </div>
+
+            <div class="hero-video-right reveal active">
+                <div class="video-window">
+                    <!-- DÜZELTİLMİŞ VİDEO ETİKETİ -->
+<video autoplay loop muted playsinline preload="metadata" class="showcase-video">
+    <source src="assets/hero_background.mp4" type="video/mp4">
+</video>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- SONSUZ KAYAN ŞERİT (Marquee) -->
+    <div class="marquee-wrapper">
+        <div class="marquee-content">
+            <span>✦ %100 DOĞAL KAYNAK SUYU</span>
+            <span>✦ GLİKOZSUZ</span>
+            <span>✦ ODUN ATEŞİNDE PİŞMİŞTİR</span>
+            <span>✦ EL YAPIMI PREMIUM LEZZET</span>
+            <!-- Kayan yazının kesintisiz dönmesi için kopyası -->
+            <span>✦ %100 DOĞAL KAYNAK SUYU</span>
+            <span>✦ GLİKOZSUZ</span>
+            <span>✦ ODUN ATEŞİNDE PİŞMİŞTİR</span>
+            <span>✦ EL YAPIMI PREMIUM LEZZET</span>
+        </div>
+    </div>
+
+    <!-- 1. ÜRÜNLER KISMINI ŞU ŞEKİLDE GÜNCELLE -->
+    <!-- ==========================================
+         LOK-ART: THE MASTER MIX MİMARİSİ (ŞASE)
+         ========================================== -->
+    <section id="products" class="products-section">
+        
+        <!-- 1. PRESTİJ: COVERFLOW (Sadece En Elit Ürünler) -->
+        <div class="premium-showcase">
+            <h2 class="section-title">İmza Koleksiyon</h2>
+            <div id="coverflow-container">
+                <!-- app.js burayı Coverflow mantığıyla dolduracak -->
+            </div>
+        </div>
+
+        <!-- 1.5 HAUTE COUTURE: LÜX DERGİ BLOĞU -->
+        <div class="haute-couture-section">
+            <h2 class="section-title">Özel Seri</h2>
+            <div id="haute-couture-container" class="haute-couture-grid">
+                <!-- app.js burayı Haute Couture mantığıyla dolduracak -->
+            </div>
+        </div>
+
+        <!-- 2. KEŞİF: NETFLIX RAFLARI (Kategorik Yatay Akış) -->
+        <div class="category-shelves">
+            <div class="shelf">
+                <h3 class="shelf-title">Sarmalar <span class="swipe-hint">kaydır &rarr;</span></h3>
+                <div id="shelf-sarmalar" class="shelf-container"></div>
+            </div>
+            <div class="shelf">
+                <h3 class="shelf-title">Parmak Lokumlar <span class="swipe-hint">kaydır &rarr;</span></h3>
+                <div id="shelf-parmak" class="shelf-container"></div>
+            </div>
+        </div>
+
+        <!-- 3. ENVANTER: SATIR VE İKON (Hızlı Tarama Listesi) -->
+        <div class="full-inventory">
+            <h2 class="section-title">Tüm Koleksiyon</h2>
+            <div class="shop-controls">
+                <div class="filter-container">
+                    <button class="filter-btn active" data-filter="all">Tümü</button>
+                    <button class="filter-btn" data-filter="Sarma Lokum">Sarma</button>
+                    <button class="filter-btn" data-filter="Parmak Lokum">Parmak</button>
+                    <button class="filter-btn" data-filter="Hediye Kutuları">Hediye</button>
+                    <button class="filter-btn" data-filter="Çifte Kavrulmuş">Çifte Kavrulmuş</button>
+                    <button class="filter-btn" data-filter="Sade Lokum">Sade</button>
+                    <button class="filter-btn" data-filter="Fitil Lokum">Fitil</button>
+                    <button class="filter-btn" data-filter="Drajeler">Drajeler</button>
+                </div>
+                <div class="sort-controls">
+                    <span class="sort-label">Sırala:</span>
+                    <button class="sort-btn active" data-sort="default">Varsayılan</button>
+                    <button class="sort-btn" data-sort="price-asc">↑ Ucuzdan Pahalıya</button>
+                    <button class="sort-btn" data-sort="price-desc">↓ Pahalıdan Ucuza</button>
+                </div>
+            </div>
+            <div id="list-container" class="minimal-list">
+                <!-- 100+ ürün buraya jilet gibi dizilecek -->
+            </div>
+        </div>
+    </section>
+
+    <section id="custom-box" class="custom-box-section">
+        <h2 class="section-title" style="color: var(--gold);">İmza Kutunuzu Yaratın</h2>
+        <p class="section-subtitle">Sanat eserinizi tasarlayın. Damak zevkinize özel 6 parçalı premium kutunuzu oluşturun.</p>
+        
+        <div class="box-builder-container">
+            <div class="box-preview reveal">
+                <div class="metal-box">
+                    <div class="box-grid" id="box-grid">
+                        <div class="box-slot empty"></div>
+                        <div class="box-slot empty"></div>
+                        <div class="box-slot empty"></div>
+                        <div class="box-slot empty"></div>
+                        <div class="box-slot empty"></div>
+                        <div class="box-slot empty"></div>
+                    </div>
+                </div>
+                <div class="box-summary">
+                    <h3>Kutu Özeti</h3>
+                    <p>Kapasite: <span id="box-count" style="color:var(--gold);">0</span> / 6 Yuva</p>
+                    <p class="box-total-price">Toplam: <span id="box-price">0,00 TL</span></p>
+                    <button class="btn-primary" id="add-box-to-cart" disabled>Tasarımı Sepete Ekle</button>
+                </div>
+            </div>
+
+            <div class="box-options reveal" id="box-options">
+                </div>
+        </div>
+    </section>
+
+
+    <!-- --- QR HEDİYE DENEYİMİ BÖLÜMÜ --- -->
+    <section id="gift-video" class="qr-experience-section">
+        <div class="qr-container reveal">
+            <!-- Sol Panel: Görsel/Mockup -->
+            <div class="qr-visual">
+                <div class="mockup-frame">
+                    <!-- Gerçek fotoğraf çekilene kadar bozuk durmaması için geçici bir placeholder görsel -->
+                    <img src="assets/qr_mockup.jpg" alt="Lok-Art QR Deneyimi" class="mockup-img" onerror="this.src='https://via.placeholder.com/400x500/0A1F15/C6A87C?text=QR+Kutu+Gorseli'">
+                    <div class="glow-circle"></div>
+                </div>
+            </div>
+            
+            <!-- Sağ Panel: İçerik ve Adımlar -->
+            <div class="qr-content">
+                <span class="category-tag" style="margin-bottom: 15px;">LÜKSÜN YENİ TANIMI</span>
+                <h2 class="section-title" style="color: #fff; text-align: left; margin-bottom: 20px;">Sadece Bir Hediye Değil, <br><span class="gold-text">Unutulmaz Bir Anı</span></h2>
+                <p class="qr-description">Özenle tasarladığınız premium lokum kutunuzu, size özel bir video mesaj ile taçlandırın. Kutu içindeki zarif QR kod, sevdiklerinize lezzetin yanında doğrudan sizin sesinizi ve görüntünüzü de ulaştırır.</p>
+                
+                <div class="qr-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <h4>Kutunuzu Tasarlayın</h4>
+                            <p>Damak zevkinize uygun lokumları seçerek imza kutunuzu hazırlayın ve siparişi tamamlayın.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <h4>Mesajınızı Ekleyin</h4>
+                            <p>Sipariş onay ekranında karşınıza çıkan güvenli bağlantı üzerinden video mesajınızı sisteme yükleyin.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <h4>Sürprizi Yaşatın</h4>
+                            <p>Sevdikleriniz kutuyu açtığında telefon kamerasıyla QR kodu okutarak anında videonuzu izlesin.</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#custom-box" class="btn-primary" style="margin-top: 35px;">Deneyimi Başlat</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- KURUMSAL SİPARİŞ (B2B) BÖLÜMÜ --- -->
+    <section id="b2b" class="b2b-section">
+        <div class="b2b-container reveal">
+            <div class="b2b-glass-card">
+                <div class="b2b-header">
+                    <span class="category-tag" style="margin-bottom: 10px;">VIP CONCIERGE</span>
+                    <h2>Kurumsal & Özel Siparişler</h2>
+                    <p>Şirketiniz, etkinlikleriniz veya özel günleriniz için Lok-Art'ın imza lezzetlerini kişiselleştirilmiş dokunuşlarla sunun.</p>
+                </div>
+                
+                <!-- Form gönderildiğinde sayfanın yenilenmesini engelleyip, önceden yazdığımız Toast bildirimini tetikliyoruz -->
+                <form class="b2b-form" onsubmit="event.preventDefault(); showToast('Talebiniz başarıyla alındı. Concierge ekibimiz en kısa sürede sizinle iletişime geçecektir.'); this.reset();">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <input type="text" id="companyName" required placeholder=" ">
+                            <label for="companyName">Firma / Kurum Adı</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="contactName" required placeholder=" ">
+                            <label for="contactName">Yetkili Kişi</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <input type="email" id="email" required placeholder=" ">
+                            <label for="email">E-Posta Adresi</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" id="phone" required placeholder=" ">
+                            <label for="phone">Telefon Numarası</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="input-group select-group">
+                            <select id="requestType" required>
+                                <option value="" disabled selected hidden>Talep Türü Seçiniz</option>
+                                <option value="corporate">Kurumsal Yılbaşı / Bayram Hediyesi</option>
+                                <option value="wedding">Düğün / Nişan / Davet</option>
+                                <option value="hotel">Otel & VIP İkramlık</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="quantity" required placeholder=" ">
+                            <label for="quantity">Tahmini Adet / Bütçe</label>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <textarea id="message" rows="2" required placeholder=" "></textarea>
+                        <label for="message">Eklemek İstediğiniz Detaylar (Tarih, konsept vs.)...</label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 15px;">Teklif İste</button>
+                </form>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- Yeni Kurumsal Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col brand-col">
+                <h3 class="logo" style="color: var(--gold);">LOK-ART</h3>
+                <p>Geleneksel Türk lokumunu, modern sanat ve doğal içeriklerle yeniden tanımlıyoruz. %100 doğal kaynak suyu ve hakiki bal ile, glikozsuz üretim.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Koleksiyon</h4>
+                <ul>
+                    <li><a href="#products">İmza Kutular</a></li>
+                    <li><a href="#products">Sarma Lokumlar</a></li>
+                    <li><a href="#custom-box">Kendi Kutunu Yarat</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kurumsal</h4>
+                <ul>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#">B2B Kurumsal Sipariş</a></li>
+                    <li><a href="#">İletişim</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Lok-Art Premium Turkish Delight. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+     <!-- Bildirim (Toast) Konteyneri -->
+    <div id="toast-container"></div>
+
+    <!-- Script SADECE BURADA, body kapanmadan hemen önce OLMALI -->
+  
+    <!-- ÖZEL İMLEÇ (Custom Cursor) -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+
+    <!-- 4. HIZLI BAKIŞ (QUICK VIEW) LÜKS MODALI -->
+    <div id="quick-modal" class="modal-overlay">
+        <div class="modal-glass-content">
+            <button class="close-modal" onclick="closeModal()">✕</button>
+            <div class="modal-split">
+                <div class="modal-img-side" id="modal-img"></div>
+                <div class="modal-info-side">
+                    <span class="category-tag" id="modal-category"></span>
+                    <h2 id="modal-title" style="color: var(--emerald-dark); margin-bottom:15px; font-size: 2.2rem;"></h2>
+                    <p class="modal-desc">Geleneksel yöntemlerle, odun ateşinde pişirilmiş el yapımı premium lezzet. İçeriğinde sıfır glikoz ve %100 doğal kaynak suyu kullanılmıştır. Usta ellerden çıkan bu sanat eseri, damaklarınızda unutulmaz bir iz bırakacak.</p>
+                    <!-- 2. GURME EŞLEŞTİRME NOTU -->
+    <div class="gourmet-pairing">
+        <span style="font-size: 1.2rem;">☕</span> 
+        <span id="modal-pairing-text">Tadım Önerisi: Sade Türk Kahvesi veya Earl Grey Çay ile mükemmel uyum sağlar.</span>
+    </div>
+                    <h3 id="modal-price" style="color: var(--gold); margin: 25px 0; font-size: 1.8rem;"></h3>
+                    <button class="btn-primary magnetic-btn" id="modal-add-btn" style="width:100%;">Sepete Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. EASTER EGG (ŞEFİN SIRRI) MODALI -->
+    <div id="easter-egg-modal" class="modal-overlay">
+        <div class="modal-glass-content" style="text-align: center; padding: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(10, 31, 21, 0.95);">
+            <h2 style="color: var(--gold); font-size: 2.5rem; margin-bottom: 15px; letter-spacing: 2px;">✦ ŞEFİN GİZLİ KOLEKSİYONU ✦</h2>
+            <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; margin-bottom: 30px;">Tebrikler. Sistemin derinliklerine inmeyi başardınız. <br> Sadece seçkin misafirlerimize sunduğumuz VIP indirim kodunuz:</p>
+            <div style="background: transparent; color: var(--gold); padding: 20px 50px; font-size: 2.5rem; letter-spacing: 8px; border-radius: 10px; border: 1px dashed var(--gold); margin-bottom: 30px;">ART-VIP99</div>
+            <button class="btn-outline magnetic-btn" onclick="document.getElementById('easter-egg-modal').classList.remove('active')">Kasayı Kapat</button>
+        </div>
+    </div>
+
+    <!-- 3. UYKU MODU (Düşük Güç Tüketimi / Ekran Koruyucu) -->
+    <div id="sleep-mode-overlay">
+        <div class="sleep-content">
+            <!-- Karakalem çizim efekti için SVG İllüstrasyonu -->
+            <svg class="sketch-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Yaprak dış hatları -->
+                <path class="sketch-path" d="M50,15 C50,15 20,40 20,70 C20,85 35,90 50,90 C65,90 80,85 80,70 C80,40 50,15 50,15 Z" fill="none" stroke="rgba(198, 168, 124, 0.6)" stroke-width="1.5"/>
+                <!-- Yaprak iç damarı -->
+                <path class="sketch-path" d="M50,15 C50,15 50,45 50,90" fill="none" stroke="rgba(198, 168, 124, 0.3)" stroke-width="1"/>
+            </svg>
+            <p style="color: var(--gold); margin-top: 25px; font-family: 'Playfair Display', serif; font-size: 1.5rem; letter-spacing: 5px;">LOK-ART</p>
+            <p style="color: rgba(255,255,255,0.3); font-size: 0.75rem; letter-spacing: 3px; margin-top: 10px;">SİSTEM UYKUSUNDA... UYANDIRMAK İÇİN DOKUNUN</p>
+        </div>
+    </div>
+
+    <!-- 1. YÜZEN AKILLI SEPET (Dynamic Island) -->
+    <div id="smart-cart-island" class="dynamic-island">
+        <div class="island-info">
+            <span class="island-icon" style="font-size: 1.2rem;">🛍️</span>
+            <div>
+                <span id="island-count" style="color: #fff; font-size: 0.9rem; margin-right: 10px;">0 Ürün</span>
+                <span id="island-total" style="color: var(--gold); font-weight: bold; font-size: 1.1rem;">0,00 TL</span>
+            </div>
+        </div>
+        <button class="btn-primary magnetic-btn" style="padding: 8px 20px; font-size: 0.8rem;" onclick="openCartModal()">Siparişi Tamamla</button>
+    </div>
+    <!-- ETKİLEŞİM KATMANI: APPLE SHEET (ALT ÇEKMECE) -->
+    <div id="apple-sheet-modal" class="bottom-sheet hidden">
+        <div class="sheet-grabber"></div> 
+        <div id="sheet-content"></div>
+    </div>
+    <!-- SEPET MODALI -->
+    <div id="cart-modal" class="modal-overlay">
+        <div class="cart-modal-content">
+            <button class="close-modal" onclick="closeCartModal()">✕</button>
+            <h2 class="cart-modal-title">Sepetim</h2>
+            <div id="cart-modal-body" class="cart-modal-body"></div>
+            <div class="cart-modal-footer">
+                <div class="cart-modal-total-row">
+                    <span>Toplam</span>
+                    <span id="cart-modal-total" style="color:var(--gold);font-size:1.4rem;font-weight:700;">0,00 TL</span>
+                </div>
+                <button class="btn-primary" style="width:100%;margin-top:20px;" onclick="alert('Ödeme sayfası yakında aktif olacak. 🛍️')">Ödemeye Geç</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    
+</body>
+</html>
