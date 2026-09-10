@@ -2,6 +2,7 @@
 Thumbs.db
 node_modules/
 *.log
-build_products.py
-build_pages.py
+
+# Ham ürün fotoğrafları — tools/images.py bunları işler, repoya girmez
+_ham/
 data/_products_raw.json

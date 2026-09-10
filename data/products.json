@@ -95,7 +95,13 @@
         "El Yapımı"
       ],
       "featured": true,
-      "signature": true
+      "signature": true,
+      "images": [
+        {
+          "src": "assets/gift_1.avif",
+          "alt": "LokArt İmza Kutusu (1.700gr)"
+        }
+      ]
     },
     {
       "id": 2,
@@ -118,7 +124,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": true
+      "signature": true,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "LokArt Gurme Karışık Lokum (1.600gr)"
+        }
+      ]
     },
     {
       "id": 3,
@@ -141,7 +153,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": true
+      "signature": true,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "LokArt Aromatik Seçki (1.800gr)"
+        }
+      ]
     },
     {
       "id": 4,
@@ -164,7 +182,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": true
+      "signature": true,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "LokArt Lezzet Şöleni (1.950gr)"
+        }
+      ]
     },
     {
       "id": 5,
@@ -187,7 +211,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/gift_1.avif",
+          "alt": "Badem & Parmak Lokum | Metal Kutu (800gr)"
+        }
+      ]
     },
     {
       "id": 6,
@@ -210,7 +240,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "LokArt Sarma Dünyası (800 gr)"
+        }
+      ]
     },
     {
       "id": 7,
@@ -233,7 +269,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Fıstıklı Üzümlü Dubai Sarması (1,00 Kg)"
+        }
+      ]
     },
     {
       "id": 8,
@@ -256,7 +298,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Bol Fıstıklı Çifte Kavrulmuş Lokum (1,38 kg)"
+        }
+      ]
     },
     {
       "id": 9,
@@ -279,7 +327,13 @@
         "Odun Ateşi"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Karışık Sarma Lokum - 1 Kg"
+        }
+      ]
     },
     {
       "id": 10,
@@ -302,7 +356,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Fındıklı ve Karadutlu Pirinç Patlaklı Sarma"
+        }
+      ]
     },
     {
       "id": 11,
@@ -325,7 +385,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Bademli ve Çikolatalı Çıtır Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 12,
@@ -348,7 +414,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Brownie'li Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 13,
@@ -371,7 +443,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "File Fıstıklı Nutellalı Fındıklı Sarma"
+        }
+      ]
     },
     {
       "id": 14,
@@ -394,7 +472,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Mega Fıstıklı Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 15,
@@ -417,7 +501,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Pirinç Fıstıklı Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 16,
@@ -440,7 +530,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Kadayıflı Bademli Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 17,
@@ -463,7 +559,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Gül Yapraklı Fıstıklı Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 18,
@@ -486,7 +588,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Bademli Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 19,
@@ -509,7 +617,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Baklava Parçacıklı Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 20,
@@ -532,7 +646,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "İncirli Cevizli Sarma Lokum"
+        }
+      ]
     },
     {
       "id": 21,
@@ -555,7 +675,13 @@
         "Odun Ateşi"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Karışık Parmak Lokum - 1 Kg"
+        }
+      ]
     },
     {
       "id": 22,
@@ -578,7 +704,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Orman Meyveli Fıstıklı Parmak"
+        }
+      ]
     },
     {
       "id": 23,
@@ -601,7 +733,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Mangolu Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 24,
@@ -624,7 +762,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Elmalı Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 25,
@@ -647,7 +791,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Pirinç Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 26,
@@ -670,7 +820,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Damla Sakızlı Ballı Fıstıklı Parmak"
+        }
+      ]
     },
     {
       "id": 27,
@@ -693,7 +849,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Narlı Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 28,
@@ -716,7 +878,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Karadutlu Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 29,
@@ -739,7 +907,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Zereçli Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 30,
@@ -762,7 +936,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Sütlü Fıstıklı Parmak Lokum"
+        }
+      ]
     },
     {
       "id": 31,
@@ -785,7 +965,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Gül Yapraklı Fıstıklı Parmak"
+        }
+      ]
     },
     {
       "id": 32,
@@ -808,7 +994,13 @@
         "Odun Ateşi"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Karışık Çifte Kavrulmuş Lokum - 1 Kg"
+        }
+      ]
     },
     {
       "id": 33,
@@ -831,7 +1023,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Karışık Çifte Kavrulmuş Lokum - 500 Gr"
+        }
+      ]
     },
     {
       "id": 34,
@@ -854,7 +1052,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Portakallı Fındıklı Duble Lokum"
+        }
+      ]
     },
     {
       "id": 35,
@@ -877,7 +1081,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Duble İncirli Cevizli Lokum"
+        }
+      ]
     },
     {
       "id": 36,
@@ -900,7 +1110,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Hindistan Cevizli Fıstıklı Çifte Kavrulmuş"
+        }
+      ]
     },
     {
       "id": 37,
@@ -923,7 +1139,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Sade Fıstıklı Çifte Kavrulmuş Lokum"
+        }
+      ]
     },
     {
       "id": 38,
@@ -946,7 +1168,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Narlı Fıstıklı Çifte Kavrulmuş Lokum"
+        }
+      ]
     },
     {
       "id": 39,
@@ -969,7 +1197,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Hindistan Cevizli Narlı Fıstıklı Çifte"
+        }
+      ]
     },
     {
       "id": 40,
@@ -992,7 +1226,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Hindistan Cevizli Sütlü Fıstıklı Çifte"
+        }
+      ]
     },
     {
       "id": 41,
@@ -1015,7 +1255,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Duble Fıstıklı Çifte Kavrulmuş Lokum"
+        }
+      ]
     },
     {
       "id": 42,
@@ -1038,7 +1284,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Duble Fıstıklı Narlı Çifte Kavrulmuş"
+        }
+      ]
     },
     {
       "id": 43,
@@ -1061,7 +1313,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Çikolata Kaplı Çifte Kavrulmuş Lokum"
+        }
+      ]
     },
     {
       "id": 44,
@@ -1084,7 +1342,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Fıstıklı Yaprak Cezerye"
+        }
+      ]
     },
     {
       "id": 49,
@@ -1107,7 +1371,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Kuş Lokumu"
+        }
+      ]
     },
     {
       "id": 50,
@@ -1130,7 +1400,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Sade Lokum"
+        }
+      ]
     },
     {
       "id": 51,
@@ -1153,7 +1429,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Portakallı Sade Lokum"
+        }
+      ]
     },
     {
       "id": 52,
@@ -1176,7 +1458,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Güllü Sade Lokum"
+        }
+      ]
     },
     {
       "id": 53,
@@ -1199,7 +1487,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Damla Sakızlı Sade Lokum"
+        }
+      ]
     },
     {
       "id": 54,
@@ -1222,7 +1516,13 @@
         "Odun Ateşi"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Güllü Sade Türk Lokumu 400 g"
+        }
+      ]
     },
     {
       "id": 55,
@@ -1245,7 +1545,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Sade Türk Lokumu 400 g"
+        }
+      ]
     },
     {
       "id": 56,
@@ -1268,7 +1574,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Narlı Türk Lokumu 400 g"
+        }
+      ]
     },
     {
       "id": 45,
@@ -1291,7 +1603,13 @@
         "Odun Ateşi"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Narlı File Fıstıklı Fitil Lokum"
+        }
+      ]
     },
     {
       "id": 46,
@@ -1314,7 +1632,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Zereçli Fıstıklı Fitil Lokum"
+        }
+      ]
     },
     {
       "id": 47,
@@ -1337,7 +1661,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Sade File Fıstıklı Fitil Lokum"
+        }
+      ]
     },
     {
       "id": 48,
@@ -1360,7 +1690,13 @@
         "Odun Ateşi"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Gül Yapraklı Fıstıklı Fitil Lokum"
+        }
+      ]
     },
     {
       "id": 57,
@@ -1382,7 +1718,13 @@
         "El Yapımı"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "İnce Cevizli Sucuk"
+        }
+      ]
     },
     {
       "id": 58,
@@ -1404,7 +1746,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Kalın Cevizli Sucuk"
+        }
+      ]
     },
     {
       "id": 59,
@@ -1426,7 +1774,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Rulo Pestil"
+        }
+      ]
     },
     {
       "id": 60,
@@ -1448,7 +1802,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Pestil (Dut) - Sade"
+        }
+      ]
     },
     {
       "id": 61,
@@ -1470,7 +1830,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Pestil - Cevizli"
+        }
+      ]
     },
     {
       "id": 62,
@@ -1492,7 +1858,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Antep Fıstıklı Çekme Helva 280 gr"
+        }
+      ]
     },
     {
       "id": 90,
@@ -1514,7 +1886,13 @@
         "El Yapımı"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Renkli Mantar Çikolata - 200 gr"
+        }
+      ]
     },
     {
       "id": 91,
@@ -1536,7 +1914,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Akide Şekeri"
+        }
+      ]
     },
     {
       "id": 92,
@@ -1558,7 +1942,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Akide Şekeri - Tarçınlı"
+        }
+      ]
     },
     {
       "id": 93,
@@ -1580,7 +1970,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Sütlü Çikolata Kaplı Fındık Draje"
+        }
+      ]
     },
     {
       "id": 94,
@@ -1602,7 +1998,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Çikolata Kaplı Renkli Badem Şekeri"
+        }
+      ]
     },
     {
       "id": 95,
@@ -1624,7 +2026,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Patlayan Şekerli Draje"
+        }
+      ]
     },
     {
       "id": 96,
@@ -1646,7 +2054,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Beyaz Badem Şekeri"
+        }
+      ]
     },
     {
       "id": 97,
@@ -1668,7 +2082,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Bonibon"
+        }
+      ]
     },
     {
       "id": 98,
@@ -1690,7 +2110,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Kahve Çekirdekli Draje"
+        }
+      ]
     },
     {
       "id": 99,
@@ -1712,7 +2138,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Çakıltaşı Draje"
+        }
+      ]
     },
     {
       "id": 100,
@@ -1734,7 +2166,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Sütlü Çikolatalı Portakallı Draje"
+        }
+      ]
     },
     {
       "id": 101,
@@ -1756,7 +2194,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Sütlü Çikolatalı Üzümlü Draje"
+        }
+      ]
     },
     {
       "id": 63,
@@ -1778,7 +2222,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Jumbo Kudüs Hurma"
+        }
+      ]
     },
     {
       "id": 64,
@@ -1800,7 +2250,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Ramazan Paketi Lüks 2 Kg"
+        }
+      ]
     },
     {
       "id": 65,
@@ -1822,7 +2278,13 @@
         "El Yapımı"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Karışık Kuru Meyve ve Kuruyemiş Paketi 2 Kg"
+        }
+      ]
     },
     {
       "id": 66,
@@ -1844,7 +2306,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Kabuklu Makademya Fındığı"
+        }
+      ]
     },
     {
       "id": 67,
@@ -1866,7 +2334,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "İğde"
+        }
+      ]
     },
     {
       "id": 68,
@@ -1888,7 +2362,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Boz İç Antep Fıstığı"
+        }
+      ]
     },
     {
       "id": 69,
@@ -1910,7 +2390,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Toppy Fıstık"
+        }
+      ]
     },
     {
       "id": 70,
@@ -1932,7 +2418,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Mısır - Patlatmalık"
+        }
+      ]
     },
     {
       "id": 71,
@@ -1954,7 +2446,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Ay Çekirdeği - Dakota - Çiğ"
+        }
+      ]
     },
     {
       "id": 72,
@@ -1976,7 +2474,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Antep Fıstığı - Çekilmiş"
+        }
+      ]
     },
     {
       "id": 73,
@@ -1998,7 +2502,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Ceviz Kabuklu - Jumbo"
+        }
+      ]
     },
     {
       "id": 74,
@@ -2020,7 +2530,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Üzüm Karaman Duble"
+        }
+      ]
     },
     {
       "id": 75,
@@ -2042,7 +2558,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "File Antep Fıstığı"
+        }
+      ]
     },
     {
       "id": 76,
@@ -2064,7 +2586,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Beyaz Leblebi Şekeri"
+        }
+      ]
     },
     {
       "id": 77,
@@ -2086,7 +2614,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Safran"
+        }
+      ]
     },
     {
       "id": 78,
@@ -2108,7 +2642,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Türk Kahvesi - Taze Çekilmiş"
+        }
+      ]
     },
     {
       "id": 79,
@@ -2130,7 +2670,13 @@
         "El Yapımı"
       ],
       "featured": true,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Türk Kahvesi | Kurukahveci Mehmet Efendi | 500 Gr"
+        }
+      ]
     },
     {
       "id": 80,
@@ -2152,7 +2698,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Türk Kahvesi | Kurukahveci Mehmet Efendi | 250 Gr"
+        }
+      ]
     },
     {
       "id": 81,
@@ -2174,7 +2726,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Fıstıklı Menengiç Kahvesi | 200 Gr"
+        }
+      ]
     },
     {
       "id": 82,
@@ -2196,7 +2754,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Kakuleli Türk Kahvesi | 200 Gr"
+        }
+      ]
     },
     {
       "id": 83,
@@ -2218,7 +2782,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Damla Sakızlı Türk Kahvesi | 200 Gr"
+        }
+      ]
     },
     {
       "id": 84,
@@ -2240,7 +2810,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Türk Kahvesi | 200 Gr"
+        }
+      ]
     },
     {
       "id": 85,
@@ -2262,7 +2838,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Dibek Osmanlı Kahvesi | 200 Gr"
+        }
+      ]
     },
     {
       "id": 86,
@@ -2284,7 +2866,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_2.avif",
+          "alt": "Fındıklı Türk Kahvesi | 200 Gr"
+        }
+      ]
     },
     {
       "id": 87,
@@ -2306,7 +2894,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_3.avif",
+          "alt": "Kayısı Çayı | 250 Gr"
+        }
+      ]
     },
     {
       "id": 88,
@@ -2328,7 +2922,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_4.avif",
+          "alt": "Çilek Çayı | 250 Gr"
+        }
+      ]
     },
     {
       "id": 89,
@@ -2350,7 +2950,13 @@
         "El Yapımı"
       ],
       "featured": false,
-      "signature": false
+      "signature": false,
+      "images": [
+        {
+          "src": "assets/lok_art_1.avif",
+          "alt": "Nar Çayı | 250 Gr"
+        }
+      ]
     }
   ]
 }

@@ -69,6 +69,50 @@
 
   const param = (key) => new URLSearchParams(location.search).get(key);
 
+  /* Türkçe karakterleri sadeleştirir: "fistik" araması "fıstık" ürününü bulsun.
+     Küçültmeden ÖNCE eşlenir: JS'te 'İ'.toLowerCase() birleşik nokta üretir. */
+  const TR_FOLD = { 'ı':'i','İ':'i','I':'i','ş':'s','Ş':'s','ğ':'g','Ğ':'g',
+                    'ü':'u','Ü':'u','ö':'o','Ö':'o','ç':'c','Ç':'c',
+                    'â':'a','Â':'a','î':'i','Î':'i','û':'u','Û':'u' };
+  function fold(str) {
+    return String(str == null ? '' : str)
+      .replace(/[ıİIşŞğĞüÜöÖçÇâÂîÎûÛ]/g, (ch) => TR_FOLD[ch])
+      .toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+
+  /* Ürünün görselleri — eski tek "image" alanına da düşer (geriye dönük uyum) */
+  function imagesOf(p) {
+    if (p.images && p.images.length) return p.images;
+    return [{ src: p.image, alt: p.name }];
+  }
+  const mainImage = (p) => imagesOf(p)[0];
+
+  /* srcset varsa <picture> (AVIF -> WebP -> src), yoksa düz <img> üretir */
+  function imageHTML(img, o) {
+    o = o || {};
+    const attrs =
+      ' alt="' + esc(o.alt != null ? o.alt : (img.alt || '')) + '"' +
+      (o.width ? ' width="' + o.width + '" height="' + (o.height || o.width) + '"' : '') +
+      (o.loading ? ' loading="' + o.loading + '"' : '') +
+      (o.fetchpriority ? ' fetchpriority="' + o.fetchpriority + '"' : '') +
+      ' decoding="async"';
+    const tag = '<img src="' + esc(img.src) + '"' + attrs + '>';
+    const ss = img.srcset;
+    if (!ss || (!ss.avif && !ss.webp)) return tag;
+    const sizes = o.sizes ? ' sizes="' + esc(o.sizes) + '"' : '';
+    return '<picture>' +
+      (ss.avif ? '<source type="image/avif" srcset="' + esc(ss.avif) + '"' + sizes + '>' : '') +
+      (ss.webp ? '<source type="image/webp" srcset="' + esc(ss.webp) + '"' + sizes + '>' : '') +
+      tag + '</picture>';
+  }
+
+  /* Sayfa <head> etiketlerini güncelle (ürün sayfası SEO'su için) */
+  function setMeta(selector, attr, value) {
+    const el = $(selector);
+    if (el) el.setAttribute(attr, value);
+    return el;
+  }
+
   function debounce(fn, wait) {
     let t; return function () { const a = arguments, c = this; clearTimeout(t); t = setTimeout(() => fn.apply(c, a), wait); };
   }
@@ -196,7 +240,10 @@
       else if (e.target.closest('[data-close-cart]')) { closePanels(); }
       else if (e.target === ov) { closePanels(); }
     });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePanels(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closePanels(); return; }
+      if (e.key === 'Tab') trapFocus(e);
+    });
 
     /* Sticky header gölgesi */
     const header = $('.site-header');
@@ -225,6 +272,19 @@
     const yr = $('#year'); if (yr) yr.textContent = new Date().getFullYear();
   }
 
+  /* Açık çekmece/menüde Tab arka plana kaçmasın */
+  function trapFocus(e) {
+    const panel = $('.drawer.is-open') || $('.mobile-nav.is-open');
+    if (!panel) return;
+    const f = $$('a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])', panel)
+      .filter(el => el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (!panel.contains(document.activeElement)) { e.preventDefault(); first.focus(); return; }
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
   let lastFocus = null;
   function openPanel(el) {
     lastFocus = document.activeElement;
@@ -243,6 +303,8 @@
   }
 
   /* ------------------------------- 4. SEPET ------------------------------ */
+  const WA_MAX_URL = 1800;   // wa.me pratikte bunun üzerini kırpıyor
+
   const Cart = {
     KEY: 'lokart.cart.v1',
     items: [],
@@ -286,6 +348,25 @@
 
     open() { this.render(); openPanel($('#cartDrawer')); },
 
+    /* Sepet localStorage'da durur; fiyat/ad/görsel değişmişse veriden tazele.
+       Özel kutular (id yok) kendi hesaplanmış fiyatlarını korur. */
+    refresh() {
+      if (!DB || !DB.products || !DB.products.length) return;
+      let changed = false;
+      this.items.forEach(i => {
+        if (!i.id) return;
+        const p = productById(i.id);
+        if (!p) return;
+        const img = mainImage(p).src;
+        if (i.price !== p.price || i.name !== p.name || i.image !== img) {
+          i.price = p.price; i.name = p.name; i.image = img; changed = true;
+        }
+      });
+      if (changed) {
+        try { localStorage.setItem(this.KEY, JSON.stringify(this.items)); } catch (e) {}
+      }
+    },
+
     paint() {
       const n = this.count();
       $$('[data-cart-count]').forEach(el => {
@@ -298,6 +379,7 @@
     render() {
       const body = $('#cartBody'), foot = $('#cartFoot');
       if (!body || !foot) return;
+      this.refresh();
 
       if (!this.items.length) {
         body.innerHTML =
@@ -355,7 +437,14 @@
 
     checkout() {
       if (!this.items.length) { toast('Sepetiniz boş.', 'error'); return; }
-      window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(this.orderText()), '_blank', 'noopener');
+      const url = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(this.orderText());
+      /* wa.me uzun bağlantıları sessizce kırpar — uzunsa e-postaya düş */
+      if (url.length > WA_MAX_URL) {
+        toast('Sipariş listeniz WhatsApp için uzun; e-posta ile hazırlanıyor.');
+        this.mailOrder();
+        return;
+      }
+      window.open(url, '_blank', 'noopener');
     },
     mailOrder() {
       if (!this.items.length) { toast('Sepetiniz boş.', 'error'); return; }
@@ -379,7 +468,7 @@
       const p = productById(add.dataset.add);
       if (!p) return;
       const qtyInput = add.dataset.qtyFrom ? $(add.dataset.qtyFrom) : null;
-      Cart.add({ id: p.id, name: p.name, price: p.price, image: p.image, meta: p.weight || '' },
+      Cart.add({ id: p.id, name: p.name, price: p.price, image: mainImage(p).src, meta: p.weight || '' },
         qtyInput ? Number(qtyInput.textContent) || 1 : 1);
     }
   });
@@ -390,7 +479,10 @@
     return '<article class="card' + (opts.reveal ? ' reveal' : '') + '">' +
       '<div class="card__media">' +
         (p.signature ? '<span class="card__flag">İmza</span>' : '') +
-        '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy" decoding="async" width="400" height="500">' +
+        imageHTML(mainImage(p), {
+          alt: p.name, width: 800, height: 800, loading: 'lazy',
+          sizes: '(max-width:640px) 45vw, (max-width:1024px) 33vw, 300px'
+        }) +
       '</div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category) + '</span>' +
@@ -465,14 +557,22 @@
           DB.categories.map(c => '<button class="chip" type="button" data-cat="' + c.slug + '">' + esc(c.name) + '</button>').join('');
       }
 
+      /* Arama dizini: bir kez kurulur, her tuşta yeniden hesaplanmaz.
+         Türkçe karakter sadeleştirilir, böylece "fistik" de "fıstık"ı bulur. */
+      const HAY = new Map();
+      DB.products.forEach(p => HAY.set(p.id, fold([
+        p.name, p.category, p.weight, p.shortDesc, (p.badges || []).join(' ')
+      ].join(' '))));
+
       function filtered() {
         let list = DB.products.slice();
         if (state.cat !== 'all') list = list.filter(p => p.categorySlug === state.cat);
         if (state.q.trim()) {
-          const q = state.q.toLocaleLowerCase('tr');
-          list = list.filter(p =>
-            p.name.toLocaleLowerCase('tr').indexOf(q) > -1 ||
-            p.category.toLocaleLowerCase('tr').indexOf(q) > -1);
+          const tokens = fold(state.q).split(' ').filter(Boolean);
+          list = list.filter(p => {
+            const hay = HAY.get(p.id) || '';
+            return tokens.every(t => hay.indexOf(t) > -1);
+          });
         }
         if (state.sort === 'price-asc') list.sort((a, b) => a.price - b.price);
         else if (state.sort === 'price-desc') list.sort((a, b) => b.price - a.price);
@@ -541,12 +641,34 @@
           '<h1 class="h3">Ürün bulunamadı</h1>' +
           '<p>Aradığınız ürün kaldırılmış veya bağlantı hatalı olabilir.</p>' +
           '<a class="btn btn--outline btn--sm" href="urunler.html">Koleksiyona dön</a></div>';
+        /* Geçersiz ?u= adresleri arama motoruna girmesin */
+        const rb = document.createElement('meta');
+        rb.name = 'robots'; rb.content = 'noindex, follow';
+        document.head.appendChild(rb);
         return;
       }
 
+      const imgs = imagesOf(p);
+      const pageUrl = CONFIG.siteUrl + '/urun.html?u=' + encodeURIComponent(p.slug);
+      /* og:image: WhatsApp ve Facebook onizlemeleri AVIF/WebP okumaz.
+         Fotograf hatti her urun icin bir JPEG uretir; yoksa hero'ya duselim. */
+      const ogSrc = imgs[0].og ||
+        (/\.(jpe?g|png)$/i.test(imgs[0].src) ? imgs[0].src : 'assets/hero.jpg');
+      const imgUrl = CONFIG.siteUrl + '/' + ogSrc;
+      const desc = p.shortDesc + ' ' + money(p.price) + '. Glikozsuz, el yapımı.';
+
+      /* Her ürün kendi canonical'ını ve OG etiketlerini taşımalı; aksi hâlde
+         101 ürün sayfasının tamamı urun.html'e işaret eder ve indexlenmez. */
       document.title = p.name + ' | ' + CONFIG.brand;
-      const md = $('meta[name="description"]');
-      if (md) md.setAttribute('content', p.shortDesc + ' ' + money(p.price) + '. Glikozsuz, el yapımı.');
+      setMeta('meta[name="description"]', 'content', desc);
+      setMeta('link[rel="canonical"]', 'href', pageUrl);
+      setMeta('meta[property="og:url"]', 'content', pageUrl);
+      setMeta('meta[property="og:type"]', 'content', 'product');
+      setMeta('meta[property="og:title"]', 'content', p.name + ' | ' + CONFIG.brand);
+      setMeta('meta[property="og:description"]', 'content', p.shortDesc);
+      setMeta('meta[property="og:image"]', 'content', imgUrl);
+      setMeta('meta[property="og:image:width"]', 'content', '1200');
+      setMeta('meta[property="og:image:height"]', 'content', '1200');
 
       const crumb = $('#crumbCurrent');
       if (crumb) crumb.textContent = p.name;
@@ -554,7 +676,22 @@
       if (crumbCat) { crumbCat.textContent = p.category; crumbCat.href = 'urunler.html?kategori=' + p.categorySlug; }
 
       host.innerHTML =
-        '<div class="pdp__media"><img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" width="800" height="800" fetchpriority="high"></div>' +
+        '<div class="pdp__media">' +
+          '<div class="pdp__stage" id="pdpStage">' +
+            imageHTML(imgs[0], { alt: p.name, width: 1200, height: 1200,
+              fetchpriority: 'high', sizes: '(max-width:900px) 100vw, 560px' }) +
+          '</div>' +
+          (imgs.length > 1
+            ? '<div class="pdp__thumbs" role="tablist" aria-label="Ürün görselleri">' +
+                imgs.map((im, i) =>
+                  '<button class="pdp__thumb' + (i === 0 ? ' is-active' : '') + '" type="button"' +
+                  ' role="tab" aria-selected="' + (i === 0) + '" data-img="' + i + '"' +
+                  ' aria-label="' + esc(im.alt || (p.name + ' görsel ' + (i + 1))) + '">' +
+                  '<img src="' + esc(im.src) + '" alt="" width="72" height="72" loading="lazy" decoding="async">' +
+                  '</button>').join('') +
+              '</div>'
+            : '') +
+        '</div>' +
         '<div>' +
           '<span class="eyebrow">' + esc(p.category) + '</span>' +
           '<h1 class="h2 pdp__title">' + esc(p.name) + '</h1>' +
@@ -586,9 +723,41 @@
         '</div>';
 
       host.addEventListener('click', (e) => {
-        const b = e.target.closest('[data-pdp-qty]'); if (!b) return;
-        const el = $('#pdpQtyVal');
-        el.textContent = Math.max(1, (Number(el.textContent) || 1) + Number(b.dataset.pdpQty));
+        const b = e.target.closest('[data-pdp-qty]');
+        if (b) {
+          const el = $('#pdpQtyVal');
+          el.textContent = Math.max(1, (Number(el.textContent) || 1) + Number(b.dataset.pdpQty));
+          return;
+        }
+        const t = e.target.closest('[data-img]');
+        if (t) showImage(Number(t.dataset.img));
+      });
+
+      /* Galeri */
+      function showImage(idx) {
+        const im = imgs[idx];
+        if (!im) return;
+        $('#pdpStage').innerHTML = imageHTML(im, {
+          alt: im.alt || p.name, width: 1200, height: 1200,
+          sizes: '(max-width:900px) 100vw, 560px'
+        });
+        $$('.pdp__thumb', host).forEach((b, i) => {
+          b.classList.toggle('is-active', i === idx);
+          b.setAttribute('aria-selected', String(i === idx));
+        });
+      }
+
+      /* Küçük resimlerde ok tuşlarıyla gezinme */
+      const thumbWrap = $('.pdp__thumbs', host);
+      if (thumbWrap) thumbWrap.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const btns = $$('.pdp__thumb', thumbWrap);
+        const cur = btns.indexOf(document.activeElement);
+        if (cur < 0) return;
+        e.preventDefault();
+        const next = (cur + (e.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length;
+        btns[next].focus();
+        showImage(next);
       });
 
       /* Benzer ürünler */
@@ -605,7 +774,7 @@
       ld.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product',
         name: p.name, description: p.shortDesc,
-        image: CONFIG.siteUrl + '/' + p.image,
+        image: imgs.map(im => CONFIG.siteUrl + '/' + im.src),
         category: p.category,
         brand: { '@type': 'Brand', name: CONFIG.brand },
         offers: {
@@ -629,7 +798,7 @@
 
       picker.innerHTML = pool.map(p =>
         '<button class="picker__item" type="button" data-pick="' + p.id + '">' +
-          '<img src="' + esc(p.image) + '" alt="" loading="lazy" width="46" height="46">' +
+          '<img src="' + esc(mainImage(p).src) + '" alt="" loading="lazy" decoding="async" width="46" height="46">' +
           '<span>' + esc(p.name) + '<b>+' + money(slotPrice(p)) + '</b></span>' +
         '</button>').join('');
 
@@ -637,7 +806,7 @@
         grid.innerHTML = Array.from({ length: CONFIG.boxSize }, (_, i) => {
           const s = slots[i];
           return s
-            ? '<div class="box-slot is-filled"><img src="' + esc(s.image) + '" alt="' + esc(s.name) + '">' +
+            ? '<div class="box-slot is-filled"><img src="' + esc(mainImage(s).src) + '" alt="' + esc(s.name) + '">' +
               '<button class="box-slot__x" type="button" data-unpick="' + i + '" aria-label="' + esc(s.name) + ' çıkar">&times;</button></div>'
             : '<div class="box-slot" aria-hidden="true">+</div>';
         }).join('');
@@ -674,7 +843,7 @@
           key: 'box-' + Date.now(),
           name: 'İmza Kutu (' + slots.length + ' çeşit)',
           price: total,
-          image: slots[0].image,
+          image: mainImage(slots[0]).src,
           meta: slots.map(s => s.name).join(', ')
         });
         slots = []; paint();
@@ -702,17 +871,37 @@
           const text = lines.join('\n');
           const mode = e.submitter && e.submitter.dataset.send === 'mail' ? 'mail' : 'wa';
 
-          if (mode === 'mail') {
+          const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text);
+          if (mode === 'mail' || waUrl.length > WA_MAX_URL) {
             location.href = 'mailto:' + CONFIG.email +
               '?subject=' + encodeURIComponent('Lok-Art — ' + title) +
               '&body=' + encodeURIComponent(text.replace(/\*/g, ''));
           } else {
-            window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+            window.open(waUrl, '_blank', 'noopener');
           }
           toast('Talebiniz iletilmek üzere hazırlandı.');
           form.reset();
         });
       });
+    },
+
+    /* ---------- Harita: onay verilene kadar yüklenmez ---------- */
+    map() {
+      const ph = $('[data-map]');
+      if (!ph) return;
+
+      function load() {
+        const f = document.createElement('iframe');
+        f.title = 'Lok-Art konum haritası';
+        f.loading = 'lazy';
+        f.referrerPolicy = 'no-referrer-when-downgrade';
+        f.src = ph.dataset.map;
+        ph.replaceWith(f);
+      }
+
+      if (Consent.has('harita')) { load(); return; }
+      const btn = $('[data-map-load]', ph);
+      if (btn) btn.addEventListener('click', () => { Consent.allow('harita'); load(); });
     },
 
     /* ---------- SSS akordiyonu ---------- */
@@ -726,6 +915,47 @@
     }
   };
 
+  /* --------------------------- 6b. ÇEREZ ONAYI --------------------------- */
+  /* Site kendi çerezini kullanmaz; sepet localStorage'da durur. Onay yalnızca
+     Google Haritalar gibi üçüncü taraf içerikler için sorulur. */
+  const Consent = {
+    KEY: 'lokart.consent.v1',
+    read() {
+      try { return JSON.parse(localStorage.getItem(this.KEY) || '{}') || {}; }
+      catch (e) { return {}; }
+    },
+    write(v) { try { localStorage.setItem(this.KEY, JSON.stringify(v)); } catch (e) {} },
+    has(k) { return this.read()[k] === true; },
+    answered() { return !!this.read().ts; },
+    allow(k) { const v = this.read(); v[k] = true; v.ts = Date.now(); this.write(v); },
+    denyAll() { this.write({ ts: Date.now() }); },
+
+    bar() {
+      if (this.answered()) return;
+      const el = document.createElement('div');
+      el.className = 'consent';
+      el.setAttribute('role', 'region');
+      el.setAttribute('aria-label', 'Çerez bildirimi');
+      el.innerHTML =
+        '<p>Siteyi çalıştırmak için yalnızca zorunlu yerel depolama kullanıyoruz ' +
+        '(sepetiniz). Harita gibi üçüncü taraf içerikler ancak izin verirseniz yüklenir. ' +
+        '<a href="kvkk.html#cerez">Ayrıntılar</a></p>' +
+        '<div class="consent__actions">' +
+          '<button class="btn btn--sm btn--outline" type="button" data-consent="no">Sadece zorunlu</button>' +
+          '<button class="btn btn--sm btn--gold" type="button" data-consent="yes">Kabul et</button>' +
+        '</div>';
+      document.body.appendChild(el);
+      document.body.classList.add('has-consent');
+      el.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-consent]');
+        if (!b) return;
+        if (b.dataset.consent === 'yes') this.allow('harita'); else this.denyAll();
+        el.remove();
+        document.body.classList.remove('has-consent');
+      });
+    }
+  };
+
   /* ------------------------------ 7. BAŞLATMA ---------------------------- */
   function init() {
     buildShell();
@@ -733,13 +963,17 @@
     Cart.paint();
     Pages.forms();
     Pages.accordion();
+    Pages.map();
+    Consent.bar();
     initReveal();
 
     const page = document.body.dataset.page;
-    const needsData = ['home', 'catalog', 'product', 'box'].indexOf(page) > -1;
-    if (!needsData) return;
 
+    /* Veri her sayfada yüklenir: sepet çekmecesi her sayfada açılabildiği için
+       fiyatların güncel kalması gerekiyor (Cart.refresh). Veri gömülü olduğu
+       için bu ek bir ağ isteği doğurmaz. */
     loadData().then(() => {
+      Cart.paint();
       if (page === 'home') Pages.home();
       else if (page === 'catalog') Pages.catalog();
       else if (page === 'product') Pages.product();
@@ -752,5 +986,5 @@
   else init();
 
   /* Dışarıya açılan küçük yüzey (konsol / ileride entegrasyon için) */
-  window.LokArt = { Cart, CONFIG, get data() { return DB; } };
+  window.LokArt = { Cart, CONFIG, Consent, get data() { return DB; } };
 })();
