@@ -38,18 +38,24 @@ kvkk.html             KVKK, çerez ve iade metni (ŞABLON — hukukçuya okutulm
 style.css             Tüm tasarım sistemi (tek dosya, bölümlere ayrılmış)
 app.js                Tüm uygulama mantığı (tek dosya, bölümlere ayrılmış)
 
-data/products.json    Ürün veritabanı — ASIL KAYNAK, elle düzenlenen dosya
-data/products.js      Aynı verinin tarayıcıya gömülen sürümü — OTOMATİK ÜRETİLİR
+data/products.json    Ürün veritabanı — ASIL KAYNAK, elle düzenlenen tek dosya
+data/index.js         Kart/arama/sepet verisi, her sayfada — OTOMATİK ÜRETİLİR
+data/details.js       Uzun açıklamalar, yalnız urun.html — OTOMATİK ÜRETİLİR
 
-tools/build.py        products.json'u doğrular ve products.js'i üretir
+tools/build.py        products.json'u doğrular; products.js ve sitemap.xml'i üretir
 tools/images.py       Ham fotoğrafları kareye kırpar, AVIF/WebP üretir, veriyi günceller
 
 assets/               Site görselleri
 assets/urunler/       Üretilmiş ürün fotoğrafları (tools/images.py yazar)
+assets/atmosfer.*     Ana sayfadaki dikey atmosfer videosu (sessiz döngü)
 _ham/                 Ham fotoğraflar (git'e girmez, sadece girdi klasörü)
 
+favicon.ico           Eski tarayıcılar için ikon
+apple-touch-icon.png  iOS ana ekran ikonu (180×180, SVG desteklenmiyor)
 robots.txt            Arama motoru yönergeleri
-sitemap.xml           108 URL içeren site haritası
+sitemap.xml           OTOMATİK ÜRETİLİR — tools/build.py yazar
+.nojekyll             GitHub Pages'in Jekyll'i atlaması için (boş dosya)
+.htaccess             Apache/cPanel: 404, HTTPS, sıkıştırma, önbellek, güvenlik başlıkları
 _eski/                Önceki denemenin yedeği — SİLİNEBİLİR
 ```
 
@@ -90,8 +96,15 @@ vardır — **yayına almadan önce o kutuyu kaldırın.**
 
 ### 4. Alan adını değiştirin
 
-`sitemap.xml`, `robots.txt`, her sayfadaki `canonical` / `og:url` ve `app.js`
-içindeki `CONFIG.siteUrl` alanlarında `https://www.lokart.com.tr` yazılıdır.
+Önce `app.js` içindeki `CONFIG.siteUrl` alanını değiştirin — `sitemap.xml`
+alan adını buradan okur. Sonra:
+
+```bash
+python3 tools/build.py     # sitemap yeni alan adıyla yeniden üretilir
+```
+
+Kalan yerler elle: `robots.txt` ve her sayfadaki `canonical` / `og:url` etiketleri
+(ürün ve kategori sayfaları kendi etiketlerini JS ile yazdığı için onlara dokunmayın).
 
 ---
 
@@ -189,9 +202,24 @@ python3 tools/build.py
 ```
 
 Script şunları yapar: zorunlu alanları kontrol eder, slug/id tekrarını yakalar,
-eksik görsel dosyalarını bildirir, kategori sayaçlarını tazeler ve
-`data/products.js` dosyasını üretir. Hata varsa hiçbir dosyayı yazmaz.
-`data/products.js` dosyasını **elle düzenlemeyin.**
+eksik görsel dosyalarını bildirir, kategori sayaçlarını tazeler, `data/products.js`
+dosyasını üretir ve **`sitemap.xml`'i yeniden yazar** (sabit sayfalar + 10 kategori
++ tüm ürünler). Hata varsa hiçbir dosyayı yazmaz.
+
+`data/index.js`, `data/details.js` ve `sitemap.xml` dosyalarını **elle düzenlemeyin** —
+üretiliyorlar.
+
+### Neden veri ikiye ayrılıyor?
+
+Sepet çekmecesi her sayfada açılabildiği ve fiyatların güncel kalması gerektiği için
+ürün verisi her sayfada yükleniyor. Ama verinin ~%63'ü (`description`, `tastingNote`,
+`pairing`) yalnızca ürün detay sayfasında lazım. 101 üründe fark küçük; 500 üründe
+her sayfaya 394 KB yerine 144 KB düşüyor.
+
+Aynı sebeple görsel yolları veride açık açık yazılmaz. `tools/images.py` dosyaları
+sabit bir kurala göre üretir (`<slug>-<sıra>-<genişlik>.<format>`), veri yalnızca
+fotoğraf sayısını taşır (`"im": {"g": 3}`), `srcset` metinleri tarayıcıda kurulur.
+Açık yazılsaydı 500 üründe sadece dosya adları ~500 KB tutardı.
 
 Sadece kontrol için: `python3 tools/build.py --check`
 
@@ -237,7 +265,12 @@ Statik site olduğu için hepsi çalışır:
 
 - **GitHub Pages** — depoyu push edin, Settings → Pages → Branch: `main`, klasör `/`. Ücretsiz.
 - **Netlify / Cloudflare Pages** — klasörü sürükleyip bırakın. Ücretsiz, otomatik HTTPS.
-- **Paylaşımlı hosting (cPanel)** — dosyaları `public_html` altına atın. Yeterli.
+- **Paylaşımlı hosting (cPanel)** — dosyaları `public_html` altına atın. `.htaccess`
+  dosyası 404 sayfasını, HTTPS yönlendirmesini, sıkıştırmayı ve önbelleği ayarlar;
+  gizli dosya olduğu için FTP'de "gizli dosyaları göster" açık olmalı.
+
+`.nojekyll` GitHub Pages içindir: Jekyll `_` ile başlayan klasörleri yok sayar,
+bu dosya onu devre dışı bırakır. Diğer hostinglerde zararsızdır.
 
 ---
 
@@ -246,12 +279,17 @@ Statik site olduğu için hepsi çalışır:
 - **Erişilebilirlik**: klavye ile tam gezinme, "İçeriğe geç" bağlantısı, `aria` etiketleri,
   odak halkaları, `prefers-reduced-motion` desteği. Sepet çekmecesi ve mobil menü
   açıkken odak panelin içinde kalır (focus trap), Esc kapatır.
-- **SEO**: her sayfada benzersiz `title` ve `description`; ürün sayfaları kendi
-  `canonical` ve Open Graph etiketlerini JS ile yazar (aksi hâlde 101 ürün sayfası
-  tek adrese işaret eder ve indexlenmez); `Store` ve `Product` JSON-LD; sitemap.
-  Bulunamayan ürün adresleri `noindex` alır.
+- **SEO**: her sayfada benzersiz `title` ve `description`; ürün **ve kategori**
+  sayfaları kendi `canonical` ve Open Graph etiketlerini JS ile yazar (aksi hâlde
+  101 ürün ve 10 kategori adresinin tamamı tek sayfaya işaret eder ve indexlenmez).
+  `Store`, `Product` ve `BreadcrumbList` JSON-LD. Sitemap 118 URL ile veriden üretilir.
+  Arama sonuçları ve bulunamayan ürün adresleri `noindex` alır.
 - **Görseller**: `<picture>` ile AVIF → WebP → JPEG sırası, üç boyutlu `srcset`.
   Paylaşım önizlemeleri için ayrı JPEG (WhatsApp ve Facebook AVIF/WebP okumaz).
+- **Katalog**: yapışkan kategori çubuğu, fiyat aralığı filtresi, numaralı sayfalama
+  (`?sayfa=2`). Yüzlerce ürüne göre kurulmuştur.
+- **Renk**: açık zeminde küçük metinler `--gold-ink` kullanır (kontrast 5.2:1).
+  `--gold-dark` yalnızca çizgi ve kenarlık içindir — metinde kullanmayın, WCAG AA'dan kalır.
 - **Arama**: Türkçe karakterden bağımsız ("fistik" araması "fıstık"ı bulur),
   çok kelimeli, ad + kategori + ağırlık + kısa açıklama + rozetlerde arar.
 - **Performans**: harici kütüphane yok. Görseller `lazy` yükleniyor, hero için
@@ -263,6 +301,8 @@ Statik site olduğu için hepsi çalışır:
 ## Sonraki aşamalar (isteğe bağlı)
 
 1. Gerçek ürün fotoğrafçılığı *(en yüksek etki — hat hazır, sadece fotoğraf lazım)*
+   Yüzlerce ürün varsa kademeli gidin: öne çıkan 30–40 ürün düzgün çekilsin,
+   uzun kuyruk sade düz zemin karesiyle geçilsin.
 2. Öne çıkan 20–30 ürün için firmanın kendi anlatımıyla açıklama metinleri
 3. Fontları self-host etmek
 4. İngilizce dil desteği

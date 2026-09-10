@@ -22,7 +22,8 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,8 +108,9 @@
     </div>
   </section>
 
-  <section class="values">
+  <section class="values" aria-labelledby="valuesTitle">
     <div class="container">
+      <h2 class="sr-only" id="valuesTitle">Lok-Art'ı ayıran dört şey</h2>
       <div class="values__grid">
         <div class="value reveal">
           <span class="value__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg></span>
@@ -134,7 +136,7 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--lg">
     <div class="container">
       <div class="section__head">
         <span class="eyebrow">İmza koleksiyon</span>
@@ -172,23 +174,66 @@
     </div>
   </section>
 
-  <section class="section section--cream">
+  <section class="section section--cream section--lg">
     <div class="container">
-      <div class="split">
-        <div class="split__media reveal">
-          <video controls preload="none" playsinline poster="assets/hero.jpg" width="800" height="600">
-            <source src="assets/hero_background.mp4" type="video/mp4">
-            Tarayıcınız video etiketini desteklemiyor.
+      <div class="section__head">
+        <span class="eyebrow">Üretim</span>
+        <h2>Makine değil, usta eli</h2>
+        <p>Lokum sabır isteyen bir iştir. Dört adımın hiçbiri hızlandırılamaz.</p>
+      </div>
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step__no">01</span>
+          <h3>Bakır kazanda pişirim</h3>
+          <p>Doğal kaynak suyu, nişasta, şeker ve hakiki bal odun ateşinde saatlerce
+             karıştırılır. Kıvam termometreyle değil, gözle ve elle anlaşılır.</p>
+        </li>
+        <li class="step reveal" data-delay="1">
+          <span class="step__no">02</span>
+          <h3>Mermerde dinlenme</h3>
+          <p>Pişen hamur mermer tezgâha alınır ve kendi hâlinde dinlenir. Bu adım
+             atlanırsa doku tutmaz, kesitte katmanlar dağılır.</p>
+        </li>
+        <li class="step reveal" data-delay="2">
+          <span class="step__no">03</span>
+          <h3>İç harçla sarma</h3>
+          <p>İnce açılan hamur; fıstık, ceviz, badem veya kadayıfla elde sarılır.
+             Her rulo aynı kalınlıkta olsun diye tek tek kontrol edilir.</p>
+        </li>
+        <li class="step reveal" data-delay="3">
+          <span class="step__no">04</span>
+          <h3>Elle dilimleme</h3>
+          <p>Rulolar bıçakla, tek tek dilimlenir. Kesitteki her katman bu el
+             işçiliğinin izidir — makine kesiminde o iz kaybolur.</p>
+        </li>
+      </ol>
+      <div class="mt-7"><a class="link-arrow" href="hakkimizda.html">Üretim hikâyemiz &rarr;</a></div>
+    </div>
+  </section>
+
+  <section class="showcase">
+    <div class="container">
+      <div class="showcase__grid">
+        <div class="showcase__media">
+          <!-- Sessiz, kısa döngü. Görünür olunca oynar; hareket azaltma açıksa oynamaz. -->
+          <video class="showcase__video" data-ambient muted loop playsinline preload="none"
+                 poster="assets/atmosfer-poster.jpg" width="608" height="1016"
+                 aria-label="Türk kahvesinin yanında ikram edilen Lok-Art lokumu">
+            <source src="assets/atmosfer.webm" type="video/webm">
+            <source src="assets/atmosfer.mp4" type="video/mp4">
           </video>
         </div>
-        <div class="split__body reveal" data-delay="1">
-          <span class="eyebrow">Üretim</span>
-          <h2>Makine değil, usta eli</h2>
-          <p>Lokum, sabır isteyen bir iştir. Kazandaki karışım saatlerce, sürekli karıştırılarak pişirilir;
-             kıvamını gözle ve elle anlarsınız — termometreyle değil.</p>
-          <p>Pişen hamur mermer tezgâhta dinlendirilir, iç harcıyla sarılır ve tek tek elle dilimlenir.
-             Kesitteki katmanların her birinde bu el işçiliği görünür.</p>
-          <a class="link-arrow" href="hakkimizda.html">Üretim hikâyemiz &rarr;</a>
+        <div class="showcase__body">
+          <span class="eyebrow eyebrow--light">Sofrada</span>
+          <h2>Kahvenin yanındaki<br><em>tek şey</em></h2>
+          <p class="lead">Lokum, ikramın kendisidir. Bir fincan sade kahve, iki parça sarma —
+             misafirliğin en eski cümlesi hâlâ bu.</p>
+          <p>Glikoz şurubu kullanılmadığı için damakta ağırlık bırakmaz; tatlılığı ölçülüdür,
+             kahvenin acılığını bastırmaz. Her gün üretildiği için de dokusu taze kalır.</p>
+          <div class="showcase__cta">
+            <a class="btn btn--gold" href="urunler.html?kategori=sarma-lokum">Sarma lokumlar</a>
+            <a class="btn btn--outline-light" href="urunler.html?kategori=cay-kahve">Çay &amp; kahve</a>
+          </div>
         </div>
       </div>
     </div>
@@ -237,7 +282,7 @@
       </div>
 
       <div>
-        <h4>Koleksiyon</h4>
+        <h2 class="footer-head">Koleksiyon</h2>
         <ul>
           <li><a href="urunler.html?kategori=sarma-lokum">Sarma Lokum</a></li>
           <li><a href="urunler.html?kategori=parmak-lokum">Parmak Lokum</a></li>
@@ -248,7 +293,7 @@
       </div>
 
       <div>
-        <h4>Kurumsal</h4>
+        <h2 class="footer-head">Kurumsal</h2>
         <ul>
           <li><a href="hakkimizda.html">Hakkımızda</a></li>
           <li><a href="kurumsal.html">Kurumsal Siparişler</a></li>
@@ -259,7 +304,7 @@
       </div>
 
       <div>
-        <h4>İletişim</h4>
+        <h2 class="footer-head">İletişim</h2>
         <ul>
           <li><a href="#" data-cfg="phoneDisplay">+90 850 255 18 18</a></li>
           <li><a href="#" data-cfg="email">info@lokart.com.tr</a></li>
@@ -275,7 +320,7 @@
   </div>
 </footer>
 
-<script src="data/products.js" defer></script>
+<script src="data/index.js" defer></script>
 <script src="app.js" defer></script>
 </body>
 </html>
