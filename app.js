@@ -1426,34 +1426,97 @@
     },
 
     /* ---------- Kesit anlatımı ---------- */
-    /* Bölüm görününce katmanlar ayrılır; okunan maddeye göre ilgili katman öne çıkar.
-       CSS scroll-timeline kullanmadım — Safari desteğinden emin değilim, bu her yerde çalışır. */
+    /* Okunan maddeden görselin ilgili noktasına ince bir bağlantı çizgisi uzanır.
+       Hedefler HTML'de data-x / data-y yüzdeleriyle duruyor; gerçek kesit fotoğrafı
+       geldiğinde yalnızca o dört sayı ve <img> değişir, mekanizma aynı kalır. */
     cut() {
       const sec = $('.cut');
       if (!sec) return;
-      const items = $$('.cut__item', sec);
+      const items  = $$('.cut__item', sec);
       const layers = $$('.cut__layer', sec);
-      if (!items.length || !('IntersectionObserver' in window)) {
+      const media  = $('#cutMedia');
+      const wires  = $('#cutWires');
+      const pin    = $('#cutPin');
+      const grid   = $('#cutGrid');
+      if (!items.length) return;
+
+      const masaustu = () => window.innerWidth > 900;
+
+      if (!('IntersectionObserver' in window)) {
         sec.classList.add('is-open');
         items.forEach(i => i.classList.add('is-active'));
         return;
       }
-
-      /* 1) Bölüm görüş alanına girince katmanlar açılır */
       new IntersectionObserver((es) => {
         es.forEach(e => sec.classList.toggle('is-open', e.isIntersecting));
       }, { threshold: 0.15 }).observe(sec);
 
-      /* 2) Ekranın ortasına en yakın madde "okunuyor" sayılır */
+      /* Çizgiyi çiz: maddenin renk kutusundan görseldeki hedef noktaya.
+         Nokta görselin İÇİNDE yüzdeyle konumlanır; çizginin ucu da noktanın
+         gerçek yerinden okunur, böylece ikisi hep aynı yere bakar. */
+      function wire(item) {
+        if (!wires || !grid || !media || !pin) return;
+        if (!item || !masaustu()) {
+          wires.innerHTML = '';
+          pin.style.opacity = '0';
+          return;
+        }
+
+        // 1) Noktayı görselin içine yerleştir
+        pin.style.left = (Number(item.dataset.x) || 50) + '%';
+        pin.style.top  = (Number(item.dataset.y) || 50) + '%';
+        pin.style.opacity = '1';
+
+        /* 2) Hedefi görsel kutusundan hesapla — noktanın kendi konumunu OKUMA:
+              left/top geçişi sürerken getBoundingClientRect eski yeri döndürüyor
+              ve çizgi noktayı ıskalıyordu. */
+        const g  = grid.getBoundingClientRect();
+        const m  = media.getBoundingClientRect();
+        const sw = $('.cut__swatch', item).getBoundingClientRect();
+
+        const hx = m.left - g.left + m.width  * ((Number(item.dataset.x) || 50) / 100);
+        const hy = m.top  - g.top  + m.height * ((Number(item.dataset.y) || 50) / 100);
+        const sx = sw.left - g.left;
+        const sy = sw.top  - g.top + sw.height / 2;
+
+        const bend = sx - 40;                       // kutudan sola çıkış
+        const d = 'M' + sx.toFixed(1) + ' ' + sy.toFixed(1) +
+                  ' H' + bend.toFixed(1) +
+                  ' V' + hy.toFixed(1) +
+                  ' H' + (hx + 9).toFixed(1);       // noktanın hemen yanında bit
+
+        wires.setAttribute('viewBox', '0 0 ' + g.width + ' ' + g.height);
+        wires.setAttribute('width', g.width);
+        wires.setAttribute('height', g.height);
+        wires.innerHTML =
+          '<path class="cut__wire" d="' + d + '" fill="none" stroke="var(--gold)" ' +
+          'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+
+        /* Çizilme animasyonu yolun GERÇEK uzunluğuyla kurulmalı. Sabit bir değer
+           verilince kısa yollarda çizgi sürenin çoğunda görünmeyip sonda birden
+           beliriyordu. */
+        const path = $('.cut__wire', wires);
+        if (path && path.getTotalLength) {
+          const len = path.getTotalLength();
+          path.style.strokeDasharray = len;
+          path.style.strokeDashoffset = len;
+          path.getBoundingClientRect();              // yeniden akış: animasyon baştan alsın
+          path.style.transition = 'stroke-dashoffset .55s var(--ease)';
+          path.style.strokeDashoffset = '0';
+        }
+      }
+
+      let sonAktif = -1;
       const lit = (idx) => {
+        if (idx === sonAktif) return;
+        sonAktif = idx;
         items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
         layers.forEach(l => l.classList.toggle('is-lit', Number(l.dataset.layer) === idx));
-        sec.classList.toggle('has-focus', idx > -1);
+        wire(idx > -1 ? items[idx] : null);
       };
 
       const pick = () => {
-        /* Telefonda diyagram sabitlenmiyor; katman vurgusu masaüstüne özel */
-        if (window.innerWidth <= 900) { lit(-1); return; }
+        if (!masaustu()) { lit(-1); return; }
         const mid = window.innerHeight * 0.5;
         let best = -1, bestD = Infinity;
         items.forEach((it, i) => {
@@ -1464,8 +1527,11 @@
         });
         lit(best);
       };
-      window.addEventListener('scroll', pick, { passive: true });
-      window.addEventListener('resize', pick, { passive: true });
+      const yenidenCiz = () => { const i = sonAktif; sonAktif = -1; lit(i); };
+
+      window.addEventListener('scroll', () => { pick(); if (sonAktif > -1) wire(items[sonAktif]); },
+                              { passive: true });
+      window.addEventListener('resize', () => { pick(); yenidenCiz(); }, { passive: true });
       pick();
     },
 

@@ -869,8 +869,20 @@ small,.small{font-size:.85rem}
 .cut h2 em{font-style:italic; color:var(--gold)}
 
 .cut__grid{
+  position:relative;
   display:grid; grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);
   gap:clamp(2rem,6vw,5rem); align-items:start;
+}
+/* Okunan maddeden görseldeki ilgili noktaya uzanan ince bağlantı çizgisi */
+.cut__wires{position:absolute; inset:0; pointer-events:none; z-index:3; overflow:visible}
+.cut__wire{opacity:.85}   /* uzunluk ve geçiş JS'te, yolun gerçek boyuna göre */
+.cut__media{position:relative; display:inline-block}
+.cut__pin{
+  position:absolute; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 0 5px rgba(198,168,124,.25), 0 0 0 1.5px rgba(6,32,24,.5) inset;
+  opacity:0; transition:opacity .3s var(--ease), left .5s var(--ease), top .5s var(--ease);
+  z-index:4; pointer-events:none;
 }
 .cut__stage{
   position:sticky; top:calc(50vh - 170px);
@@ -919,6 +931,7 @@ small,.small{font-size:.85rem}
      diyagram bir kez görünüp açılır, maddeler altında normal liste olarak okunur. */
   .cut__grid{grid-template-columns:1fr; gap:2rem}
   .cut__stage{position:static; padding-block:.5rem 1rem}
+  .cut__wires,.cut__pin{display:none}
   .cut__svg{width:min(250px,66vw)}
   .cut__list{gap:1.75rem}
   .cut__item{opacity:1; transform:none}
