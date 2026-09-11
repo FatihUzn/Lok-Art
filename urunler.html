@@ -82,17 +82,21 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
             <input class="input" type="search" id="searchInput" placeholder="Ürün ara — örn. fıstıklı sarma" autocomplete="off">
           </label>
-          <label class="sr-only" for="priceSelect">Fiyat aralığı</label>
-          <select class="select" id="priceSelect" style="width:auto;min-width:160px">
-            <option value="all">Tüm fiyatlar</option>
-            <option value="0-250">250 TL altı</option>
-            <option value="250-500">250 – 500 TL</option>
-            <option value="500-1000">500 – 1.000 TL</option>
-            <option value="1000-2000">1.000 – 2.000 TL</option>
-            <option value="2000-">2.000 TL üzeri</option>
-          </select>
+          <button class="btn btn--outline btn--sm toolbar__filter" type="button" id="filterToggle"
+                  aria-expanded="false" aria-controls="filterPanel">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 6h18M7 12h10M11 18h2"/></svg>
+            Filtrele<span class="toolbar__filter-n" id="filterCount" hidden></span>
+          </button>
           <span class="toolbar__spacer"></span>
           <span class="small muted toolbar__count" id="resultCount" role="status" aria-live="polite"></span>
+        <div class="toolbar__view" role="group" aria-label="Görünüm">
+          <button class="viewbtn" type="button" data-view="grid" aria-label="Izgara görünümü" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button class="viewbtn" type="button" data-view="list" aria-label="Liste görünümü" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+          </button>
+        </div>
         <div class="toolbar__sort">
           <label class="small muted" for="sortSelect">Sırala</label>
           <select class="select" id="sortSelect" style="width:auto;min-width:190px">
@@ -103,6 +107,39 @@
           </select>
         </div>
       </div>
+
+      <!-- Filtre paneli: masaüstünde satır içi açılır, mobilde alttan panel olur -->
+      <div class="filters" id="filterPanel" hidden>
+        <div class="filters__head">
+          <h2 class="filters__title">Filtrele</h2>
+          <button class="icon-btn" type="button" data-close-filters aria-label="Filtreleri kapat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="filters__body">
+          <fieldset class="filters__group">
+            <legend>İçerik</legend>
+            <div class="filters__opts" id="tagFilters"></div>
+          </fieldset>
+          <fieldset class="filters__group">
+            <legend>Fiyat</legend>
+            <div class="filters__opts" id="priceFilters">
+              <label class="filters__opt"><input type="radio" name="fiyat" value="all" checked> Tümü</label>
+              <label class="filters__opt"><input type="radio" name="fiyat" value="0-250"> 250 TL altı</label>
+              <label class="filters__opt"><input type="radio" name="fiyat" value="250-500"> 250 – 500 TL</label>
+              <label class="filters__opt"><input type="radio" name="fiyat" value="500-1000"> 500 – 1.000 TL</label>
+              <label class="filters__opt"><input type="radio" name="fiyat" value="1000-2000"> 1.000 – 2.000 TL</label>
+              <label class="filters__opt"><input type="radio" name="fiyat" value="2000-"> 2.000 TL üzeri</label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="filters__foot">
+          <button class="btn btn--outline btn--sm" type="button" id="clearFilters">Temizle</button>
+          <button class="btn btn--gold btn--sm" type="button" data-close-filters>Sonuçları gör</button>
+        </div>
+      </div>
+
+      <div class="activefilters" id="activeFilters" hidden></div>
 
       <h2 class="sr-only">Ürünler</h2>
       <div class="grid grid--products" id="catalogGrid">

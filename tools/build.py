@@ -33,7 +33,7 @@ DETAILS_PATH = os.path.join(ROOT, 'data', 'details.js')      # agir: yalniz urun
 # verinin ~%63'u ve yalnizca urun detay sayfasinda lazim -> ayri dosyaya gider.
 INDEX_FIELDS = ['id', 'slug', 'name', 'price', 'category', 'categorySlug',
                 'categoryOrder', 'weight', 'grams', 'badges', 'shortDesc',
-                'featured', 'signature']
+                'featured', 'signature', 'tags']
 DETAIL_FIELDS = ['description', 'tastingNote', 'pairing', 'allergens', 'ingredients']
 
 IMG_DIR = 'assets/urunler/'
@@ -225,6 +225,9 @@ def main():
     if eksik_gramaj:
         warnings.append('%d urunde gramaj yok — fiyatin ne kadara ait oldugu belli degil '
                         '(ilk uc: %s)' % (len(eksik_gramaj), ', '.join(eksik_gramaj[:3])))
+    eksik_tag = sum(1 for p in products if not p.get('tags'))
+    if eksik_tag:
+        warnings.append('%d urunde icerik etiketi yok (tags) — python3 tools/tags.py' % eksik_tag)
     eksik_alerjen = sum(1 for p in products if not p.get('allergens'))
     if eksik_alerjen:
         warnings.append('%d urunde alerjen listesi yok (allergens alani)' % eksik_alerjen)
@@ -255,7 +258,15 @@ def main():
         json.dump(db, f, ensure_ascii=False, indent=2)
         f.write('\n')
 
-    index = {'categories': categories, 'products': []}
+    tagsay = {}
+    for p in products:
+        for t in (p.get('tags') or []):
+            tagsay[t] = tagsay.get(t, 0) + 1
+    # cok kullanilandan aza: filtre listesi bu sirada cizilir
+    taglist = [{'name': k, 'count': v}
+               for k, v in sorted(tagsay.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+    index = {'categories': categories, 'tags': taglist, 'products': []}
     details = {}
     for p in products:
         row = dict((k, p[k]) for k in INDEX_FIELDS if k in p)
@@ -280,7 +291,8 @@ def main():
     if os.path.exists(JS_PATH):
         os.remove(JS_PATH)
 
-    print('  data/index.js   %6.1f KB  (%d urun)' % (n_index / 1024.0, len(products)))
+    print('  data/index.js   %6.1f KB  (%d urun, %d icerik etiketi)'
+          % (n_index / 1024.0, len(products), len(taglist)))
     print('  data/details.js %6.1f KB  (yalniz urun sayfasinda)' % (n_detail / 1024.0))
 
     n = write_sitemap(products, categories)

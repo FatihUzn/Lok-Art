@@ -42,7 +42,8 @@ data/products.json    Ürün veritabanı — ASIL KAYNAK, elle düzenlenen tek d
 data/index.js         Kart/arama/sepet verisi, her sayfada — OTOMATİK ÜRETİLİR
 data/details.js       Uzun açıklamalar, yalnız urun.html — OTOMATİK ÜRETİLİR
 
-tools/build.py        products.json'u doğrular; products.js ve sitemap.xml'i üretir
+tools/build.py        products.json'u doğrular; index.js, details.js ve sitemap.xml'i üretir
+tools/tags.py         Ürün adlarından içerik etiketi üretir (fıstıklı, cevizli...)
 tools/images.py       Ham fotoğrafları kareye kırpar, AVIF/WebP üretir, veriyi günceller
 
 assets/               Site görselleri
@@ -169,6 +170,36 @@ Kalan geçici görsel sayısını her derlemede `tools/build.py` söyler.
 
 ---
 
+## Yüzlerce ürünü nasıl sunuyoruz
+
+Kategoriler ürünün **biçimini** söyler (sarma, parmak, çifte kavrulmuş). Müşteri ise
+içeriğe göre arar: "fıstıklı olan", "cevizli var mı". Bu yüzden ikinci bir eksen var.
+
+**İçerik etiketleri** (`tags`) — `tools/tags.py` ürün adlarından üretir, %99 kapsama.
+Etiketler **öneridir**, `products.json` içinde elle düzeltilir. Script varsayılan olarak
+`tags` alanı dolu olan ürünlere dokunmaz, yani düzeltmeleriniz kaybolmaz.
+
+```bash
+python3 tools/tags.py           # etiketi olmayanları doldur
+python3 tools/tags.py --rapor   # hangi etikette kaç ürün var
+python3 tools/tags.py --dry     # yazmadan göster
+python3 tools/tags.py --force   # hepsini yeniden üret (elle düzeltmeler gider)
+python3 tools/build.py
+```
+
+Sözlük `tools/tags.py` içindeki `SOZLUK` listesindedir; yeni içerik eklemek bir satır.
+
+**Katalogdaki üç mekanizma:**
+
+| | Ne işe yarar |
+|---|---|
+| Kategori şeridi | Yapışkan, sayaçlı. Biçime göre daraltma. |
+| Filtre paneli | İçerik + fiyat. Masaüstünde satır içi açılır, mobilde alttan panel. Seçilenler grid üstünde kaldırılabilir etiket olarak durur. |
+| Görünüm değiştirme | Izgara (seçmek için) / liste (göz gezdirmek için). Mobilde liste ekrana ~10 ürün sığdırır, ızgara 2. Tercih hatırlanır. |
+| Arama önerisi | 2 harften sonra küçük resimli öneri; ok tuşları ve Enter ile doğrudan ürüne gider. |
+
+Adresler paylaşılabilir: `urunler.html?kategori=cifte-kavrulmus&icerik=Fıstıklı,Cevizli&fiyat=500-1000&sayfa=2`
+
 ## Ürün ekleme / düzenleme
 
 Kaynak dosya `data/products.json`. Bir ürün şöyle görünür:
@@ -211,6 +242,8 @@ Kaynak dosya `data/products.json`. Bir ürün şöyle görünür:
 | `slug` | Ürün sayfasının adresi: `urun.html?u=<slug>`. Benzersiz olmalı, küçük harf, Türkçe karaktersiz. |
 | `price` | **Sayı**, metin değil. Ondalık ayıracı nokta (`1020.00`). Ekranda `1.020,00 TL` görünür. |
 | `images` | Görsel dizisi. İlki ana görsel; birden fazlaysa ürün sayfasında galeri çıkar. |
+| `tags` | İçerik etiketleri (`["Fıstıklı","Çikolatalı"]`). Katalog filtresi bunu kullanır. `tools/tags.py` üretir, elle düzeltilir. |
+| `allergens` | Alerjen listesi. Girilirse ürün sayfasında uyarı kutusu çıkar, girilmezse hiçbir şey gösterilmez. |
 | `image` | `images[0].src` ile aynı. `tools/build.py` otomatik doldurur, elle yazmayın. |
 | `featured` | Ana sayfadaki "En çok tercih edilenler" bölümünde gösterilir. |
 | `signature` | Ana sayfa "İmza Koleksiyon" şeridinde ve kartta "İmza" etiketiyle gösterilir. |

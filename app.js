@@ -712,6 +712,91 @@
     sync();
   }
 
+  /* Liste görünümü satırı — ekrana 4-6 yerine 20-25 ürün sığsın diye */
+  function rowHTML(p) {
+    return '<article class="row-item">' +
+      '<div class="row-item__media">' +
+        imageHTML(mainImage(p), { alt: p.name, width: 160, height: 160, loading: 'lazy',
+                                  sizes: '80px' }) +
+        (p.signature ? '<span class="row-item__flag" title="İmza koleksiyon">★</span>' : '') +
+      '</div>' +
+      '<div class="row-item__body">' +
+        '<span class="row-item__cat">' + esc(p.category) + '</span>' +
+        '<h3 class="row-item__title">' + esc(p.name) + '</h3>' +
+        (p.weight || unitPrice(p)
+          ? '<p class="row-item__meta">' + esc(p.weight || '') +
+            (p.weight && unitPrice(p) ? ' · ' : '') + unitPrice(p) + '</p>' : '') +
+      '</div>' +
+      '<div class="row-item__buy">' +
+        '<span class="row-item__price">' + money(p.price) + '</span>' +
+        '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="' +
+          esc(p.name) + ' ürününü sepete ekle">' + ICONS.plus + '<span>Ekle</span></button>' +
+      '</div>' +
+      '<a class="card__link" href="urun.html?u=' + encodeURIComponent(p.slug) + '">' +
+        '<span class="sr-only">' + esc(p.name) + ' detayları</span></a>' +
+    '</article>';
+  }
+
+  /* Arama önerisi — yüzlerce üründe arama birincil araç hâline gelir.
+     Izgarayı süzmek yetmez; müşteri doğrudan ürüne atlayabilmeli. */
+  function initSuggest(input, hay) {
+    if (!input) return;
+    const box = document.createElement('div');
+    box.className = 'suggest';
+    box.setAttribute('role', 'listbox');
+    box.hidden = true;
+    input.closest('.search').appendChild(box);
+
+    let items = [], active = -1;
+
+    const close = () => { box.hidden = true; active = -1; input.setAttribute('aria-expanded', 'false'); };
+
+    function build() {
+      const q = fold(input.value);
+      if (q.length < 2) { close(); return; }
+      const tokens = q.split(' ').filter(Boolean);
+      items = DB.products.filter(p => tokens.every(t => (hay.get(p.id) || '').indexOf(t) > -1)).slice(0, 7);
+      if (!items.length) { close(); return; }
+      box.innerHTML = items.map((p, i) =>
+        '<a class="suggest__item" role="option" aria-selected="false" data-i="' + i + '"' +
+        ' href="urun.html?u=' + encodeURIComponent(p.slug) + '">' +
+        '<img src="' + esc(mainImage(p).src) + '" alt="" width="40" height="40" loading="lazy">' +
+        '<span class="suggest__text"><strong>' + esc(p.name) + '</strong>' +
+        '<small>' + esc(p.category) + '</small></span>' +
+        '<span class="suggest__price">' + money(p.price) + '</span></a>').join('');
+      box.hidden = false;
+      active = -1;
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function highlight(n) {
+      const els = $$('.suggest__item', box);
+      if (!els.length) return;
+      active = (n + els.length) % els.length;
+      els.forEach((el, i) => {
+        el.classList.toggle('is-active', i === active);
+        el.setAttribute('aria-selected', String(i === active));
+      });
+      els[active].scrollIntoView({ block: 'nearest' });
+    }
+
+    input.setAttribute('role', 'combobox');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-expanded', 'false');
+    input.addEventListener('input', debounce(build, 140));
+    input.addEventListener('keydown', (e) => {
+      if (box.hidden) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); highlight(active + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); highlight(active - 1); }
+      else if (e.key === 'Enter' && active > -1) {
+        e.preventDefault();
+        location.href = $$('.suggest__item', box)[active].href;
+      } else if (e.key === 'Escape') { close(); }
+    });
+    input.addEventListener('blur', () => setTimeout(close, 160));
+    input.addEventListener('focus', () => { if (input.value.trim().length > 1) build(); });
+  }
+
   /* -------------------------- 6. SAYFA MANTIKLARI ------------------------ */
   const Pages = {
 
@@ -756,23 +841,29 @@
       if (!grid) return;
       const chipsHost = $('#catChips');
       const sortSel = $('#sortSelect');
-      const priceSel = $('#priceSelect');
       const searchIn = $('#searchInput');
       const countEl = $('#resultCount');
       const pagerEl = $('#pager');
+      const panel = $('#filterPanel');
+      const tagHost = $('#tagFilters');
+      const activeHost = $('#activeFilters');
       const PAGE = 24;
+      const VIEW_KEY = 'lokart.view.v1';
 
       const state = {
         cat: param('kategori') || 'all',
         q: param('ara') || '',
         sort: param('sirala') || 'default',
         price: param('fiyat') || 'all',
-        page: Math.max(1, parseInt(param('sayfa'), 10) || 1)
+        tags: (param('icerik') || '').split(',').filter(Boolean),
+        page: Math.max(1, parseInt(param('sayfa'), 10) || 1),
+        view: 'grid'
       };
+      try { state.view = localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grid'; } catch (e) {}
       if (searchIn) searchIn.value = state.q;
       if (sortSel) sortSel.value = state.sort;
-      if (priceSel) priceSel.value = state.price;
 
+      /* ---- kategori şeridi ---- */
       if (chipsHost) {
         chipsHost.innerHTML =
           '<button class="chip" type="button" data-cat="all">Tümü</button>' +
@@ -781,11 +872,21 @@
             esc(c.name) + ' <span class="chip__n">' + c.count + '</span></button>').join('');
       }
 
-      /* Arama dizini: bir kez kurulur, her tuşta yeniden hesaplanmaz.
-         Türkçe karakter sadeleştirilir, böylece "fistik" de "fıstık"ı bulur. */
+      /* ---- içerik etiketleri: kategoriler ürünün biçimini, etiketler içeriğini söyler ---- */
+      const TAGS = DB.tags || [];
+      if (tagHost) {
+        tagHost.innerHTML = TAGS.map(t =>
+          '<label class="filters__opt"><input type="checkbox" name="icerik" value="' + esc(t.name) + '"' +
+          (state.tags.indexOf(t.name) > -1 ? ' checked' : '') + '> ' + esc(t.name) +
+          ' <span class="filters__n">' + t.count + '</span></label>').join('');
+      }
+      $$('#priceFilters input').forEach(r => { r.checked = r.value === state.price; });
+
+      /* ---- arama dizini ---- */
       const HAY = new Map();
       DB.products.forEach(p => HAY.set(p.id, fold([
-        p.name, p.category, p.weight, p.shortDesc, (p.badges || []).join(' ')
+        p.name, p.category, p.weight, p.shortDesc,
+        (p.badges || []).join(' '), (p.tags || []).join(' ')
       ].join(' '))));
 
       function priceOk(p) {
@@ -795,17 +896,18 @@
         const max = parts[1] ? Number(parts[1]) : Infinity;
         return p.price >= min && p.price < max;
       }
+      /* Birden fazla içerik seçilirse "veya" mantığı: fıstıklı VEYA cevizli */
+      const tagOk = (p) => !state.tags.length ||
+        (p.tags || []).some(t => state.tags.indexOf(t) > -1);
 
       function filtered() {
         let list = DB.products.slice();
         if (state.cat !== 'all') list = list.filter(p => p.categorySlug === state.cat);
         if (state.price !== 'all') list = list.filter(priceOk);
+        if (state.tags.length) list = list.filter(tagOk);
         if (state.q.trim()) {
           const tokens = fold(state.q).split(' ').filter(Boolean);
-          list = list.filter(p => {
-            const hay = HAY.get(p.id) || '';
-            return tokens.every(t => hay.indexOf(t) > -1);
-          });
+          list = list.filter(p => tokens.every(t => (HAY.get(p.id) || '').indexOf(t) > -1));
         }
         if (state.sort === 'price-asc') list.sort((a, b) => a.price - b.price);
         else if (state.sort === 'price-desc') list.sort((a, b) => b.price - a.price);
@@ -813,14 +915,13 @@
         return list;
       }
 
-      /* Kategori sayfaları kendi canonical'ını taşır; arama sonuçları ve
-         2. sayfadan sonrası indexlenmez (yinelenen içerik olmasın). */
+      const filterCount = () => state.tags.length + (state.price !== 'all' ? 1 : 0);
+
       function syncSeo(catName, count) {
         const searching = !!state.q.trim();
-        const filtering = searching || state.price !== 'all';
+        const filtering = searching || filterCount() > 0;
         const base = CONFIG.siteUrl + '/urunler.html';
         const url = (state.cat !== 'all' && !filtering) ? base + '?kategori=' + state.cat : base;
-
         setMeta('link[rel="canonical"]', 'href', url);
         setMeta('meta[property="og:url"]', 'content', url);
         setRobots((filtering || state.page > 1) ? 'noindex, follow' : 'index, follow');
@@ -832,7 +933,6 @@
                      : 'Koleksiyon — Tüm Lokum Çeşitleri' + suffix + ' | ' + CONFIG.brand);
         document.title = title;
         setMeta('meta[property="og:title"]', 'content', title);
-
         if (catName && !filtering) {
           const d = catName + ' kategorisinde ' + count + ' çeşit. Glikozsuz, odun ateşinde, ' +
                     'el yapımı Lok-Art ürünleri. Türkiye geneli kargo.';
@@ -847,12 +947,12 @@
         if (state.q.trim()) u.set('ara', state.q.trim());
         if (state.sort !== 'default') u.set('sirala', state.sort);
         if (state.price !== 'all') u.set('fiyat', state.price);
+        if (state.tags.length) u.set('icerik', state.tags.join(','));
         if (state.page > 1) u.set('sayfa', String(state.page));
         const qs = u.toString();
         history.replaceState(null, '', qs ? '?' + qs : location.pathname);
       }
 
-      /* Sayfa numaraları: başta, sonda ve etrafta birer pencere ("1 … 4 5 6 … 12") */
       function pagerHTML(page, pages) {
         if (pages <= 1) return '';
         const btn = (n, label, extra) =>
@@ -861,13 +961,33 @@
           (extra || '') + '>' + (label || n) + '</button>';
         const nums = [];
         for (let n = 1; n <= pages; n++) {
-          /* 7 sayfaya kadar hepsi görünsün; sonrası pencereli ("1 … 6 7 8 … 20") */
           if (pages <= 7 || n === 1 || n === pages || Math.abs(n - page) <= 1) nums.push(n);
           else if (nums[nums.length - 1] !== '…') nums.push('…');
         }
         return btn(page - 1, ICONS.chevL, page === 1 ? ' disabled aria-label="Önceki sayfa"' : ' aria-label="Önceki sayfa"') +
           nums.map(n => n === '…' ? '<span class="pager__gap">…</span>' : btn(n)).join('') +
           btn(page + 1, ICONS.chevR, page === pages ? ' disabled aria-label="Sonraki sayfa"' : ' aria-label="Sonraki sayfa"');
+      }
+
+      /* Uygulanan filtreler, kaldırılabilir etiketler olarak grid'in üstünde durur */
+      function paintActive() {
+        if (!activeHost) return;
+        const bits = state.tags.map(t =>
+          '<button class="afilter" type="button" data-drop-tag="' + esc(t) + '">' + esc(t) +
+          '<span aria-hidden="true">×</span><span class="sr-only"> filtresini kaldır</span></button>');
+        if (state.price !== 'all') {
+          const lbl = ($('#priceFilters input[value="' + state.price + '"]') || {}).parentNode;
+          bits.push('<button class="afilter" type="button" data-drop-price>' +
+            esc(lbl ? lbl.textContent.trim() : state.price) +
+            '<span aria-hidden="true">×</span></button>');
+        }
+        if (bits.length > 1) bits.push('<button class="afilter afilter--clear" type="button" id="clearInline">Hepsini temizle</button>');
+        activeHost.innerHTML = bits.join('');
+        activeHost.hidden = !bits.length;
+
+        const n = filterCount();
+        const badge = $('#filterCount');
+        if (badge) { badge.textContent = n; badge.hidden = !n; }
       }
 
       function render(resetPage, scroll) {
@@ -877,6 +997,9 @@
         if (state.page > pages) state.page = pages;
 
         $$('.chip', chipsHost).forEach(c => c.classList.toggle('is-active', c.dataset.cat === state.cat));
+        grid.classList.toggle('grid--products', state.view === 'grid');
+        grid.classList.toggle('rows', state.view === 'list');
+        $$('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === state.view)));
 
         if (!list.length) {
           grid.innerHTML =
@@ -885,7 +1008,10 @@
             '<button class="btn btn--outline btn--sm" type="button" id="resetFilters">Filtreleri temizle</button></div>';
         } else {
           const from = (state.page - 1) * PAGE;
-          grid.innerHTML = list.slice(from, from + PAGE).map(p => cardHTML(p)).join('');
+          const slice = list.slice(from, from + PAGE);
+          grid.innerHTML = state.view === 'list'
+            ? slice.map(p => rowHTML(p)).join('')
+            : slice.map(p => cardHTML(p)).join('');
         }
 
         if (countEl) countEl.textContent = list.length + ' ürün';
@@ -897,6 +1023,7 @@
               : '');
         }
 
+        paintActive();
         const activeCatName = state.cat === 'all' ? null : (DB.categories.find(c => c.slug === state.cat) || {}).name;
         const h = $('#catalogHeading');
         if (h) h.textContent = activeCatName || 'Tüm Koleksiyon';
@@ -909,12 +1036,76 @@
         }
       }
 
+      /* ---- filtre paneli ---- */
+      const openFilters = (open) => {
+        const sheet = window.innerWidth <= 900;   // mobilde alttan panel, masaüstünde satır içi
+        panel.hidden = !open;
+        /* transform geçişi çalışsın diye is-open bir kare sonra eklenir */
+        if (open) requestAnimationFrame(() => panel.classList.add('is-open'));
+        else panel.classList.remove('is-open');
+        document.body.classList.toggle('is-locked', open && sheet);
+        document.body.classList.toggle('has-sheet', open && sheet);
+        const ov = $('#overlay');
+        if (ov) ov.classList.toggle('is-open', open && sheet);
+        const t = $('#filterToggle');
+        if (t) t.setAttribute('aria-expanded', String(open));
+        if (!open && t) t.focus();
+      };
+      /* Dışına dokununca ve Esc ile kapansın */
+      if ($('#overlay')) $('#overlay').addEventListener('click', () => {
+        if (!panel.hidden) openFilters(false);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !panel.hidden) openFilters(false);
+      });
+      if ($('#filterToggle')) $('#filterToggle').addEventListener('click',
+        () => openFilters(panel.hidden));
+      $$('[data-close-filters]').forEach(b => b.addEventListener('click', () => openFilters(false)));
+
+      if (panel) panel.addEventListener('change', (e) => {
+        const el = e.target;
+        if (el.name === 'icerik') {
+          state.tags = $$('#tagFilters input:checked').map(i => i.value);
+          render(true);
+        } else if (el.name === 'fiyat') {
+          state.price = el.value;
+          render(true);
+        }
+      });
+      if ($('#clearFilters')) $('#clearFilters').addEventListener('click', () => {
+        state.tags = []; state.price = 'all';
+        $$('#tagFilters input').forEach(i => { i.checked = false; });
+        $$('#priceFilters input').forEach(i => { i.checked = i.value === 'all'; });
+        render(true);
+      });
+
+      if (activeHost) activeHost.addEventListener('click', (e) => {
+        const t = e.target.closest('[data-drop-tag]');
+        if (t) {
+          state.tags = state.tags.filter(x => x !== t.dataset.dropTag);
+          $$('#tagFilters input').forEach(i => { i.checked = state.tags.indexOf(i.value) > -1; });
+          render(true); return;
+        }
+        if (e.target.closest('[data-drop-price]')) {
+          state.price = 'all';
+          $$('#priceFilters input').forEach(i => { i.checked = i.value === 'all'; });
+          render(true); return;
+        }
+        if (e.target.id === 'clearInline') $('#clearFilters').click();
+      });
+
+      /* ---- görünüm değiştirme ---- */
+      $$('[data-view]').forEach(b => b.addEventListener('click', () => {
+        state.view = b.dataset.view;
+        try { localStorage.setItem(VIEW_KEY, state.view); } catch (e) {}
+        render(false);
+      }));
+
       if (chipsHost) chipsHost.addEventListener('click', (e) => {
         const c = e.target.closest('[data-cat]'); if (!c) return;
         state.cat = c.dataset.cat; render(true);
       });
       if (sortSel) sortSel.addEventListener('change', () => { state.sort = sortSel.value; render(true); });
-      if (priceSel) priceSel.addEventListener('change', () => { state.price = priceSel.value; render(true); });
       if (searchIn) searchIn.addEventListener('input', debounce(() => { state.q = searchIn.value; render(true); }, 220));
 
       if (pagerEl) pagerEl.addEventListener('click', (e) => {
@@ -926,15 +1117,15 @@
 
       grid.addEventListener('click', (e) => {
         if (e.target.id === 'resetFilters') {
-          state.cat = 'all'; state.q = ''; state.sort = 'default'; state.price = 'all';
+          state.cat = 'all'; state.q = ''; state.sort = 'default'; state.price = 'all'; state.tags = [];
           if (searchIn) searchIn.value = '';
           if (sortSel) sortSel.value = 'default';
-          if (priceSel) priceSel.value = 'all';
+          $$('#tagFilters input').forEach(i => { i.checked = false; });
+          $$('#priceFilters input').forEach(i => { i.checked = i.value === 'all'; });
           render(true);
         }
       });
 
-      /* Yapışkan filtre çubuğu gölgesi */
       const fb = $('#filterBar');
       if (fb) {
         const onScroll = () => fb.classList.toggle('is-stuck',
@@ -943,6 +1134,7 @@
         onScroll();
       }
 
+      initSuggest(searchIn, HAY);
       render(false);
     },
 
