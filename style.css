@@ -114,9 +114,9 @@ p{max-width:68ch; text-wrap:pretty}
 .eyebrow::after{content:''; flex:0 0 34px; height:1px; background:var(--gold-dark); opacity:.7}
 .eyebrow--light{color:var(--gold)}
 .eyebrow--light::after{background:var(--gold); opacity:.55}
-.section__head--center .eyebrow{justify-content:center}
-.section__head--center .eyebrow::before{content:''; flex:0 0 34px; height:1px;
-  background:var(--gold-dark); opacity:.7}
+.section__head--center .eyebrow,.text-center .eyebrow,.showcase--text .eyebrow{justify-content:center}
+.section__head--center .eyebrow::before,.text-center .eyebrow::before{content:''; flex:0 0 34px;
+  height:1px; background:var(--gold-dark); opacity:.7}
 .gold{color:var(--gold-ink)}
 .muted{color:var(--muted)}
 small,.small{font-size:.85rem}
@@ -526,7 +526,14 @@ small,.small{font-size:.85rem}
 }
 .form--dark .input::placeholder,.form--dark .textarea::placeholder{color:rgba(255,255,255,.4)}
 .form--dark .field > label{color:var(--gold)}
-.form--dark .select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23C6A87C' d='M6 8 0 0h12z'/%3E%3C/svg%3E")}
+/* Bir üstteki `background` kısayolu repeat/position/size'ı sıfırlıyor; yalnızca
+   görseli geri koymak yetmiyordu — ok tüm alana döşeniyordu. Hepsi birlikte yazılmalı. */
+.form--dark .select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23C6A87C' d='M6 8 0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 1em center;
+  background-size:10px;
+}
 .form--dark option{color:var(--ink)}
 
 .checkbox{display:flex; gap:.65rem; align-items:flex-start; font-size:.82rem; color:var(--muted); line-height:1.5}
@@ -764,8 +771,18 @@ small,.small{font-size:.85rem}
 .value h3{font-size:1rem; font-family:var(--font-body); font-weight:600; letter-spacing:0}
 .value p{font-size:.87rem; color:var(--muted); line-height:1.6; max-width:34ch}
 @media (max-width:860px){
+  /* Telefonda dört değer alt alta ~550px yer kaplıyordu ve ürünleri aşağı itiyordu.
+     2x2 ızgaraya al: yarı yarıya kısalıyor, okunurluk bozulmuyor. */
+  .values__grid{grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.75rem 1.25rem}
   .value{padding-inline:0}
   .value + .value{border-left:0}
+  .value h3{font-size:.92rem}
+  .value p{font-size:.8rem}
+  .value__icon{width:38px; height:38px}
+  .value__icon svg{width:19px; height:19px}
+}
+@media (max-width:400px){
+  .values__grid{gap:1.5rem 1rem}
 }
 
 /* -- Hero içindeki dikey video (masaüstü) -- */
