@@ -622,35 +622,58 @@ small,.small{font-size:.85rem}
   .value + .value{border-left:0}
 }
 
-/* -- Dikey videolu vitrin şeridi -- */
+/* -- Hero içindeki dikey video (masaüstü) -- */
+.hero__grid{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,300px);
+  gap:clamp(2rem,5vw,4rem); align-items:center;
+}
+.hero__grid .hero__inner{max-width:none}
+.hero__video{
+  position:relative; border-radius:var(--radius-lg); overflow:hidden;
+  background:#000; box-shadow:var(--shadow-lg);
+}
+.hero__video::after{
+  content:''; position:absolute; inset:0; border-radius:inherit;
+  border:1px solid rgba(198,168,124,.4); pointer-events:none;
+}
+.hero__video video{width:100%; aspect-ratio:608/1016; object-fit:cover; display:block}
+/* Video odak olduğu için arka fotoğraf yalnızca doku olarak kalıyor */
+.hero__bg::after{
+  background:linear-gradient(100deg, rgba(6,32,24,.985) 0%, rgba(6,32,24,.96) 55%, rgba(6,32,24,.9) 100%);
+}
+.hero__bgvideo{display:none}
+
+@media (max-width:900px){
+  /* Mobilde video hero'nun arka planı olur: dikey oran (0.60) mobil hero oranına
+     (0.70) neredeyse eşit — karenin %86'sı görünür, küçültme olduğu için net kalır.
+     Yan kart olarak koyunca hero 890px'e çıkıp ekrandan taşıyordu. */
+  .hero{min-height:min(78vh,620px)}
+  .hero__grid{grid-template-columns:1fr}
+  .hero__video{display:none}
+  .hero__bg img{display:none}
+  .hero__bgvideo{display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+  .hero__bg::after{
+    background:linear-gradient(to top, rgba(6,32,24,.94) 0%, rgba(6,32,24,.72) 45%, rgba(6,32,24,.55) 100%);
+  }
+}
+
+/* -- Koyu metin şeridi -- */
 .showcase{
   background:var(--emerald-900); color:var(--cream);
   padding-block:var(--section-y-lg); overflow:hidden;
 }
-.showcase__grid{
-  display:grid; grid-template-columns:minmax(0,360px) minmax(0,1fr);
-  gap:clamp(2rem,5vw,4.5rem); align-items:center;
-}
-.showcase__media{
-  position:relative; border-radius:var(--radius-lg); overflow:hidden;
-  background:#000; box-shadow:var(--shadow-lg);
-}
-/* İnce altın çerçeve: video koyu zeminde kaybolmasın */
-.showcase__media::after{
-  content:''; position:absolute; inset:0; border-radius:inherit;
-  border:1px solid rgba(198,168,124,.35); pointer-events:none;
-}
-.showcase__video{width:100%; aspect-ratio:608/1016; object-fit:cover; display:block}
+.showcase--text{text-align:center}
+.showcase--text .eyebrow{justify-content:center}
+.showcase--text .eyebrow::before{content:''; flex:0 0 34px; height:1px; background:var(--gold); opacity:.55}
+.showcase--text .lead,.showcase--text p{margin-inline:auto}
+.showcase--text .showcase__cta{justify-content:center}
 .showcase__body h2{color:#fff}
 .showcase__body h2 em{font-style:italic; color:var(--gold)}
 .showcase__body .lead{color:rgba(252,250,246,.9); margin-top:1.25rem}
 .showcase__body p:not(.lead){color:rgba(252,250,246,.72); margin-top:1rem}
 .showcase__cta{display:flex; gap:.75rem; flex-wrap:wrap; margin-top:2rem}
 
-@media (max-width:860px){
-  .showcase__grid{grid-template-columns:1fr; gap:2rem}
-  .showcase__media{max-width:320px; margin-inline:auto}
-}
+
 
 /* -- Üretim adımları (fotoğrafsız da ayakta duran anlatım) -- */
 .steps{

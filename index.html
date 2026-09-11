@@ -88,9 +88,18 @@
 
   <section class="hero">
     <div class="hero__bg">
+      <!-- Masaüstü: fotoğraf (koyu perde altında doku olarak).
+           Mobil: dikey videonun kendisi — oran 0.60 / 0.70, karenin %86'sı görünüyor
+           ve küçültme olduğu için net kalıyor. -->
       <img src="assets/hero.jpg" srcset="assets/hero-mobil.jpg 900w, assets/hero.jpg 1360w" sizes="100vw" alt="" width="1360" height="768" fetchpriority="high" decoding="async">
+      <video class="hero__bgvideo" data-ambient muted loop playsinline preload="none"
+             poster="assets/atmosfer-poster.jpg" width="608" height="1016" aria-hidden="true" tabindex="-1">
+        <source src="assets/atmosfer.webm" type="video/webm">
+        <source src="assets/atmosfer.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="container">
+      <div class="hero__grid">
       <div class="hero__inner">
         <div class="hero__badges">
           <span class="badge">Glikozsuz</span>
@@ -104,6 +113,15 @@
           <a class="btn btn--gold" href="urunler.html">Koleksiyonu keşfet</a>
           <a class="btn btn--outline-light" href="kutunu-yarat.html">Kendi kutunu yarat</a>
         </div>
+      </div>
+      <div class="hero__video">
+        <video data-ambient muted loop playsinline preload="none"
+               poster="assets/atmosfer-poster.jpg" width="608" height="1016"
+               aria-label="Türk kahvesinin yanında ikram edilen Lok-Art lokumu">
+          <source src="assets/atmosfer.webm" type="video/webm">
+          <source src="assets/atmosfer.mp4" type="video/mp4">
+        </video>
+      </div>
       </div>
     </div>
   </section>
@@ -211,29 +229,18 @@
     </div>
   </section>
 
-  <section class="showcase">
-    <div class="container">
-      <div class="showcase__grid">
-        <div class="showcase__media">
-          <!-- Sessiz, kısa döngü. Görünür olunca oynar; hareket azaltma açıksa oynamaz. -->
-          <video class="showcase__video" data-ambient muted loop playsinline preload="none"
-                 poster="assets/atmosfer-poster.jpg" width="608" height="1016"
-                 aria-label="Türk kahvesinin yanında ikram edilen Lok-Art lokumu">
-            <source src="assets/atmosfer.webm" type="video/webm">
-            <source src="assets/atmosfer.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="showcase__body">
-          <span class="eyebrow eyebrow--light">Sofrada</span>
-          <h2>Kahvenin yanındaki<br><em>tek şey</em></h2>
-          <p class="lead">Lokum, ikramın kendisidir. Bir fincan sade kahve, iki parça sarma —
-             misafirliğin en eski cümlesi hâlâ bu.</p>
-          <p>Glikoz şurubu kullanılmadığı için damakta ağırlık bırakmaz; tatlılığı ölçülüdür,
-             kahvenin acılığını bastırmaz. Her gün üretildiği için de dokusu taze kalır.</p>
-          <div class="showcase__cta">
-            <a class="btn btn--gold" href="urunler.html?kategori=sarma-lokum">Sarma lokumlar</a>
-            <a class="btn btn--outline-light" href="urunler.html?kategori=cay-kahve">Çay &amp; kahve</a>
-          </div>
+  <section class="showcase showcase--text">
+    <div class="container container--narrow">
+      <div class="showcase__body">
+        <span class="eyebrow eyebrow--light">Sofrada</span>
+        <h2>Kahvenin yanındaki <em>tek şey</em></h2>
+        <p class="lead">Lokum, ikramın kendisidir. Bir fincan sade kahve, iki parça sarma —
+           misafirliğin en eski cümlesi hâlâ bu.</p>
+        <p>Glikoz şurubu kullanılmadığı için damakta ağırlık bırakmaz; tatlılığı ölçülüdür,
+           kahvenin acılığını bastırmaz. Her gün üretildiği için de dokusu taze kalır.</p>
+        <div class="showcase__cta">
+          <a class="btn btn--gold" href="urunler.html?kategori=sarma-lokum">Sarma lokumlar</a>
+          <a class="btn btn--outline-light" href="urunler.html?kategori=cay-kahve">Çay &amp; kahve</a>
         </div>
       </div>
     </div>
