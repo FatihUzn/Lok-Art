@@ -644,7 +644,22 @@ small,.small{font-size:.85rem}
 .site-header.is-stuck{box-shadow:var(--shadow-sm)}
 .site-header .container{display:flex; align-items:center; justify-content:space-between; gap:1.5rem; min-height:var(--header-h)}
 
-.brand{display:inline-flex; flex-direction:column; justify-content:center; line-height:1; flex-shrink:0; padding-block:.4rem}
+/* Marka kilidi: işaret + kelime. İşaret dört lokum dilimi, biri iç harçlı. */
+.brand{display:inline-flex; align-items:center; gap:.6rem; line-height:1; flex-shrink:0; padding-block:.4rem}
+.brand__text{display:inline-flex; flex-direction:column; justify-content:center}
+.brand__mark{width:34px; height:34px; flex-shrink:0; display:block}
+.brand__mark .bm-l,.brand__mark .bm-l2{fill:none; stroke:var(--gold-ink); stroke-width:5}
+.brand__mark .bm-l2{opacity:.5}
+.brand__mark .bm-t{fill:var(--gold-ink); opacity:.3}
+.brand__mark .bm-s{fill:var(--gold-ink)}
+.brand__mark .bm-d{fill:var(--cream)}
+/* Koyu zeminde altın */
+.site-footer .brand__mark .bm-l,.site-footer .brand__mark .bm-l2,
+.mobile-nav .brand__mark .bm-l,.mobile-nav .brand__mark .bm-l2{stroke:var(--gold)}
+.site-footer .brand__mark .bm-t,.site-footer .brand__mark .bm-s,
+.mobile-nav .brand__mark .bm-t,.mobile-nav .brand__mark .bm-s{fill:var(--gold)}
+.site-footer .brand__mark .bm-d,.mobile-nav .brand__mark .bm-d{fill:var(--emerald-900)}
+@media (max-width:640px){ .brand__mark{width:29px; height:29px} }
 .brand__name{font-family:var(--font-display); font-size:1.4rem; font-weight:600; letter-spacing:.14em; color:var(--emerald-900)}
 .brand__tag{font-size:.56rem; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-ink); margin-top:.3rem}
 
