@@ -6,3 +6,12 @@ node_modules/
 # Ham ürün fotoğrafları — tools/images.py bunları işler, repoya girmez
 _ham/
 data/_products_raw.json
+
+# Müşteriye özel belgeler (fiyat listesi, iç notlar) — repo herkese açıksa dışarı sızar
+_belgeler/
+
+# Claude masaüstü uygulamasının çıktı klasörü
+Claude outputs/
+
+# Artık kullanılmıyor: data/index.js + data/details.js üretiliyor
+data/products.js
