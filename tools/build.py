@@ -34,7 +34,7 @@ DETAILS_PATH = os.path.join(ROOT, 'data', 'details.js')      # agir: yalniz urun
 INDEX_FIELDS = ['id', 'slug', 'name', 'price', 'category', 'categorySlug',
                 'categoryOrder', 'weight', 'grams', 'badges', 'shortDesc',
                 'featured', 'signature']
-DETAIL_FIELDS = ['description', 'tastingNote', 'pairing']
+DETAIL_FIELDS = ['description', 'tastingNote', 'pairing', 'allergens', 'ingredients']
 
 IMG_DIR = 'assets/urunler/'
 IMG_WIDTHS = [480, 800, 1200]
@@ -220,6 +220,14 @@ def main():
         c['count'] = n
         if n == 0:
             warnings.append('kategori "%s" bos' % c['slug'])
+
+    eksik_gramaj = [p['slug'] for p in products if not p.get('grams')]
+    if eksik_gramaj:
+        warnings.append('%d urunde gramaj yok — fiyatin ne kadara ait oldugu belli degil '
+                        '(ilk uc: %s)' % (len(eksik_gramaj), ', '.join(eksik_gramaj[:3])))
+    eksik_alerjen = sum(1 for p in products if not p.get('allergens'))
+    if eksik_alerjen:
+        warnings.append('%d urunde alerjen listesi yok (allergens alani)' % eksik_alerjen)
 
     placeholder = sum(1 for p in products
                       if p['image'].startswith('assets/lok_art_')

@@ -24,7 +24,12 @@
     boxBasePrice: 220,                   // TL — kendi kutunu yarat: metal kutu + paketleme
     boxSlotStandard: 140,
     boxSlotPremium: 180,
-    boxSize: 6
+    boxSize: 6,
+
+    /* Analytics — boş bırakılırsa hiçbir script yüklenmez.
+       provider: 'plausible' | 'ga4' · id: alan adı ya da G-XXXXXXX ölçüm kimliği
+       Yalnızca kullanıcı çerez bildiriminde "Kabul et" derse devreye girer. */
+    analytics: { provider: '', id: '' }
   };
 
   const NAV = [
@@ -62,6 +67,14 @@
 
   const priceFmt = new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const money = (n) => priceFmt.format(Number(n) || 0) + ' TL';
+
+  /* Kilogram fiyatı: yüzlerce ürün arasında karşılaştırmayı mümkün kılar.
+     grams alanı boşsa hiçbir şey göstermez (uydurma yapmaz). */
+  function unitPrice(p) {
+    if (!p.grams || p.grams <= 0) return '';
+    const perKg = p.price / p.grams * 1000;
+    return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(perKg) + ' TL/kg';
+  }
 
   function esc(str) {
     return String(str == null ? '' : str)
@@ -354,6 +367,75 @@
   /* ------------------------------- 4. SEPET ------------------------------ */
   const WA_MAX_URL = 1800;   // wa.me pratikte bunun üzerini kırpıyor
 
+  /* Sipariş bilgileri sepette toplanır. Öncesinde mesaj "Ad Soyad: ___" gibi boş
+     satırlarla gidiyordu ve müşteriden WhatsApp'ta doldurması bekleniyordu —
+     çoğu doldurmuyor, sipariş karşılıklı yazışmaya dönüyordu. */
+  const Buyer = {
+    KEY: 'lokart.buyer.v1',
+    FIELDS: [
+      { k: 'ad',      l: 'Ad Soyad',        type: 'text',     ac: 'name' },
+      { k: 'telefon', l: 'Telefon',         type: 'tel',      ac: 'tel' },
+      { k: 'adres',   l: 'Teslimat adresi', type: 'textarea', ac: 'street-address' },
+      { k: 'tarih',   l: 'Teslim tarihi',   type: 'date',     ac: 'off', hint: 'İsteğe bağlı' },
+      { k: 'not',     l: 'Sipariş notu',    type: 'textarea', ac: 'off', hint: 'İsteğe bağlı' }
+    ],
+    data: {},
+
+    load() {
+      try { this.data = JSON.parse(localStorage.getItem(this.KEY) || '{}') || {}; }
+      catch (e) { this.data = {}; }
+      if (typeof this.data !== 'object' || !this.data) this.data = {};
+    },
+    save() { try { localStorage.setItem(this.KEY, JSON.stringify(this.data)); } catch (e) {} },
+    set(k, v) { this.data[k] = v; this.save(); },
+
+    formHTML() {
+      const d = this.data;
+      const row = (f) => {
+        const val = esc(d[f.k] || '');
+        const input = f.type === 'textarea'
+          ? '<textarea class="input buyer__input" id="buyer-' + f.k + '" name="' + f.k + '" rows="2" ' +
+            'autocomplete="' + f.ac + '">' + val + '</textarea>'
+          : '<input class="input buyer__input" id="buyer-' + f.k + '" name="' + f.k + '" type="' + f.type +
+            '" value="' + val + '" autocomplete="' + f.ac + '">';
+        return '<div class="buyer__field">' +
+          '<label for="buyer-' + f.k + '">' + f.l +
+            (f.hint ? ' <span class="buyer__hint">' + f.hint + '</span>' : '') + '</label>' +
+          input + '</div>';
+      };
+      const gift = d.hediye === true;
+      return '<details class="buyer"' + (d.ad || d.adres ? ' open' : '') + '>' +
+        '<summary><span>Sipariş bilgileri</span>' +
+          '<span class="buyer__state">' + (d.ad ? esc(d.ad) : 'Doldurulmadı') + '</span></summary>' +
+        '<div class="buyer__body">' +
+          this.FIELDS.map(row).join('') +
+          '<label class="buyer__check"><input type="checkbox" id="buyer-hediye"' +
+            (gift ? ' checked' : '') + '> Hediye paketi olarak hazırlansın</label>' +
+          '<div class="buyer__field buyer__gift"' + (gift ? '' : ' hidden') + '>' +
+            '<label for="buyer-hediyeNot">Karta yazılacak not</label>' +
+            '<textarea class="input buyer__input" id="buyer-hediyeNot" name="hediyeNot" rows="2" ' +
+              'maxlength="200">' + esc(d.hediyeNot || '') + '</textarea>' +
+          '</div>' +
+          '<p class="buyer__note small muted">Doldurmazsanız sorun değil — ekibimiz ' +
+            'WhatsApp\'tan sorar. Bilgiler yalnızca bu tarayıcıda saklanır.</p>' +
+        '</div></details>';
+    },
+
+    /* Sipariş mesajının bilgi bölümü */
+    lines() {
+      const d = this.data, out = [];
+      this.FIELDS.forEach(f => {
+        const v = (d[f.k] || '').trim();
+        out.push('*' + f.l + ':* ' + (v || '—'));
+      });
+      if (d.hediye) {
+        out.push('*Hediye paketi:* Evet');
+        if ((d.hediyeNot || '').trim()) out.push('*Karta not:* ' + d.hediyeNot.trim());
+      }
+      return out;
+    }
+  };
+
   const Cart = {
     KEY: 'lokart.cart.v1',
     items: [],
@@ -468,6 +550,7 @@
         (remaining > 0
           ? '<p class="small muted" style="margin-bottom:1rem">Ücretsiz kargoya <strong>' + money(remaining) + '</strong> kaldı.</p>'
           : '<p class="small" style="color:var(--success);margin-bottom:1rem">Kargonuz ücretsiz.</p>') +
+        Buyer.formHTML() +
         '<button class="btn btn--wa btn--block" type="button" data-checkout>' + ICONS.wa + ' WhatsApp ile siparişi tamamla</button>' +
         '<button class="btn btn--outline btn--block btn--sm" type="button" data-mail-order style="margin-top:.6rem">E-posta ile gönder</button>' +
         '<p class="small muted text-center" style="margin-top:.9rem">Siparişiniz WhatsApp üzerinden onaylanır; ödeme ve kargo detayları ekibimizce iletilir.</p>';
@@ -479,9 +562,8 @@
         lines.push((idx + 1) + '. ' + i.name + (i.meta ? ' (' + i.meta + ')' : ''));
         lines.push('   ' + i.qty + ' adet × ' + money(i.price) + ' = ' + money(i.price * i.qty));
       });
-      lines.push('', '*Toplam: ' + money(this.total()) + '*', '',
-        'Ad Soyad: ', 'Teslimat adresi: ', 'Notunuz: ');
-      return lines.join('\n');
+      lines.push('', '*Toplam: ' + money(this.total()) + '*', '');
+      return lines.concat(Buyer.lines()).join('\n');
     },
 
     checkout() {
@@ -502,6 +584,20 @@
         '&body=' + encodeURIComponent(this.orderText().replace(/\*/g, ''));
     }
   };
+
+  /* Sipariş bilgisi alanları — çekmece her açılışta yeniden çizildiği için delegasyon */
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el.id || el.id.indexOf('buyer-') !== 0) return;
+    Buyer.set(el.id.slice(6), el.value);
+  });
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (el.id !== 'buyer-hediye') return;
+    Buyer.set('hediye', el.checked);
+    const gift = $('.buyer__gift');
+    if (gift) gift.hidden = !el.checked;
+  });
 
   /* Sepet olayları (olay delegasyonu) */
   document.addEventListener('click', (e) => {
@@ -536,7 +632,10 @@
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category) + '</span>' +
         '<h3 class="card__title">' + esc(p.name) + '</h3>' +
-        (p.weight ? '<p class="card__meta">' + esc(p.weight) + '</p>' : '') +
+        (p.weight || unitPrice(p)
+          ? '<p class="card__meta">' + esc(p.weight || '') +
+            (p.weight && unitPrice(p) ? ' · ' : '') + unitPrice(p) + '</p>'
+          : '') +
         '<div class="card__foot">' +
           '<span class="card__price">' + money(p.price) + '</span>' +
           '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="' + esc(p.name) + ' ürününü sepete ekle">' +
@@ -912,9 +1011,14 @@
           '<span class="eyebrow">' + esc(p.category) + '</span>' +
           '<h1 class="h2 pdp__title">' + esc(p.name) + '</h1>' +
           '<p class="pdp__price">' + money(p.price) + '</p>' +
-          '<p class="small muted">KDV dahil' + (p.weight ? ' · ' + esc(p.weight) : '') + '</p>' +
+          '<p class="small muted">KDV dahil' + (p.weight ? ' · ' + esc(p.weight) : '') +
+            (unitPrice(p) ? ' · <span class="pdp__unit">' + unitPrice(p) + '</span>' : '') + '</p>' +
           '<div class="pdp__badges" style="margin-top:1.25rem">' + p.badges.map(b => '<span class="badge">' + esc(b) + '</span>').join('') + '</div>' +
           '<p class="pdp__desc">' + esc(det.description) + '</p>' +
+          (det.allergens && det.allergens.length
+            ? '<p class="pdp__allergen"><strong>Alerjen uyarısı:</strong> ' +
+              esc(det.allergens.join(', ')) + ' içerir.</p>'
+            : '') +
           '<div class="pdp__buy">' +
             '<div class="qty" id="pdpQty">' +
               '<button type="button" data-pdp-qty="-1" aria-label="Adet azalt">&minus;</button>' +
@@ -938,7 +1042,10 @@
           '<table class="spec"><tbody>' +
             '<tr><th>Kategori</th><td>' + esc(p.category) + '</td></tr>' +
             (p.weight ? '<tr><th>Net ağırlık</th><td>' + esc(p.weight) + '</td></tr>' : '') +
-            '<tr><th>İçerik</th><td>Doğal kaynak suyu, nişasta, şeker, hakiki bal, doğal aroma. Glikoz şurubu içermez.</td></tr>' +
+            '<tr><th>İçerik</th><td>' + esc(det.ingredients ||
+              'Doğal kaynak suyu, nişasta, şeker, hakiki bal, doğal aroma. Glikoz şurubu içermez.') + '</td></tr>' +
+            (det.allergens && det.allergens.length
+              ? '<tr><th>Alerjenler</th><td>' + esc(det.allergens.join(', ')) + '</td></tr>' : '') +
             '<tr><th>Üretim</th><td>Odun ateşinde bakır kazanda, el yapımı</td></tr>' +
             '<tr><th>Saklama</th><td>Serin ve kuru ortamda, doğrudan güneş ışığından uzakta</td></tr>' +
             '<tr><th>Raf ömrü</th><td>Üretim tarihinden itibaren 6 ay</td></tr>' +
@@ -1215,16 +1322,48 @@
       el.addEventListener('click', (e) => {
         const b = e.target.closest('[data-consent]');
         if (!b) return;
-        if (b.dataset.consent === 'yes') this.allow('harita'); else this.denyAll();
+        if (b.dataset.consent === 'yes') { this.allow('harita'); this.allow('analitik'); Analytics.start(); }
+        else this.denyAll();
         el.remove();
         document.body.classList.remove('has-consent');
       });
     }
   };
 
+  /* ---------------------------- 6c. ANALYTICS ---------------------------- */
+  /* CONFIG.analytics boşsa hiçbir şey yüklenmez. Dolu olsa bile yalnızca
+     kullanıcı çerez bildiriminde "Kabul et" dedikten sonra devreye girer. */
+  const Analytics = {
+    started: false,
+    start() {
+      const a = CONFIG.analytics || {};
+      if (this.started || !a.provider || !a.id) return;
+      if (!Consent.has('analitik')) return;
+      this.started = true;
+
+      const sc = document.createElement('script');
+      if (a.provider === 'plausible') {
+        sc.defer = true;
+        sc.setAttribute('data-domain', a.id);
+        sc.src = 'https://plausible.io/js/script.js';
+        document.head.appendChild(sc);
+      } else if (a.provider === 'ga4') {
+        sc.async = true;
+        sc.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(a.id);
+        document.head.appendChild(sc);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', a.id, { anonymize_ip: true });
+      }
+    }
+  };
+
   /* ------------------------------ 7. BAŞLATMA ---------------------------- */
   function init() {
     buildShell();
+    Buyer.load();
     Cart.load();
     Cart.paint();
     Pages.forms();
@@ -1232,6 +1371,7 @@
     Pages.map();
     Pages.ambient();
     Consent.bar();
+    Analytics.start();
     initReveal();
 
     const page = document.body.dataset.page;
@@ -1253,5 +1393,5 @@
   else init();
 
   /* Dışarıya açılan küçük yüzey (konsol / ileride entegrasyon için) */
-  window.LokArt = { Cart, CONFIG, Consent, get data() { return DB; } };
+  window.LokArt = { Cart, Buyer, CONFIG, Consent, Analytics, get data() { return DB; } };
 })();

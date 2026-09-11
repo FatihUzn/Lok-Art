@@ -906,6 +906,49 @@ small,.small{font-size:.85rem}
   .picker{grid-template-columns:1fr 1fr}
 }
 
+/* -- Sepette sipariş bilgileri -- */
+.buyer{
+  margin-block:1rem; border:1px solid var(--line); border-radius:var(--radius-sm);
+  background:var(--cream); overflow:hidden;
+}
+.buyer > summary{
+  display:flex; align-items:center; gap:.6rem;
+  padding:.85rem 1rem; cursor:pointer; list-style:none;
+  font-size:.85rem; font-weight:600; color:var(--emerald-900);
+}
+.buyer > summary > :first-child{flex-shrink:0}
+.buyer > summary::-webkit-details-marker{display:none}
+.buyer > summary::after{
+  content:'+'; font-size:1.25rem; font-weight:400; color:var(--gold-ink);
+  transition:transform .25s var(--ease); order:3;
+}
+.buyer[open] > summary::after{transform:rotate(45deg)}
+.buyer__state{
+  flex:1 1 0; min-width:0; text-align:right; font-weight:400; font-size:.8rem; color:var(--muted);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.buyer__body{display:grid; gap:.7rem; padding:0 1rem 1rem}
+.buyer__field{display:grid; gap:.3rem}
+.buyer__field label{font-size:.76rem; font-weight:600; color:var(--ink-2)}
+.buyer__hint{font-weight:400; color:var(--muted)}
+.buyer__input{min-height:42px; padding:.55em .8em; font-size:.9rem}
+textarea.buyer__input{min-height:60px; line-height:1.5}
+.buyer__check{
+  display:flex; align-items:center; gap:.6rem; font-size:.85rem;
+  color:var(--ink-2); cursor:pointer; padding-block:.35rem;
+}
+.buyer__check input{width:18px; height:18px; accent-color:var(--emerald-700); flex-shrink:0}
+.buyer__note{margin-top:.15rem; line-height:1.5}
+
+/* -- Ürün sayfası: kg fiyatı ve alerjen -- */
+.pdp__unit{color:var(--ink-2); font-weight:600}
+.pdp__allergen{
+  margin-top:1rem; padding:.7rem .95rem; font-size:.86rem; line-height:1.5;
+  color:var(--ink-2); background:rgba(156,59,46,.07);
+  border-left:3px solid var(--danger); border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+}
+.pdp__allergen strong{color:var(--danger)}
+
 /* -- Mobil satın alma çubuğu -- */
 .buybar{
   position:fixed; left:0; right:0; bottom:0; z-index:60;

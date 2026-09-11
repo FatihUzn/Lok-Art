@@ -84,17 +84,38 @@ const CONFIG = {
 
 Şu an bu bilgiler `lokart.com.tr` sitesinden alınmıştır; **doğruluğunu firmayla teyit edin.**
 
-### 2. Fiyatları teyit edin
+### 2. Gramajları tamamlayın — en acil veri eksiği
 
-`data/products.json` içindeki 101 fiyat da aynı kaynaktan geldi. Sunumdan önce
+**101 üründen 74'ünde ağırlık bilgisi yok.** Müşteri fiyatı görüyor ama neyin
+karşılığı olduğunu göremiyor. `grams` (sayı, gram cinsinden) ve `weight` (ekranda
+görünen metin, örn. "500 gr") alanlarını doldurun; kilogram fiyatı otomatik hesaplanır.
+
+`python3 tools/build.py` her çalıştığında eksik olanların sayısını söyler.
+
+### 3. Fiyatları teyit edin
+
+`data/products.json` içindeki 101 fiyat da eski siteden geldi. Sunumdan önce
 en az 10 ürünü firmayla karşılaştırın.
 
-### 3. `kvkk.html` metnini hukuk danışmanına okutun
+### 4. Alerjen listelerini girin
+
+Ürün adından 60 üründe alerjen olduğu belli (fıstık, badem, ceviz, fındık, süt) ama
+gıdada tahminle yazılmaz. Her ürüne `allergens` alanı ekleyin:
+
+```json
+"allergens": ["antep fıstığı", "süt"],
+"ingredients": "Doğal kaynak suyu, nişasta, şeker, hakiki bal, antep fıstığı."
+```
+
+Girildiğinde ürün sayfasında kırmızı uyarı kutusu ve teknik tabloda ayrı satır olarak
+görünür. Girilmezse hiçbir şey gösterilmez — uydurma yapılmaz.
+
+### 5. `kvkk.html` metnini hukuk danışmanına okutun
 
 Sayfadaki metin genel bir şablondur. Sayfanın başında bunu belirten bir uyarı kutusu
 vardır — **yayına almadan önce o kutuyu kaldırın.**
 
-### 4. Alan adını değiştirin
+### 6. Alan adını değiştirin
 
 Önce `app.js` içindeki `CONFIG.siteUrl` alanını değiştirin — `sitemap.xml`
 alan adını buradan okur. Sonra:
@@ -232,9 +253,13 @@ Sitede ödeme alınmaz. Akış şöyledir:
 1. Müşteri ürünleri sepete ekler — sepet tarayıcısında (`localStorage`) saklanır,
    sayfa yenilense de kaybolmaz. Fiyatlar her açılışta veriden tazelenir, yani
    fiyat güncellerseniz eski sepetler de doğru tutarı gösterir.
-2. "WhatsApp ile siparişi tamamla" butonu, sepeti biçimlendirilmiş bir mesaja çevirip
-   `CONFIG.whatsapp` numarasına yönlendirir. Liste WhatsApp bağlantı sınırını aşacak
-   kadar uzunsa otomatik olarak e-postaya düşer.
+2. Sepette **sipariş bilgileri** doldurulur: ad soyad, telefon, teslimat adresi,
+   teslim tarihi, sipariş notu, hediye paketi ve karta yazılacak not. Bunlar da
+   tarayıcıda saklanır; sunucuya hiçbir şey gitmez.
+3. "WhatsApp ile siparişi tamamla" butonu, sepeti **ve bu bilgileri** tek bir
+   biçimlendirilmiş mesaja çevirip `CONFIG.whatsapp` numarasına yönlendirir — yani
+   sipariş tek mesajda tamamlanır, karşılıklı yazışmaya gerek kalmaz. Liste WhatsApp
+   bağlantı sınırını aşacak kadar uzunsa otomatik olarak e-postaya düşer.
 3. Alternatif olarak "E-posta ile gönder" aynı özeti `CONFIG.email` adresine hazırlar.
 4. Kurumsal ve iletişim formları da aynı mantıkla çalışır — sunucu tarafı kod gerekmez.
 
@@ -251,6 +276,10 @@ ayrı bir aşamadır; bu yapı ona geçişi engellemez.
 - **Google Haritalar** iletişim sayfasında yalnızca kullanıcı "Haritayı göster"e
   bastığında veya çerez bildiriminde "Kabul et"i seçtiğinde yüklenir. Onaya kadar
   Google'a hiçbir istek gitmez.
+- **Analytics** varsayılan olarak kapalı. Açmak için `app.js` içindeki
+  `CONFIG.analytics` alanını doldurun:
+  `{ provider: 'plausible', id: 'lokart.com.tr' }` veya `{ provider: 'ga4', id: 'G-XXXXXXX' }`.
+  Dolu olsa bile yalnızca kullanıcı çerez bildiriminde "Kabul et" dedikten sonra yüklenir.
 - **Google Fonts** hâlâ Google sunucularından yükleniyor. Tamamen bağımsız olmak
   isterseniz fontları indirip `assets/fonts/` altına koyup her sayfadaki
   `fonts.googleapis.com` bağlantısını yerel bir `@font-face` bloğuyla değiştirin
@@ -308,4 +337,4 @@ bu dosya onu devre dışı bırakır. Diğer hostinglerde zararsızdır.
 4. İngilizce dil desteği
 5. Gerçek ödeme entegrasyonu + sipariş yönetim paneli
 6. Blog / tarif içerikleri (SEO trafiği için)
-7. Google Analytics veya Plausible kurulumu (çerez bildirimine bağlanmalı)
+7. Gerçek müşteri yorumları — uydurma yorum koymayın; marka güvenini bitirir
