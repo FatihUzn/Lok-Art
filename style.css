@@ -858,6 +858,88 @@ small,.small{font-size:.85rem}
 
 
 
+/* -- Kesit anlatımı: kaydırdıkça katmanlarına ayrılan dilim --
+   Fotoğraf değil diyagram; ne olduğunu saklamıyor. Apple tarzı kare dizisi
+   yerine IntersectionObserver + transform: her tarayıcıda çalışır. */
+.cut{background:var(--emerald-900); color:var(--cream); padding-block:var(--section-y-lg)}
+.cut .section__head{margin-inline:auto; text-align:center; max-width:640px}
+.cut .section__head .eyebrow{justify-content:center}
+.cut .section__head .eyebrow::before{content:''; flex:0 0 34px; height:1px; background:var(--gold); opacity:.55}
+.cut h2{color:#fff}
+.cut h2 em{font-style:italic; color:var(--gold)}
+
+.cut__grid{
+  display:grid; grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);
+  gap:clamp(2rem,6vw,5rem); align-items:start;
+}
+.cut__stage{
+  position:sticky; top:calc(50vh - 170px);
+  display:grid; place-items:center; padding-block:1rem;
+}
+.cut__svg{width:min(320px,100%); height:auto; overflow:visible}
+/* Katmanlar kapalıyken üst üste bindirilmiş tek blok; bölüm görününce ayrılır.
+   Soldurma yok — diyagram her an okunabilir kalmalı; okunan katman büyüyüp
+   altın çerçeve alarak öne çıkar. */
+.cut__layer{
+  transform:translateY(0) scale(1); transform-origin:center;
+  transition:transform .8s cubic-bezier(.22,.61,.36,1), filter .35s var(--ease);
+}
+.cut__layer[data-layer="0"]{transform:translateY(54px)}
+.cut__layer[data-layer="1"]{transform:translateY(18px)}
+.cut__layer[data-layer="2"]{transform:translateY(-18px)}
+.cut__layer[data-layer="3"]{transform:translateY(-54px)}
+.cut.is-open .cut__layer[data-layer="0"]{transform:translateY(-6px)}
+.cut.is-open .cut__layer[data-layer="1"]{transform:translateY(-2px)}
+.cut.is-open .cut__layer[data-layer="2"]{transform:translateY(2px)}
+.cut.is-open .cut__layer[data-layer="3"]{transform:translateY(6px)}
+.cut__layer rect:first-of-type{
+  stroke:rgba(6,32,24,.35); stroke-width:1.5;
+  transition:stroke .35s var(--ease), stroke-width .35s var(--ease);
+}
+.cut.is-open .cut__layer.is-lit{filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
+.cut.is-open .cut__layer.is-lit rect:first-of-type{stroke:var(--gold); stroke-width:3}
+.cut.is-open .cut__layer.is-lit[data-layer="0"]{transform:translateY(-16px) scale(1.05)}
+.cut.is-open .cut__layer.is-lit[data-layer="1"]{transform:translateY(-6px) scale(1.05)}
+.cut.is-open .cut__layer.is-lit[data-layer="2"]{transform:translateY(6px) scale(1.05)}
+.cut.is-open .cut__layer.is-lit[data-layer="3"]{transform:translateY(16px) scale(1.05)}
+
+.cut__list{display:grid; gap:clamp(1.75rem,4vw,3rem); counter-reset:cut}
+.cut__item{
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:.35rem 1rem;
+  opacity:.5; transform:translateY(8px);
+  transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.cut__item.is-active{opacity:1; transform:none}
+.cut__swatch{
+  grid-row:span 2; width:22px; height:22px; margin-top:.35rem; border-radius:7px;
+  background:var(--sw); box-shadow:0 0 0 1px rgba(252,250,246,.3);
+  transition:box-shadow .35s var(--ease);
+}
+.cut__item.is-active .cut__swatch{box-shadow:0 0 0 2px var(--gold)}
+.cut__item h3{color:#fff; font-size:clamp(1.1rem,1.9vw,1.35rem); margin:0}
+.cut__item p{color:rgba(252,250,246,.74); font-size:.94rem; line-height:1.65; margin:0; grid-column:2}
+.cut__cta{display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-top:clamp(2.5rem,5vw,4rem)}
+
+@media (max-width:900px){
+  /* Telefonda yapışkan diyagram metnin üstüne biniyordu. Sabitlemeyi kaldır:
+     diyagram bir kez görünüp açılır, maddeler altında normal liste olarak okunur. */
+  .cut__grid{grid-template-columns:1fr; gap:2rem}
+  .cut__stage{position:static; padding-block:.5rem 1rem}
+  .cut__svg{width:min(250px,66vw)}
+  .cut__list{gap:1.75rem}
+  .cut__item{opacity:1; transform:none}
+  .cut__item p{font-size:.9rem}
+}
+@media (prefers-reduced-motion:reduce){
+  /* Hareket istemeyen kullanıcı: katmanlar zaten ayrık, hepsi okunur */
+  .cut__layer,.cut.is-open .cut__layer{transition:none}
+  .cut__layer[data-layer="0"],.cut.is-open .cut__layer[data-layer="0"]{transform:translateY(-6px)}
+  .cut__layer[data-layer="1"],.cut.is-open .cut__layer[data-layer="1"]{transform:translateY(-2px)}
+  .cut__layer[data-layer="2"],.cut.is-open .cut__layer[data-layer="2"]{transform:translateY(2px)}
+  .cut__layer[data-layer="3"],.cut.is-open .cut__layer[data-layer="3"]{transform:translateY(6px)}
+  .cut__item{opacity:1; transform:none; transition:none}
+}
+
 /* -- Üretim adımları (fotoğrafsız da ayakta duran anlatım) -- */
 .steps{
   display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));

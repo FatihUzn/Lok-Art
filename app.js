@@ -1425,6 +1425,50 @@
       });
     },
 
+    /* ---------- Kesit anlatımı ---------- */
+    /* Bölüm görününce katmanlar ayrılır; okunan maddeye göre ilgili katman öne çıkar.
+       CSS scroll-timeline kullanmadım — Safari desteğinden emin değilim, bu her yerde çalışır. */
+    cut() {
+      const sec = $('.cut');
+      if (!sec) return;
+      const items = $$('.cut__item', sec);
+      const layers = $$('.cut__layer', sec);
+      if (!items.length || !('IntersectionObserver' in window)) {
+        sec.classList.add('is-open');
+        items.forEach(i => i.classList.add('is-active'));
+        return;
+      }
+
+      /* 1) Bölüm görüş alanına girince katmanlar açılır */
+      new IntersectionObserver((es) => {
+        es.forEach(e => sec.classList.toggle('is-open', e.isIntersecting));
+      }, { threshold: 0.15 }).observe(sec);
+
+      /* 2) Ekranın ortasına en yakın madde "okunuyor" sayılır */
+      const lit = (idx) => {
+        items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
+        layers.forEach(l => l.classList.toggle('is-lit', Number(l.dataset.layer) === idx));
+        sec.classList.toggle('has-focus', idx > -1);
+      };
+
+      const pick = () => {
+        /* Telefonda diyagram sabitlenmiyor; katman vurgusu masaüstüne özel */
+        if (window.innerWidth <= 900) { lit(-1); return; }
+        const mid = window.innerHeight * 0.5;
+        let best = -1, bestD = Infinity;
+        items.forEach((it, i) => {
+          const r = it.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > window.innerHeight) return;
+          const d = Math.abs(r.top + r.height / 2 - mid);
+          if (d < bestD) { bestD = d; best = i; }
+        });
+        lit(best);
+      };
+      window.addEventListener('scroll', pick, { passive: true });
+      window.addEventListener('resize', pick, { passive: true });
+      pick();
+    },
+
     /* ---------- Atmosfer videosu ---------- */
     /* Sessiz kısa döngü. Görünene kadar indirilmez; kullanıcı hareket azaltma
        tercihi bildirmişse hiç oynatılmaz, poster kalır. */
@@ -1562,6 +1606,7 @@
     Pages.accordion();
     Pages.map();
     Pages.ambient();
+    Pages.cut();
     Consent.bar();
     Analytics.start();
     initReveal();
