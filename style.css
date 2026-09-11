@@ -876,32 +876,26 @@ small,.small{font-size:.85rem}
   position:sticky; top:calc(50vh - 170px);
   display:grid; place-items:center; padding-block:1rem;
 }
-.cut__svg{width:min(320px,100%); height:auto; overflow:visible}
-/* Katmanlar kapalıyken üst üste bindirilmiş tek blok; bölüm görününce ayrılır.
-   Soldurma yok — diyagram her an okunabilir kalmalı; okunan katman büyüyüp
-   altın çerçeve alarak öne çıkar. */
+.cut__svg{width:min(330px,100%); height:auto; overflow:visible}
+/* Şema: dıştan içe pudra / gövde / bal / iç harç. Fotoğraf taklidi değil —
+   marka işaretiyle aynı yuvarlak kare dili. Okunan katman altın çerçeve alıp
+   hafifçe büyür; patlatma yok, iç içelik anlatımın kendisi. */
 .cut__layer{
-  transform:translateY(0) scale(1); transform-origin:center;
-  transition:transform .8s cubic-bezier(.22,.61,.36,1), filter .35s var(--ease);
+  transform:scale(1); transform-origin:center;
+  transition:transform .55s var(--ease), filter .4s var(--ease);
 }
-.cut__layer[data-layer="0"]{transform:translateY(54px)}
-.cut__layer[data-layer="1"]{transform:translateY(18px)}
-.cut__layer[data-layer="2"]{transform:translateY(-18px)}
-.cut__layer[data-layer="3"]{transform:translateY(-54px)}
-.cut.is-open .cut__layer[data-layer="0"]{transform:translateY(-6px)}
-.cut.is-open .cut__layer[data-layer="1"]{transform:translateY(-2px)}
-.cut.is-open .cut__layer[data-layer="2"]{transform:translateY(2px)}
-.cut.is-open .cut__layer[data-layer="3"]{transform:translateY(6px)}
-.cut__layer rect:first-of-type{
-  stroke:rgba(6,32,24,.35); stroke-width:1.5;
-  transition:stroke .35s var(--ease), stroke-width .35s var(--ease);
+.cut__layer rect{
+  stroke:transparent; stroke-width:0;
+  transition:stroke .4s var(--ease), stroke-width .4s var(--ease);
 }
-.cut.is-open .cut__layer.is-lit{filter:drop-shadow(0 10px 22px rgba(0,0,0,.45))}
-.cut.is-open .cut__layer.is-lit rect:first-of-type{stroke:var(--gold); stroke-width:3}
-.cut.is-open .cut__layer.is-lit[data-layer="0"]{transform:translateY(-16px) scale(1.05)}
-.cut.is-open .cut__layer.is-lit[data-layer="1"]{transform:translateY(-6px) scale(1.05)}
-.cut.is-open .cut__layer.is-lit[data-layer="2"]{transform:translateY(6px) scale(1.05)}
-.cut.is-open .cut__layer.is-lit[data-layer="3"]{transform:translateY(16px) scale(1.05)}
+.cut.is-open .cut__layer{transform:scale(1)}
+.cut__layer.is-lit{transform:scale(1.035); filter:drop-shadow(0 8px 24px rgba(0,0,0,.4))}
+.cut__layer.is-lit > rect:first-child{stroke:var(--gold); stroke-width:4}
+/* Açılışta içten dışa kısa bir yerleşme */
+.cut:not(.is-open) .cut__layer[data-layer="0"]{transform:scale(.94)}
+.cut:not(.is-open) .cut__layer[data-layer="1"]{transform:scale(.90)}
+.cut:not(.is-open) .cut__layer[data-layer="2"]{transform:scale(.86)}
+.cut:not(.is-open) .cut__layer[data-layer="3"]{transform:scale(.82)}
 
 .cut__list{display:grid; gap:clamp(1.75rem,4vw,3rem); counter-reset:cut}
 .cut__item{
@@ -931,12 +925,8 @@ small,.small{font-size:.85rem}
   .cut__item p{font-size:.9rem}
 }
 @media (prefers-reduced-motion:reduce){
-  /* Hareket istemeyen kullanıcı: katmanlar zaten ayrık, hepsi okunur */
-  .cut__layer,.cut.is-open .cut__layer{transition:none}
-  .cut__layer[data-layer="0"],.cut.is-open .cut__layer[data-layer="0"]{transform:translateY(-6px)}
-  .cut__layer[data-layer="1"],.cut.is-open .cut__layer[data-layer="1"]{transform:translateY(-2px)}
-  .cut__layer[data-layer="2"],.cut.is-open .cut__layer[data-layer="2"]{transform:translateY(2px)}
-  .cut__layer[data-layer="3"],.cut.is-open .cut__layer[data-layer="3"]{transform:translateY(6px)}
+  /* Hareket istemeyen kullanıcı: şema zaten tam okunur, animasyon yok */
+  .cut__layer,.cut:not(.is-open) .cut__layer{transform:scale(1) !important; transition:none}
   .cut__item{opacity:1; transform:none; transition:none}
 }
 
