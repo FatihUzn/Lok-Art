@@ -577,6 +577,42 @@
     sync();
   }
 
+  /* Mobilde alttan gelen satın alma çubuğu */
+  function stickyBuy(p) {
+    if ($('.buybar')) return;
+    const anchor = $('.pdp__buy');
+    if (!anchor) return;
+
+    const bar = document.createElement('div');
+    bar.className = 'buybar';
+    bar.innerHTML =
+      '<div class="buybar__info">' +
+        '<span class="buybar__name">' + esc(p.name) + '</span>' +
+        '<span class="buybar__price">' + money(p.price) + '</span>' +
+      '</div>' +
+      '<a class="buybar__ask" target="_blank" rel="noopener" aria-label="WhatsApp ile sor" href="https://wa.me/' +
+        CONFIG.whatsapp + '?text=' + encodeURIComponent(p.name + ' ürünü hakkında bilgi almak istiyorum.') +
+        '">' + ICONS.wa + '</a>' +
+      '<button class="btn btn--gold btn--sm" type="button" data-add="' + p.id + '">Sepete ekle</button>';
+    document.body.appendChild(bar);
+
+    /* Kaydırma dinleyicisi kullanıyoruz: IntersectionObserver ani sıçramalarda
+       (bağlantıyla sayfa ortasına düşmek, geri tuşu) her zaman tetiklenmiyor.
+       Açılma ve kapanma eşiği ayrı — çubuk sınırda titremesin. */
+    let shown = false;
+    const sync = () => {
+      const top = anchor.getBoundingClientRect().top;
+      const next = shown ? top < 40 : top < 0;
+      if (next === shown) return;
+      shown = next;
+      bar.classList.toggle('is-in', shown);
+      document.body.classList.toggle('has-buybar', shown);
+    };
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync, { passive: true });
+    sync();
+  }
+
   /* -------------------------- 6. SAYFA MANTIKLARI ------------------------ */
   const Pages = {
 
@@ -948,6 +984,10 @@
         showImage(next);
       });
 
+      /* Mobilde yapışkan satın alma çubuğu: asıl düğme ekrandan çıkınca alttan gelir.
+         Ölçtük — "Sepete ekle" sayfanın 1149. pikselindeydi, telefonda görünmüyordu. */
+      stickyBuy(p);
+
       /* Benzer ürünler */
       const rel = $('#relatedGrid');
       if (rel) {
@@ -987,6 +1027,7 @@
     },
 
     /* ---------- Kendi kutunu yarat ---------- */
+
     box() {
       const picker = $('#boxPicker'), grid = $('#boxGrid');
       if (!picker || !grid) return;
