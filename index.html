@@ -238,46 +238,43 @@
         <svg class="cut__wires" id="cutWires" aria-hidden="true" focusable="false"></svg>
         <div class="cut__stage">
           <div class="cut__media" id="cutMedia">
-            <!-- Gerçek kesit fotoğrafı gelince: bu svg'nin yerine
-                 <img src="assets/kesit.jpg" alt="Sarma lokum kesiti"> koymak yeterli.
-                 İşaret noktaları data-x / data-y yüzdeleriyle ayarlanır. -->
-            <svg class="cut__svg" viewBox="0 0 360 360" aria-hidden="true" focusable="false">
-              <g class="cut__layer" data-layer="0"><rect x="30" y="30" width="300" height="300" rx="72" fill="#F5EDE0"/></g>
-              <g class="cut__layer" data-layer="1"><rect x="66" y="66" width="228" height="228" rx="55" fill="#E6D5B6"/></g>
-              <g class="cut__layer" data-layer="2"><rect x="101" y="101" width="158" height="158" rx="38" fill="#CBA972"/></g>
-              <g class="cut__layer" data-layer="3">
-                <rect x="134" y="134" width="92" height="92" rx="22" fill="#8E6B3F"/>
-                <circle cx="161" cy="159" r="10.5" fill="#7E9B52"/>
-                <circle cx="192" cy="172" r="8.5" fill="#9CB86D"/>
-                <circle cx="172" cy="192" r="6.5" fill="#6B4F2E"/>
-              </g>
-            </svg>
+            <!-- GEÇİCİ GÖRSEL. Müşteriden gerçek kesit fotoğrafı (lokum ortadan
+                 kesilmiş, katmanlar görünür, en az 1400x1400) gelince yalnızca bu
+                 <picture> ve aşağıdaki dört data-x / data-y yüzdesi değişir;
+                 mekanizmaya dokunulmaz. Renk kutuları da kesitten kırpılır
+                 (tools/kesit.py ile aynı noktalardan). -->
+            <picture>
+              <source srcset="assets/kesit.webp" type="image/webp">
+              <img class="cut__photo" src="assets/kesit.jpg" width="900" height="900"
+                   alt="Antep fıstıklı lokum — dış kaplaması, gövdesi ve içindeki fıstık görünüyor"
+                   loading="lazy" decoding="async">
+            </picture>
             <span class="cut__pin" id="cutPin" aria-hidden="true"></span>
           </div>
         </div>
 
         <ol class="cut__list">
-          <li class="cut__item" data-layer="0" data-x="50" data-y="13">
-            <span class="cut__swatch" style="--sw:#F3EADA"></span>
-            <h3>Pudra şekeri</h3>
+          <li class="cut__item" data-layer="0" data-x="37" data-y="19">
+            <span class="cut__swatch" style="--sw:#E8DFDB; background-image:url('assets/kesit-s1.jpg')"></span>
+            <h3>Dış kaplama — pudra şekeri</h3>
             <p>Dilimin dışını sarar, birbirine yapışmasını önler. Tadı değil,
                dokuyu korumak için vardır.</p>
           </li>
-          <li class="cut__item" data-layer="1" data-x="79" data-y="31">
-            <span class="cut__swatch" style="--sw:#E3D0AE"></span>
+          <li class="cut__item" data-layer="1" data-x="44" data-y="34">
+            <span class="cut__swatch" style="--sw:#8A4527; background-image:url('assets/kesit-s2.jpg')"></span>
             <h3>Doğal kaynak suyu ve nişasta</h3>
             <p>Lokumun gövdesi. Odun ateşinde, bakır kazanda saatlerce
                karıştırılarak kıvamını bulur.</p>
           </li>
-          <li class="cut__item" data-layer="2" data-x="27" data-y="62">
-            <span class="cut__swatch" style="--sw:#C6A87C"></span>
+          <li class="cut__item" data-layer="2" data-x="67" data-y="62">
+            <span class="cut__swatch" style="--sw:#8A5543; background-image:url('assets/kesit-s3.jpg')"></span>
             <h3>Hakiki bal — glikoz şurubu değil</h3>
             <p>Piyasada tatlılık ve raf ömrü için glikoz şurubu kullanılır.
                Biz kullanmıyoruz; bedeli daha kısa raf ömrü ve daha yüksek maliyet.</p>
           </li>
-          <li class="cut__item" data-layer="3" data-x="55" data-y="52">
-            <span class="cut__swatch" style="--sw:#A5875A"></span>
-            <h3>İç harç</h3>
+          <li class="cut__item" data-layer="3" data-x="25" data-y="66">
+            <span class="cut__swatch" style="--sw:#CAB43E; background-image:url('assets/kesit-s4.jpg')"></span>
+            <h3>İç harç — Antep fıstığı</h3>
             <p>Fıstık, ceviz, badem veya kadayıf — sezonunda alınır, günlük kavrulur
                ve ince açılan hamura elle sarılır.</p>
           </li>

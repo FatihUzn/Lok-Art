@@ -1433,7 +1433,6 @@
       const sec = $('.cut');
       if (!sec) return;
       const items  = $$('.cut__item', sec);
-      const layers = $$('.cut__layer', sec);
       const media  = $('#cutMedia');
       const wires  = $('#cutWires');
       const pin    = $('#cutPin');
@@ -1511,7 +1510,6 @@
         if (idx === sonAktif) return;
         sonAktif = idx;
         items.forEach((it, i) => it.classList.toggle('is-active', i === idx));
-        layers.forEach(l => l.classList.toggle('is-lit', Number(l.dataset.layer) === idx));
         wire(idx > -1 ? items[idx] : null);
       };
 

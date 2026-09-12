@@ -661,6 +661,45 @@ small,.small{font-size:.85rem}
 .site-footer .brand__mark .bm-d,.mobile-nav .brand__mark .bm-d{fill:var(--emerald-900)}
 @media (max-width:640px){ .brand__mark{width:29px; height:29px} }
 .brand__name{font-family:var(--font-display); font-size:1.4rem; font-weight:600; letter-spacing:.14em; color:var(--emerald-900)}
+
+/* Marka yazısında metalik geçiş + sayfa açılışında tek bir parlama.
+   Açık zeminde ALTIN kullanılmıyor: #C6A87C krem üzerinde 2,1:1, okunmuyor.
+   Onun yerine mürekkepten sıcak bronza çıkan bir geçiş — en açık durak #7A6240,
+   5,5:1. Koyu zeminde asıl metalik altın burada.
+   Geçiş 260% genişlikte: parlak bant sağdan süzülüp yazının ortasında duruyor.
+   İki ayrı keyframe var çünkü açık ve koyu zeminin duruş noktası farklı. */
+.brand__name{
+  background-image:linear-gradient(100deg,
+    #062018 0%, #062018 32%, #1E2C1D 42%, #5C4B31 50%, #1A2A1C 58%, #062018 68%, #062018 100%);
+  background-size:260% 100%; background-position:50% 0; background-repeat:no-repeat;
+}
+.site-footer .brand__name,.mobile-nav .brand__name{
+  background-image:linear-gradient(100deg,
+    #C6A87C 0%, #E8D6AE 24%, #FFF6E2 42%, #FFFFFF 50%, #A98B5C 66%, #C6A87C 100%);
+  background-position:40% 0;
+}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .brand__name{
+    display:inline-block;
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:brandSheen 1.5s var(--ease) .4s 1 both;
+  }
+  .site-footer .brand__name,.mobile-nav .brand__name{animation-name:brandSheenDark}
+  .brand:hover .brand__name{animation:brandSheen 1.2s var(--ease) 1 both}
+  .site-footer .brand:hover .brand__name,
+  .mobile-nav .brand:hover .brand__name{animation:brandSheenDark 1.2s var(--ease) 1 both}
+}
+@keyframes brandSheen{     from{background-position:100% 0} to{background-position:50% 0} }
+@keyframes brandSheenDark{ from{background-position:100% 0} to{background-position:40% 0} }
+@media (prefers-reduced-motion:reduce){
+  /* Süzülme yok; geçiş olduğu yerde duruyor */
+  .brand__name{animation:none !important}
+}
+@media print{
+  /* Baskıda şeffaf dolgu beyaz çıkar */
+  .brand__name{background-image:none; -webkit-text-fill-color:currentColor; color:#000 !important}
+}
 .brand__tag{font-size:.56rem; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-ink); margin-top:.3rem}
 
 .nav{display:flex; gap:2rem; align-items:center}
@@ -876,7 +915,7 @@ small,.small{font-size:.85rem}
 /* Okunan maddeden görseldeki ilgili noktaya uzanan ince bağlantı çizgisi */
 .cut__wires{position:absolute; inset:0; pointer-events:none; z-index:3; overflow:visible}
 .cut__wire{opacity:.85}   /* uzunluk ve geçiş JS'te, yolun gerçek boyuna göre */
-.cut__media{position:relative; display:inline-block}
+.cut__media{position:relative; display:block; width:min(340px,100%)}
 .cut__pin{
   position:absolute; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%;
   background:var(--gold);
@@ -888,26 +927,15 @@ small,.small{font-size:.85rem}
   position:sticky; top:calc(50vh - 170px);
   display:grid; place-items:center; padding-block:1rem;
 }
-.cut__svg{width:min(330px,100%); height:auto; overflow:visible}
-/* Şema: dıştan içe pudra / gövde / bal / iç harç. Fotoğraf taklidi değil —
-   marka işaretiyle aynı yuvarlak kare dili. Okunan katman altın çerçeve alıp
-   hafifçe büyür; patlatma yok, iç içelik anlatımın kendisi. */
-.cut__layer{
-  transform:scale(1); transform-origin:center;
-  transition:transform .55s var(--ease), filter .4s var(--ease);
+.cut__photo{
+  display:block; width:100%; height:auto;
+  border-radius:24px; background:var(--cream);
+  box-shadow:0 26px 64px rgba(0,0,0,.45);
+  outline:1px solid rgba(198,168,124,.4); outline-offset:-1px;
+  opacity:0; transform:scale(.965); transform-origin:center;
+  transition:opacity .6s var(--ease), transform .7s var(--ease);
 }
-.cut__layer rect{
-  stroke:transparent; stroke-width:0;
-  transition:stroke .4s var(--ease), stroke-width .4s var(--ease);
-}
-.cut.is-open .cut__layer{transform:scale(1)}
-.cut__layer.is-lit{transform:scale(1.035); filter:drop-shadow(0 8px 24px rgba(0,0,0,.4))}
-.cut__layer.is-lit > rect:first-child{stroke:var(--gold); stroke-width:4}
-/* Açılışta içten dışa kısa bir yerleşme */
-.cut:not(.is-open) .cut__layer[data-layer="0"]{transform:scale(.94)}
-.cut:not(.is-open) .cut__layer[data-layer="1"]{transform:scale(.90)}
-.cut:not(.is-open) .cut__layer[data-layer="2"]{transform:scale(.86)}
-.cut:not(.is-open) .cut__layer[data-layer="3"]{transform:scale(.82)}
+.cut.is-open .cut__photo{opacity:1; transform:scale(1)}
 
 .cut__list{display:grid; gap:clamp(1.75rem,4vw,3rem); counter-reset:cut}
 .cut__item{
@@ -917,8 +945,10 @@ small,.small{font-size:.85rem}
 }
 .cut__item.is-active{opacity:1; transform:none}
 .cut__swatch{
-  grid-row:span 2; width:22px; height:22px; margin-top:.35rem; border-radius:7px;
-  background:var(--sw); box-shadow:0 0 0 1px rgba(252,250,246,.3);
+  grid-row:span 2; width:30px; height:30px; margin-top:.3rem; border-radius:9px;
+  background-color:var(--sw); background-size:cover; background-position:center;
+  background-repeat:no-repeat;
+  box-shadow:0 0 0 1px rgba(252,250,246,.3);
   transition:box-shadow .35s var(--ease);
 }
 .cut__item.is-active .cut__swatch{box-shadow:0 0 0 2px var(--gold)}
@@ -932,14 +962,14 @@ small,.small{font-size:.85rem}
   .cut__grid{grid-template-columns:1fr; gap:2rem}
   .cut__stage{position:static; padding-block:.5rem 1rem}
   .cut__wires,.cut__pin{display:none}
-  .cut__svg{width:min(250px,66vw)}
+  .cut__media{width:min(280px,74vw)}
   .cut__list{gap:1.75rem}
   .cut__item{opacity:1; transform:none}
   .cut__item p{font-size:.9rem}
 }
 @media (prefers-reduced-motion:reduce){
   /* Hareket istemeyen kullanıcı: şema zaten tam okunur, animasyon yok */
-  .cut__layer,.cut:not(.is-open) .cut__layer{transform:scale(1) !important; transition:none}
+  .cut__photo{opacity:1; transform:none; transition:none}
   .cut__item{opacity:1; transform:none; transition:none}
 }
 
